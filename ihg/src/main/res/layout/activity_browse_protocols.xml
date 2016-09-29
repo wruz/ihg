@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".BrowseProtocolsActivity">
+
+    <ScrollView android:id="@+id/ScrollView01"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/address_details"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:gravity="left" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#33B5E5"
+            />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal" >
+
+            <!--usuń-->
+            <Button
+                android:id="@+id/detele_protocols_button"
+                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/delete_protocols_button"
+                android:onClick="deleteProtocols"
+                android:layout_gravity="right" />
+
+            <!--zamknij-->
+            <Button
+                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/close_button"
+                android:onClick="close"
+                android:layout_gravity="right" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/protocols_siemianowice_title"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@string/protocols_siemianowice" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/list_wrapper">
+            <ListView android:id="@+id/protocols_siemianowice_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" ></ListView>
+        </LinearLayout>
+        <Button
+            android:id="@+id/open_siemianowice_button"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/open_button"
+            android:onClick="openSiemianowice"
+            android:layout_gravity="right" />
+
+        <TextView
+            android:id="@+id/protocols_paderewskiego_title"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@string/protocols_paderewskiego" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/list_wrapper">
+            <ListView android:id="@+id/protocols_paderewskiego_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" ></ListView>
+        </LinearLayout>
+        <Button
+            android:id="@+id/open_paderewskiego_button"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/open_button"
+            android:onClick="openPaderewskiego"
+            android:layout_gravity="right" />
+
+    </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

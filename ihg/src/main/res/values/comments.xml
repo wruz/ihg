@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="comments">
+        <item>wentylator</item>
+        <item>okap elektryczny</item>
+        <item>kratka stała</item>
+        <item>zabudowa, brak dostępu</item>
+        <item>sztywna rura</item>
+        <item>zbyt mały otwór w drzwiach</item>
+        <item>wentylator, zabudowa brak dostępu</item>
+        <item>wentylator, zbyt mały otwór w drzwiach łazienkowych</item>
+        <item>kratka stała, zbyt mały otwór w drzwiach łazienkowych</item>
+        <item>okap elektryczny, zabudowa brak dostępu</item>
+    </string-array>
+</resources>

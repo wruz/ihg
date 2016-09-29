@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".AddNewFormActivity">
+
+    <ScrollView android:id="@+id/ScrollView01"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="false">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/choose_worker" />
+            <Spinner
+                android:id="@+id/workers_spinner"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:drawSelectorOnTop="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/temperature_outside" />
+            <EditText
+                android:id="@+id/temp_outside"
+                android:inputType="numberDecimal|numberSigned"
+                android:hint="@string/required"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" >
+            </EditText>
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#ABABAB"
+                android:text="@string/celcius_degrees" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/temperature_inside" />
+            <EditText
+                android:id="@+id/temp_inside"
+                android:inputType="numberDecimal|numberSigned"
+                android:hint="@string/required"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" >
+            </EditText>
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#ABABAB"
+                android:text="@string/celcius_degrees" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/wind_speed" />
+            <EditText
+                android:id="@+id/wind_speed"
+                android:inputType="numberDecimal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" >
+            </EditText>
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#ABABAB"
+                android:text="@string/wind_speed_unit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/wind_direction" />
+            <Spinner
+                android:id="@+id/wind_direction_spinner"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:drawSelectorOnTop="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/pressure" />
+            <EditText
+                android:id="@+id/pressure"
+                android:inputType="numberDecimal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" >
+            </EditText>
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#ABABAB"
+                android:text="@string/pressure_unit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/windows_all" />
+            <EditText
+                android:id="@+id/windows_all"
+                android:inputType="numberDecimal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/windows_micro" />
+            <EditText
+                android:id="@+id/windows_micro"
+                android:inputType="numberDecimal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/windows_vent" />
+            <EditText
+                android:id="@+id/windows_vent"
+                android:inputType="numberDecimal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/windows_no_micro" />
+            <EditText
+                android:id="@+id/windows_no_micro"
+                android:inputType="numberDecimal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" >
+            </EditText>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <Button
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/save_button"
+            android:onClick="save"
+            android:layout_gravity="right" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

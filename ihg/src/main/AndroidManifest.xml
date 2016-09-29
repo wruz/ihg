@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wruzjan.ihg"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="14" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        >
+        <activity
+            android:name="com.wruzjan.ihg.SplashScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.wruzjan.ihg.MainActivity"
+            android:label="@string/ma_title"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.wruzjan.ihg.ChooseWorkerActivity"
+            android:label="@string/title_activity_choose_worker"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.wruzjan.ihg.BrowseProtocolsActivity"
+            android:label="@string/title_activity_browse_protocols"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.wruzjan.ihg.BrowseAddressesActivity"
+            android:label="@string/title_activity_browse_addresses"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.wruzjan.ihg.AddNewAddressActivity"
+            android:label="@string/title_activity_add_new_address"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".EnterDataActivity"
+            android:label="@string/title_activity_enter_data"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".CaptureSignatureActivity"
+            android:label="@string/title_activity_capture_signature"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity android:name=".MeasurementDetailsActivity" />
+        <activity android:name=".MeasurementListActivity" />
+        <activity android:name=".ChooseWorker2Activity"
+            android:label="@string/title_activity_choose_worker"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".EnterData2Activity"
+            android:label="@string/title_activity_enter_data"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".PrinterSettingActivity"
+            android:label="Wybierz drukarkę"
+            android:screenOrientation="portrait">
+        </activity>
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="ccb032ca5169ee26ff9c99d3c8c6a77c6a6afa90" />
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

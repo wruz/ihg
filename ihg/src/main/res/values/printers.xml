@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="printers">
+        <item>00:22:58:02:29:0C</item>
+        <item>00:22:58:02:2C:D9</item>
+        <item>AC:3F:A4:12:08:B2</item>
+        <item>AC:3F:A4:1D:F8:E6</item>
+    </string-array>
+</resources>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="app_name">Interhammer Gaz</string>
+    <string name="select_printer_settings">Wybierz drukarkę</string>
+    <string name="required">pole wymagane</string>
+    <string name="save_button">zapisz</string>
+    <string name="send_button">email</string>
+    <string name="dropbox_button">dropbox</string>
+    <string name="open_button">otwórz</string>
+    <string name="close_button">zamknij</string>
+    <string name="delete_protocols_button">usuń protokoły</string>
+    <string name="delete_all_protocols_button">usuń wszystkie protokoły</string>
+    <string name="delete_all_addresses_button">usuń wszystkie adresy</string>
+    <string name="print_button">drukuj</string>
+    <string name="get_signature_button">podpis</string>
+    <string name="save_signature_button">zapisz</string>
+    <string name="clear_signature_button">wyczyść</string>
+    <string name="mutiply">   X   </string>
+    <string name="working_z">sprawna</string>
+    <string name="not_working_z">niesprawna</string>
+    <string name="working_m">sprawny</string>
+    <string name="not_working_m">niesprawny</string>
+    <string name="comments">uwagi</string>
+    <string name="celcius_degrees">°C</string>
+    <string name="telephone">numer telefonu</string>
+    <string name="wind_speed">prędkość wiatru</string>
+    <string name="wind_speed_unit">km/h</string>
+    <string name="wind_direction">kierunek wiatru</string>
+    <string name="pressure">ciśnienie</string>
+    <string name="ppm">ppm</string>
+    <string name="pressure_unit">hPa</string>
+    <string name="centimeter">cm</string>
+    <string name="meters_per_second">m/s</string>
+    <string name="windows_all">ilość okien w lokalu</string>
+    <string name="windows_micro">ilość okien z mikrorozszczelnieniem</string>
+    <string name="windows_vent">ilość okien z nawiewnikami</string>
+    <string name="windows_no_micro">ilość okien bez mikrorozszczelnienia</string>
+    <string name="no_gas">brak gazu</string>
+
+    <!-- główny ekran wyboru -->
+    <string name="ma_title">Wybierz czynność</string>
+    <string name="ma_add_new_form">dodaj nowy formularz</string>
+    <string name="ma_browse_adresses">przeglądaj adresy</string>
+
+    <!-- formularz wyboru pracownika -->
+    <string name="title_activity_choose_worker">Wprowadź dane dotyczące przeglądu</string>
+    <string name="choose_worker">dane pracownika</string>
+    <string name="temperature_inside">temperatura w mieszkaniu</string>
+    <string name="temperature_outside">temperatura na zewnątrz</string>
+
+    <!-- lista mieszkańców -->
+    <string name="title_activity_browse_addresses">Lista zapisanych adresów</string>
+    <string name="add_form_to_address">dodaj protokół (Siemianowice)</string>
+    <string name="add_form2_to_address">dodaj protokół (Paderewskiego)</string>
+    <string name="show_old_protocols">przeglądaj protokoły</string>
+    <string name="add_new_address">dodaj nowy adres</string>
+    <string name="delete_address">usuń adres</string>
+    <string name="print">test drukarki</string>
+
+    <!-- lista protokołów -->
+    <string name="title_activity_browse_protocols">Lista zapisanych protokołów</string>
+    <string name="protocols_siemianowice">protokoły siemianowice: </string>
+    <string name="protocols_paderewskiego">protokoły paderewskiego: </string>
+
+    <!-- dodawanie nowego adresu -->
+    <string name="title_activity_add_new_address">Dodaj nowy adres</string>
+    <string name="name">nazwisko</string>
+    <string name="street">ulica</string>
+    <string name="building">numer domu</string>
+    <string name="flat">numer mieszkania</string>
+    <string name="city">miasto</string>
+    <string name="district">dzielnica</string>
+    <string name="add_address">zapisz adres</string>
+    <string name="add_address_protocol_sie">zapisz adres i dodaj protokół (Siemianowice)</string>
+    <string name="add_address_protocol_pad">zapisz adres i dodaj protokół (Paderewskiego)</string>
+
+    <!--podpis-->
+    <string name="title_activity_capture_signature">Podpis mieszkańca</string>
+
+    <!--checklist-->
+    <string name="check_cleaned">przeczyszczono</string>
+    <string name="check_hood">okap elektryczny</string>
+    <string name="check_vent">wentylator</string>
+    <string name="check_inaccessible">zabudowa, brak dostępu</string>
+    <string name="check_steady">kratka stała</string>
+    <string name="check_rigid">sztywna rura</string>
+    <string name="check_not_cleaned">nie przeczyszczono</string>
+    <string name="check_alufol">alufol</string>
+    <string name="check_other">inne</string>
+    <string name="check_boiler">bojler/ogrzewacz przep.</string>
+
+
+    <string name="check_gas_meter">gazomierz</string>
+    <string name="check_stove">kuchnia gazowa 2/4 palnikowa</string>
+    <string name="check_bake">piec łazienkowy wieloczerpalny-elek.</string>
+    <string name="check_combi_oven">piec dwufunkcyjny</string>
+    <string name="check_kitchen_term">terma kuchenna</string>
+
+    <!-- wprowadzanie danych pomiarowych-->
+    <string name="roomAvailability">dostępność pomieszczenia</string>
+    <string name="measurementPossible">pomiar możliwy</string>
+    <string name="measurementImpossible">pomiar niemożliwy</string>
+    <string name="kitchen">kuchnia</string>
+    <string name="bathroom">łazienka</string>
+    <string name="toilet">WC</string>
+    <string name="flue_pipe">przewód spalinowy</string>
+    <string name="title_activity_enter_data">Wprowadź dane pomiarowe</string>
+    <string name="grid_dimension">wymiary kratki</string>
+    <string name="grid_dimension_rectangle">wymiary kratki prostokątnej</string>
+    <string name="grid_dimension_round">średnica kratki okrągłej</string>
+    <string name="airflow_windows_closed">strumień powietrza (okna zamknięte)</string>
+    <string name="airflow_windows_open">strumień powietrza (okna otwarte)</string>
+    <string name="airflow_microventilation">strumień powietrza (mikrouchył)</string>
+    <string name="equipment">urządzenia</string>
+    <string name="gas_cooker">kuchnia gazowa</string>
+    <string name="bathroom_bake">piec łazienkowy</string>
+    <string name="gas_fittings">instalacja gazowa</string>
+    <string name="co2">zawartość tlenku węgla w spalinach</string>
+    <string name="comments_for_user">zalecenia lub uwagi dla użytkownika lokalu</string>
+    <string name="pad_comments_for_user">zalecenia</string>
+    <string name="comments_for_manager">zalecenia lub uwagi dla zarządcy budynku</string>
+
+
+</resources>

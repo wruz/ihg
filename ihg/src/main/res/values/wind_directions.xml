@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="wind_directions">
+        <item>Północny</item>
+        <item>Północno-Wschodni</item>
+        <item>Wschodni</item>
+        <item>Południowo-Wschodni</item>
+        <item>Południowy</item>
+        <item>Południowo-Zachodni</item>
+        <item>Zachodni</item>
+        <item>Północno-Zachodni</item>
+    </string-array>
+</resources>
