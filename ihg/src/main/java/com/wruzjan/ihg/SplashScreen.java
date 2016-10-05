@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.crashlytics.android.Crashlytics;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;

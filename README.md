@@ -1,2 +1,0 @@
-# ihg
-interhammer gaz katowice

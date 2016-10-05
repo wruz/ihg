@@ -105,7 +105,7 @@ public class GeneratePDF {
 //                form.setField("kitchen_micro_more", "0");
                 form.setField("kitchen_micro_less", Double.toString(round(kitchen_micro_m3-70, 2)));
                 sum_micro_less = kitchen_micro_m3-70;
-//                micro_less_comment = addCommentsForManager("kuchni", micro_less_comment);
+                micro_less_comment = addCommentsForManager("kuchni", micro_less_comment);
             }
         }
 
@@ -161,7 +161,7 @@ public class GeneratePDF {
 //                form.setField("bath_micro_more", "0");
                 form.setField("bath_micro_less", Double.toString(round(bath_micro_m3-50, 2)));
                 sum_micro_less = sum_micro_less + bath_micro_m3-50;
-//                micro_less_comment = addCommentsForManager("łazience", micro_less_comment);
+                micro_less_comment = addCommentsForManager("łazience", micro_less_comment);
             }
         }
 
@@ -214,7 +214,7 @@ public class GeneratePDF {
 //                form.setField("toilet_micro_more", "0");
                 form.setField("toilet_micro_less", Double.toString(round(toilet_micro_m3-30, 2)));
                 sum_micro_less = sum_micro_less + toilet_micro_m3-30;
-//                micro_less_comment = addCommentsForManager("toalecie", micro_less_comment);
+                micro_less_comment = addCommentsForManager("toalecie", micro_less_comment);
             }
         }
 
@@ -250,7 +250,7 @@ public class GeneratePDF {
 //                form.setField("flue_micro_more", "0");
                 form.setField("flue_micro_less", Double.toString(round(flue_micro_m3-30, 2)));
                 sum_micro_less = sum_micro_less + (flue_micro_m3-30);
-//                micro_less_comment = addCommentsForManager("przewodzie", micro_less_comment);
+                micro_less_comment = addCommentsForManager("przewodzie", micro_less_comment);
             }
         }
 
@@ -361,7 +361,6 @@ public class GeneratePDF {
         return bd.doubleValue();
     }
 
-    // dodawanie zalecen dla zarzadcy usuniete
     private static String addCommentsForManager(String room, String managerComments){
         if(managerComments.contains("proponowane prześwietlenie przewodu w ")){
             managerComments = managerComments + ", " + room;

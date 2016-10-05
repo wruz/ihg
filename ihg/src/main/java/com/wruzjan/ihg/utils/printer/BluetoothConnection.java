@@ -90,8 +90,8 @@ public class BluetoothConnection {
                         kitchenMicroMeas = "nad. ";
                     } else {
                         kitchenMicroMeas = "nie. ";
-//                        if(protocol.is_kitchen_enabled())
-//                            micro_less_comment = addCommentsForManager("kuchni", micro_less_comment);
+                        if(protocol.is_kitchen_enabled())
+                            micro_less_comment = addCommentsForManager("kuchni", micro_less_comment);
                     }
 
                     kitchenClosed = round(kitchenClosed, 2);
@@ -121,8 +121,8 @@ public class BluetoothConnection {
                         bathMicroMeas = "nad. ";
                     } else {
                         bathMicroMeas = "nie. ";
-//                        if(protocol.is_bathroom_enabled())
-//                            micro_less_comment = addCommentsForManager("łazience", micro_less_comment);
+                        if(protocol.is_bathroom_enabled())
+                            micro_less_comment = addCommentsForManager("łazience", micro_less_comment);
                     }
 
                     bathClosed = round(bathClosed, 2);
@@ -151,8 +151,8 @@ public class BluetoothConnection {
                         toiletMicroMeas = "nad. ";
                     } else {
                         toiletMicroMeas = "nie. ";
-//                        if(protocol.is_bathroom_enabled())
-//                            micro_less_comment = addCommentsForManager("toalecie", micro_less_comment);
+                        if(protocol.is_bathroom_enabled())
+                            micro_less_comment = addCommentsForManager("toalecie", micro_less_comment);
                     }
 
                     toiletClosed = round(toiletClosed, 2);
@@ -172,8 +172,8 @@ public class BluetoothConnection {
                         flueMicroMeas = "nad. ";
                     } else {
                         flueMicroMeas = "nie. ";
-//                        if(protocol.is_flue_enabled())
-//                            micro_less_comment = addCommentsForManager("przewodzie", micro_less_comment);
+                        if(protocol.is_flue_enabled())
+                            micro_less_comment = addCommentsForManager("przewodzie", micro_less_comment);
                     }
                     double flueClosed = (protocol.get_flue_airflow_windows_closed()*70.3)-35;
                     flueClosed = round(flueClosed, 2);
@@ -528,7 +528,6 @@ public class BluetoothConnection {
         return bd.doubleValue();
     }
 
-    // dodawanie zalecen dla zarzadcy usuniete
     private static String addCommentsForManager(String room, String managerComments){
         if(managerComments.contains("proponowane prześwietlenie przewodu w ")){
             managerComments = managerComments + ", " + room;

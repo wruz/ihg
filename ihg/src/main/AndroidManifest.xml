@@ -80,10 +80,6 @@
             android:label="Wybierz drukarkę"
             android:screenOrientation="portrait">
         </activity>
-        <meta-data
-            android:name="com.crashlytics.ApiKey"
-            android:value="ccb032ca5169ee26ff9c99d3c8c6a77c6a6afa90" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
