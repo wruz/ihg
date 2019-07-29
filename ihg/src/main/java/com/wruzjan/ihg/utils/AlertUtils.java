@@ -2,6 +2,7 @@ package com.wruzjan.ihg.utils;
 
 public class AlertUtils {
 
+    //TODO to be moved to strings
     public static final String NO_ADDRESSES = "brak zapisanych adresów";
     public static final String NO_PROTOCOLS = "brak zapisanych protokołów pod tym adresem";
     public static final String ADDRESS_DELETED = "adres został usunięty";
