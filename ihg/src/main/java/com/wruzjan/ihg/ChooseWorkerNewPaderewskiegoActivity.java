@@ -1,10 +1,10 @@
 package com.wruzjan.ihg;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Activity;
 import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
@@ -22,7 +22,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ChooseWorkerActivity extends Activity {
+/**
+ * Created by jantelega on 12.10.2016.
+ */
+public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
 
     private AddressDataSource datasource;
     private Address address;
@@ -32,20 +35,21 @@ public class ChooseWorkerActivity extends Activity {
     private boolean editFlag;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose_worker);
+        setContentView(R.layout.activity_choose_worker_new_paderewskiego);
 
         datasource = new AddressDataSource(this);
         datasource.open();
 
+        // workers dropdown list
         Spinner spinner = (Spinner) findViewById(R.id.workers_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.workers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        //get data from last entry and fill form
+        //get worker data from last entry and fill form
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
         spinner.setSelection(settings.getInt("workerPosition", 0));
 
@@ -99,6 +103,19 @@ public class ChooseWorkerActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        datasource.close();
+        super.onPause();
+
+    }
+
+    @Override
+    protected void onResume() {
+        datasource.open();
+        super.onResume();
+    }
+
     /**
      * select worker button
      */
@@ -127,7 +144,7 @@ public class ChooseWorkerActivity extends Activity {
             editor.putInt("workerPosition", workersSpinner.getSelectedItemPosition());
             editor.commit();
 
-            Intent intent = new Intent(this, EnterDataActivity.class);
+            Intent intent = new Intent(this, EnterDataNewPaderewskiegoActivity.class);
             if(editFlag){
                 intent.putExtra(Utils.ADDRESS_ID, addressId);
                 intent.putExtra(Utils.PROTOCOL_ID, protocolId);
@@ -141,18 +158,5 @@ public class ChooseWorkerActivity extends Activity {
             intent.putExtra(Utils.TEMP_OUTSIDE, tempOutside);
             startActivity(intent);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        datasource.close();
-        super.onPause();
-
-    }
-
-    @Override
-    protected void onResume() {
-        datasource.open();
-        super.onResume();
     }
 }

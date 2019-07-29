@@ -38,6 +38,8 @@
     <string name="windows_vent">ilość okien z nawiewnikami</string>
     <string name="windows_no_micro">ilość okien bez mikrorozszczelnienia</string>
     <string name="no_gas">brak gazu</string>
+    <string name="yes">tak</string>
+    <string name="no">nie</string>
 
     <!-- główny ekran wyboru -->
     <string name="ma_title">Wybierz czynność</string>
@@ -54,6 +56,7 @@
     <string name="title_activity_browse_addresses">Lista zapisanych adresów</string>
     <string name="add_form_to_address">dodaj protokół (Siemianowice)</string>
     <string name="add_form2_to_address">dodaj protokół (Paderewskiego)</string>
+    <string name="add_form3_to_address">dodaj protokół (nowy Paderewskiego)</string>
     <string name="show_old_protocols">przeglądaj protokoły</string>
     <string name="add_new_address">dodaj nowy adres</string>
     <string name="delete_address">usuń adres</string>
@@ -63,6 +66,7 @@
     <string name="title_activity_browse_protocols">Lista zapisanych protokołów</string>
     <string name="protocols_siemianowice">protokoły siemianowice: </string>
     <string name="protocols_paderewskiego">protokoły paderewskiego: </string>
+    <string name="protocols_new_paderewskiego">protokoły paderewskiego (nowe): </string>
 
     <!-- dodawanie nowego adresu -->
     <string name="title_activity_add_new_address">Dodaj nowy adres</string>
@@ -75,6 +79,7 @@
     <string name="add_address">zapisz adres</string>
     <string name="add_address_protocol_sie">zapisz adres i dodaj protokół (Siemianowice)</string>
     <string name="add_address_protocol_pad">zapisz adres i dodaj protokół (Paderewskiego)</string>
+    <string name="add_address_protocol_new_pad">zapisz adres i dodaj protokół (nowy Paderewskiego)</string>
 
     <!--podpis-->
     <string name="title_activity_capture_signature">Podpis mieszkańca</string>
@@ -99,6 +104,7 @@
     <string name="check_kitchen_term">terma kuchenna</string>
 
     <!-- wprowadzanie danych pomiarowych-->
+    <string name="cleaning">czyszczenie</string>
     <string name="roomAvailability">dostępność pomieszczenia</string>
     <string name="measurementPossible">pomiar możliwy</string>
     <string name="measurementImpossible">pomiar niemożliwy</string>

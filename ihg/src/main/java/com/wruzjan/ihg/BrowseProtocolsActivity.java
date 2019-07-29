@@ -25,10 +25,12 @@ import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
+import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.excel.GenerateExcel;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.Protocol;
+import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
 import com.wruzjan.ihg.utils.model.ProtocolPaderewskiego;
 import com.wruzjan.ihg.utils.pdf.GeneratePDF;
 
@@ -42,15 +44,17 @@ public class BrowseProtocolsActivity extends Activity {
     private AddressDataSource addressDataSource;
     private ProtocolDataSource protocolDataSource;
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
-    private EditText protocolsSiemianowiceCount;
-    private EditText protocolsPaderewskiegoCount;
+    private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
     private Address address;
     private ListView protocolsSiemianowiceList;
     private ListView protocolsPaderewskiegoList;
+    private ListView protocolsNewPaderewskiegoList;
     private int siemianowiceSelectedPosition = 0;
     private int paderewskiegoSelectedPosition = 0;
+    private int newPaderewskiegoSelectedPosition = 0;
     private ArrayAdapter<Protocol> adapterSiemianowice;
     private ArrayAdapter<ProtocolPaderewskiego> adapterPaderewskiego;
+    private ArrayAdapter<ProtocolNewPaderewskiego> adapterNewPaderewskiego;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class BrowseProtocolsActivity extends Activity {
 
         boolean hasSiemianowiceProrocols = true;
         boolean hasPaderewskiegoProrocols = true;
+        boolean hasNewPaderewskiegoProrocols = true;
 
         setContentView(R.layout.activity_browse_protocols);
 
@@ -66,6 +71,9 @@ public class BrowseProtocolsActivity extends Activity {
 
         protocolPaderewskiegoDataSource = new ProtocolPaderewskiegoDataSource(this);
         protocolPaderewskiegoDataSource.open();
+
+        protocolNewPaderewskiegoDataSource = new ProtocolNewPaderewskiegoDataSource(this);
+        protocolNewPaderewskiegoDataSource.open();
 
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
@@ -90,12 +98,17 @@ public class BrowseProtocolsActivity extends Activity {
         addressDetails.setText(address.getName() + " " + address.getStreet() + " " + address.getBuilding() + "/" + address.getFlat() + ", " + address.getCity());
 
         //get protocols
-        List<Protocol> protocolsSiemianowice = protocolDataSource.getAllSiemianowiceProtocolsByAddressId(address.getId());
-        List<ProtocolPaderewskiego> protocolsPaderewskiego = protocolPaderewskiegoDataSource.getAllPaderewskiegoProtocolsByAddressId(address.getId());
+        List<Protocol> protocolsSiemianowice =
+                protocolDataSource.getAllSiemianowiceProtocolsByAddressId(address.getId());
+        List<ProtocolPaderewskiego> protocolsPaderewskiego =
+                protocolPaderewskiegoDataSource.getAllPaderewskiegoProtocolsByAddressId(address.getId());
+        List<ProtocolNewPaderewskiego> protocolsNewPaderewskiego =
+                protocolNewPaderewskiegoDataSource.getAllNewPaderewskiegoProtocolsByAddressId(address.getId());
 
         //fill protocols details
         protocolsSiemianowiceList = (ListView) findViewById(R.id.protocols_siemianowice_list);
         protocolsPaderewskiegoList = (ListView) findViewById(R.id.protocols_paderewskiego_list);
+        protocolsNewPaderewskiegoList = (ListView) findViewById(R.id.protocols_new_paderewskiego_list);
 
         adapterSiemianowice = new ArrayAdapter<Protocol>(this,
                 android.R.layout.simple_list_item_activated_1, protocolsSiemianowice);
@@ -146,7 +159,32 @@ public class BrowseProtocolsActivity extends Activity {
             });
         }
 
-        if(!hasSiemianowiceProrocols && !hasPaderewskiegoProrocols){
+        adapterNewPaderewskiego = new ArrayAdapter<ProtocolNewPaderewskiego>(this,
+                android.R.layout.simple_list_item_activated_1, protocolsNewPaderewskiego);
+
+        if(adapterNewPaderewskiego.isEmpty()){
+            TextView protocolsNewPaderewskiegoTitle = (TextView) findViewById(R.id.protocols_new_paderewskiego_title);
+            protocolsNewPaderewskiegoTitle.setVisibility(View.GONE);
+            //TODO wczytywanie new paderewskiego
+            Button openNewPaderewskiegoButton = (Button) findViewById(R.id.open_new_paderewskiego_button);
+            openNewPaderewskiegoButton.setVisibility(View.GONE);
+            protocolsNewPaderewskiegoList.setVisibility(View.GONE);
+            hasNewPaderewskiegoProrocols = false;
+        } else {
+            protocolsNewPaderewskiegoList.setAdapter(adapterNewPaderewskiego);
+            protocolsNewPaderewskiegoList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            protocolsNewPaderewskiegoList.setItemChecked(0, true);
+            protocolsNewPaderewskiegoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    newPaderewskiegoSelectedPosition= i;
+                    protocolsNewPaderewskiegoList.setSelection(i);
+                    protocolsNewPaderewskiegoList.setItemChecked(i, true);
+                }
+            });
+        }
+
+        if(!hasSiemianowiceProrocols && !hasPaderewskiegoProrocols && !hasNewPaderewskiegoProrocols){
 
             Button deleteButton =(Button)findViewById(R.id.detele_protocols_button);
             deleteButton.setEnabled(false);
@@ -189,6 +227,25 @@ public class BrowseProtocolsActivity extends Activity {
             intent.putExtra(Utils.EDIT_FLAG, true);
             startActivity(intent);
 
+        } else {
+            Context context = getApplicationContext();
+            CharSequence text = AlertUtils.NO_PROTOCOLS;
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+    }
+
+    public void openNewPaderewskiego(View view) {
+        if(protocolsNewPaderewskiegoList.getCount() != 0){
+            Intent intent = new Intent(this, ChooseWorkerNewPaderewskiegoActivity.class);
+            ProtocolNewPaderewskiego protocol =  (ProtocolNewPaderewskiego) protocolsNewPaderewskiegoList.
+                    getItemAtPosition(newPaderewskiegoSelectedPosition);
+            intent.putExtra(Utils.PROTOCOL_ID, protocol.get_id());
+            intent.putExtra(Utils.ADDRESS_ID, address.getId());
+            intent.putExtra(Utils.EDIT_FLAG, true);
+            startActivity(intent);
         } else {
             Context context = getApplicationContext();
             CharSequence text = AlertUtils.NO_PROTOCOLS;
@@ -250,6 +307,7 @@ public class BrowseProtocolsActivity extends Activity {
     protected void onResume() {
         protocolDataSource.open();
         protocolPaderewskiegoDataSource.open();
+        protocolNewPaderewskiegoDataSource.open();
         addressDataSource.open();
         super.onResume();
     }
@@ -258,6 +316,7 @@ public class BrowseProtocolsActivity extends Activity {
     protected void onPause() {
         protocolDataSource.close();
         protocolPaderewskiegoDataSource.close();
+        protocolNewPaderewskiegoDataSource.close();
         addressDataSource.close();
         super.onPause();
 

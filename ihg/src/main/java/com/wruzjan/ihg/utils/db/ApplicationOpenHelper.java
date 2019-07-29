@@ -12,10 +12,11 @@ import com.wruzjan.ihg.utils.model.Address;
 public class ApplicationOpenHelper extends SQLiteOpenHelper {
 
     //columns
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "ighDB.db";
     public static final String TABLE_ADDRESSES = "addresses";
     public static final String TABLE_PROTOCOL_PADEREWSKIEGO = "protocols_paderewskiego";
+    public static final String TABLE_PROTOCOL_NEW_PADEREWSKIEGO = "protocols_new_paderewskiego";
     public static final String TABLE_PROTOCOL_SIEMIANOWICE = "protocols_siemianowice";
 
     public static final String COLUMN_ID = "_id";
@@ -126,7 +127,61 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    @Override
+    public void onUpgradeTo5(SQLiteDatabase sqLiteDatabase) {
+
+        String CREATE_PROTOCOL_NEW_PADEREWSKIEGO_TABLE = "CREATE TABLE " +
+                TABLE_PROTOCOL_NEW_PADEREWSKIEGO + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_ADDRESS_ID + " INTEGER NOT NULL, " +
+                COLUMN_WORKER_NAME + " TEXT NOT NULL," +
+                COLUMN_TEMP_OUTSIDE + " TEXT," +
+                COLUMN_TEMP_INSIDE + " TEXT," +
+                COLUMN_CO + " TEXT," +
+                COLUMN_KITCHEN_ENABLED + " INTEGER, " +
+                COLUMN_KITCHEN_GRID_DIMENSION_X + " FLOAT," +
+                COLUMN_KITCHEN_GRID_DIMENSION_Y + " FLOAT," +
+                COLUMN_KITCHEN_GRID_DIMENSION_ROUND + " DOUBLE," +
+                COLUMN_KITCHEN_AIRFLOW_WINDOWS_CLOSED + " FLOAT," +
+                COLUMN_KITCHEN_AIRFLOW_WINDOWS_MICRO + " FLOAT," +
+                COLUMN_KITCHEN_COMMENTS + " TEXT," +
+                COLUMN_BATH_ENABLED + " INTEGER, " +
+                COLUMN_BATH_GRID_DIMENSION_X + " FLOAT," +
+                COLUMN_BATH_GRID_DIMENSION_Y + " FLOAT," +
+                COLUMN_BATH_GRID_DIMENSION_ROUND + " DOUBLE," +
+                COLUMN_BATH_AIRFLOW_WINDOWS_CLOSED + " FLOAT," +
+                COLUMN_BATH_AIRFLOW_WINDOWS_MICRO + " FLOAT," +
+                COLUMN_BATH_COMMENTS + " TEXT," +
+                COLUMN_TOILET_ENABLED + " INTEGER, " +
+                COLUMN_TOILET_GRID_DIMENSION_X + " FLOAT," +
+                COLUMN_TOILET_GRID_DIMENSION_Y + " FLOAT," +
+                COLUMN_TOILET_GRID_DIMENSION_ROUND + " DOUBLE," +
+                COLUMN_TOILET_AIRFLOW_WINDOWS_CLOSED + " FLOAT," +
+                COLUMN_TOILET_AIRFLOW_WINDOWS_MICRO + " FLOAT," +
+                COLUMN_TOILET_COMMENTS + " TEXT," +
+                COLUMN_FLUE_ENABLED + " INTEGER, " +
+                COLUMN_FLUE_AIRFLOW_WINDOWS_CLOSED + " FLOAT," +
+                COLUMN_FLUE_AIRFLOW_WINDOWS_MICRO + " FLOAT," +
+                COLUMN_FLUE_COMMENTS + " TEXT," +
+                COLUMN_GAS_FITTINGS_PRESENT + " INTEGER, " +
+                COLUMN_GAS_FITTINGS_WORKING + " INTEGER, " +
+                COLUMN_GAS_COOKER_PRESENT + " INTEGER, " +
+                COLUMN_GAS_COOKER_WORKING + " INTEGER, " +
+                COLUMN_BATHROOM_BAKE_PRESENT + " INTEGER, " +
+                COLUMN_BATHROOM_BAKE_WORKING + " INTEGER, " +
+                COLUMN_EQUIPMENT_COMMENTS + " TEXT," +
+                COLUMN_COMMENTS_FOR_USER + " TEXT," +
+                COLUMN_COMMENTS_FOR_MANAGER + " TEXT," +
+                COLUMN_CREATED + " DATE default CURRENT_DATE," +
+                COLUMN_PHONE_NR + " TEXT," +
+                COLUMN_KITCHEN_CLEANED + " TEXT," +
+                COLUMN_BATH_CLEANED + " TEXT," +
+                COLUMN_TOILET_CLEANED + " TEXT," +
+                COLUMN_FLUE_CLEANED + " TEXT," +
+                "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
+
+        sqLiteDatabase.execSQL(CREATE_PROTOCOL_NEW_PADEREWSKIEGO_TABLE);
+    }
+
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_ADDRESSES_TABLE = "CREATE TABLE " +
                 TABLE_ADDRESSES + "(" +
@@ -272,10 +327,63 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_CREATED + " DATE default CURRENT_DATE," +
                 "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
 
+        String CREATE_PROTOCOL_NEW_PADEREWSKIEGO_TABLE = "CREATE TABLE " +
+                TABLE_PROTOCOL_NEW_PADEREWSKIEGO + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_ADDRESS_ID + " INTEGER NOT NULL, " +
+                COLUMN_WORKER_NAME + " TEXT NOT NULL," +
+                COLUMN_TEMP_OUTSIDE + " TEXT," +
+                COLUMN_TEMP_INSIDE + " TEXT," +
+                COLUMN_CO + " TEXT," +
+                COLUMN_KITCHEN_ENABLED + " INTEGER, " +
+                COLUMN_KITCHEN_GRID_DIMENSION_X + " FLOAT," +
+                COLUMN_KITCHEN_GRID_DIMENSION_Y + " FLOAT," +
+                COLUMN_KITCHEN_GRID_DIMENSION_ROUND + " DOUBLE," +
+                COLUMN_KITCHEN_AIRFLOW_WINDOWS_CLOSED + " FLOAT," +
+                COLUMN_KITCHEN_AIRFLOW_WINDOWS_MICRO + " FLOAT," +
+                COLUMN_KITCHEN_COMMENTS + " TEXT," +
+                COLUMN_BATH_ENABLED + " INTEGER, " +
+                COLUMN_BATH_GRID_DIMENSION_X + " FLOAT," +
+                COLUMN_BATH_GRID_DIMENSION_Y + " FLOAT," +
+                COLUMN_BATH_GRID_DIMENSION_ROUND + " DOUBLE," +
+                COLUMN_BATH_AIRFLOW_WINDOWS_CLOSED + " FLOAT," +
+                COLUMN_BATH_AIRFLOW_WINDOWS_MICRO + " FLOAT," +
+                COLUMN_BATH_COMMENTS + " TEXT," +
+                COLUMN_TOILET_ENABLED + " INTEGER, " +
+                COLUMN_TOILET_GRID_DIMENSION_X + " FLOAT," +
+                COLUMN_TOILET_GRID_DIMENSION_Y + " FLOAT," +
+                COLUMN_TOILET_GRID_DIMENSION_ROUND + " DOUBLE," +
+                COLUMN_TOILET_AIRFLOW_WINDOWS_CLOSED + " FLOAT," +
+                COLUMN_TOILET_AIRFLOW_WINDOWS_MICRO + " FLOAT," +
+                COLUMN_TOILET_COMMENTS + " TEXT," +
+                COLUMN_FLUE_ENABLED + " INTEGER, " +
+                COLUMN_FLUE_AIRFLOW_WINDOWS_CLOSED + " FLOAT," +
+                COLUMN_FLUE_AIRFLOW_WINDOWS_MICRO + " FLOAT," +
+                COLUMN_FLUE_COMMENTS + " TEXT," +
+                COLUMN_GAS_FITTINGS_PRESENT + " INTEGER, " +
+                COLUMN_GAS_FITTINGS_WORKING + " INTEGER, " +
+                COLUMN_GAS_COOKER_PRESENT + " INTEGER, " +
+                COLUMN_GAS_COOKER_WORKING + " INTEGER, " +
+                COLUMN_BATHROOM_BAKE_PRESENT + " INTEGER, " +
+                COLUMN_BATHROOM_BAKE_WORKING + " INTEGER, " +
+                COLUMN_EQUIPMENT_COMMENTS + " TEXT," +
+                COLUMN_COMMENTS_FOR_USER + " TEXT," +
+                COLUMN_COMMENTS_FOR_MANAGER + " TEXT," +
+                COLUMN_CREATED + " DATE default CURRENT_DATE," +
+                COLUMN_PHONE_NR + " TEXT," +
+                COLUMN_KITCHEN_CLEANED + " TEXT," +
+                COLUMN_BATH_CLEANED + " TEXT," +
+                COLUMN_TOILET_CLEANED + " TEXT," +
+                COLUMN_FLUE_CLEANED + " TEXT," +
+                "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
+
         sqLiteDatabase.execSQL(CREATE_ADDRESSES_TABLE);
         sqLiteDatabase.execSQL(CREATE_PROTOCOL_PADEREWSKIEGO_TABLE);
+        sqLiteDatabase.execSQL(CREATE_PROTOCOL_NEW_PADEREWSKIEGO_TABLE);
         sqLiteDatabase.execSQL(CREATE_PROTOCOL_SIEMIANOWICE_TABLE);
     }
+
+
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
@@ -283,10 +391,8 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion);
 
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ADDRESSES);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PROTOCOL_PADEREWSKIEGO);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PROTOCOL_SIEMIANOWICE);
-        onCreate(sqLiteDatabase);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PROTOCOL_NEW_PADEREWSKIEGO);
+        onUpgradeTo5(sqLiteDatabase);
     }
 
 }

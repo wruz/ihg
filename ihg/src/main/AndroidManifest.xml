@@ -61,6 +61,16 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.wruzjan.ihg.ChooseWorkerNewPaderewskiegoActivity"
+            android:label="@string/title_activity_choose_worker"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".EnterDataNewPaderewskiegoActivity"
+            android:label="@string/title_activity_enter_data"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".CaptureSignatureActivity"
             android:label="@string/title_activity_capture_signature"
             android:screenOrientation="landscape" >
@@ -80,6 +90,7 @@
             android:label="Wybierz drukarkę"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".ChooseWorkerNewPaderewskiegoActivity" />
     </application>
 
 </manifest>

@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.wruzjan.ihg.R;
 import com.wruzjan.ihg.utils.printer.BluetoothConnection;
+import com.wruzjan.ihg.utils.printer.BluetoothConnectionNewPaderewskiego;
 import com.wruzjan.ihg.utils.printer.BluetoothConnectionPaderewskiego;
 import com.zebra.android.comm.BluetoothPrinterConnection;
 import com.zebra.android.comm.ZebraPrinterConnection;
@@ -89,6 +90,7 @@ public class SignatureView extends View {
             mBitmap = Bitmap.createScaledBitmap(mBitmap, 367, 128, false);
             BluetoothConnection.bitmapParser = new ParseBitmap(mBitmap);
             BluetoothConnectionPaderewskiego.bitmapParser = new ParseBitmap(mBitmap);
+            BluetoothConnectionNewPaderewskiego.bitmapParser = new ParseBitmap(mBitmap);
 
         }
         catch(Exception e)

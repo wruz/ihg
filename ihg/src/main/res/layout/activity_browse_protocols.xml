@@ -121,6 +121,34 @@
             android:onClick="openPaderewskiego"
             android:layout_gravity="right" />
 
+        <TextView
+            android:id="@+id/protocols_new_paderewskiego_title"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@string/protocols_new_paderewskiego" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/list_wrapper">
+            <ListView android:id="@+id/protocols_new_paderewskiego_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" ></ListView>
+        </LinearLayout>
+        <Button
+            android:id="@+id/open_new_paderewskiego_button"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/open_button"
+            android:onClick="openNewPaderewskiego"
+            android:layout_gravity="right" />
+
     </LinearLayout>
 
     </ScrollView>

@@ -63,6 +63,18 @@ public class Utils {
     public static final String PADEREWSKIEGO_PDF_SZYMON
             = Environment.getExternalStorageDirectory().toString() + "/IHG/templates/form2_szymon.pdf";
 
+    public static final String NEW_PADEREWSKIEGO_XLS_MACIEJ
+            = Environment.getExternalStorageDirectory().toString() + "/IHG/templates/form3_maciej.xls";
+
+    public static final String NEW_PADEREWSKIEGO_XLS_SZYMON
+            = Environment.getExternalStorageDirectory().toString() + "/IHG/templates/form3_szymon.xls";
+
+    public static final String NEW_PADEREWSKIEGO_PDF_MACIEJ
+            = Environment.getExternalStorageDirectory().toString() + "/IHG/templates/form3_maciej.pdf";
+
+    public static final String NEW_PADEREWSKIEGO_PDF_SZYMON
+            = Environment.getExternalStorageDirectory().toString() + "/IHG/templates/form3_szymon.pdf";
+
     public static final int USER_COMMENTS_LENGTH = 512;
 
 //    moja "00:22:58:02:29:0C"

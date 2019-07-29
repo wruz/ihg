@@ -22,15 +22,11 @@ import android.widget.Toast;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class BrowseAddressesActivity extends Activity {
@@ -38,6 +34,7 @@ public class BrowseAddressesActivity extends Activity {
     private AddressDataSource datasource;
     private ProtocolDataSource protocolDataSource;
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
+    private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
     private ListView addressesList;
 
     private EditText inputSearch;
@@ -58,6 +55,9 @@ public class BrowseAddressesActivity extends Activity {
 
         protocolPaderewskiegoDataSource = new ProtocolPaderewskiegoDataSource(this);
         protocolPaderewskiegoDataSource.open();
+
+        protocolNewPaderewskiegoDataSource = new ProtocolNewPaderewskiegoDataSource(this);
+        protocolNewPaderewskiegoDataSource.open();
 
         addressesList = (ListView) findViewById(R.id.addresses_list);
         inputSearch = (EditText) findViewById(R.id.inputSearch);
@@ -147,6 +147,8 @@ public class BrowseAddressesActivity extends Activity {
         Address address =  (Address) addressesList.getItemAtPosition(selectedPosition);
 //        delete address
         datasource.deleteAddress(address);
+        //TODO delete corresponding protocols also, but ask user about it first
+//        protocolDataSource.deleteProtocols(address);
 //        refresh list
         this.recreate();
 //        display confirmation
@@ -194,6 +196,27 @@ public class BrowseAddressesActivity extends Activity {
             toast.show();
         }
 
+    }
+
+    /**
+     * Redirect to choose worker activity for new Paderewskiego.
+     *
+     * @param view the view.
+     */
+    public void addNewFormNewPaderewskiegoToAddress(View view) {
+        Intent intent = new Intent(this, ChooseWorkerNewPaderewskiegoActivity.class);
+        if(addressesList.getCount() != 0){
+            Address address =  (Address) addressesList.getItemAtPosition(selectedPosition);
+            intent.putExtra(Utils.ADDRESS_ID, address.getId());
+            startActivity(intent);
+        } else {
+            Context context = getApplicationContext();
+            CharSequence text = AlertUtils.ENTER_ADDRESSES_FORM;
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
     }
 
     public void deleteAllProtocols(View view){
@@ -313,6 +336,7 @@ public class BrowseAddressesActivity extends Activity {
         datasource.open();
         protocolDataSource.open();
         protocolPaderewskiegoDataSource.open();
+        protocolNewPaderewskiegoDataSource.open();
         addressesList.setItemChecked(0, true);
         super.onResume();
     }
@@ -322,6 +346,7 @@ public class BrowseAddressesActivity extends Activity {
         datasource.close();
         protocolDataSource.close();
         protocolPaderewskiegoDataSource.close();
+        protocolNewPaderewskiegoDataSource.close();
         super.onPause();
 
     }

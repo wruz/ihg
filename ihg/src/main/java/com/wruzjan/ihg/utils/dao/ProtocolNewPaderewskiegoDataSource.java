@@ -8,12 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.wruzjan.ihg.utils.db.ApplicationOpenHelper;
 import com.wruzjan.ihg.utils.model.Address;
-import com.wruzjan.ihg.utils.model.Protocol;
+import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProtocolDataSource {
+public class ProtocolNewPaderewskiegoDataSource {
 
     private SQLiteDatabase database;
     private ApplicationOpenHelper applicationHelper;
@@ -58,9 +58,14 @@ public class ProtocolDataSource {
             ApplicationOpenHelper.COLUMN_EQUIPMENT_COMMENTS,
             ApplicationOpenHelper.COLUMN_COMMENTS_FOR_USER,
             ApplicationOpenHelper.COLUMN_COMMENTS_FOR_MANAGER,
+            ApplicationOpenHelper.COLUMN_PHONE_NR,
+            ApplicationOpenHelper.COLUMN_KITCHEN_CLEANED,
+            ApplicationOpenHelper.COLUMN_BATH_CLEANED,
+            ApplicationOpenHelper.COLUMN_TOILET_CLEANED,
+            ApplicationOpenHelper.COLUMN_FLUE_CLEANED,
             ApplicationOpenHelper.COLUMN_CREATED};
 
-    public ProtocolDataSource(Context context) {
+    public ProtocolNewPaderewskiegoDataSource(Context context) {
         applicationHelper = new ApplicationOpenHelper(context);
     }
 
@@ -72,29 +77,16 @@ public class ProtocolDataSource {
         applicationHelper.close();
     }
 
-    //TODO extract to utility for handling whole db
-    public void deleteProtocols(Address address){
-        database.delete(ApplicationOpenHelper.TABLE_PROTOCOL_PADEREWSKIEGO,
-                ApplicationOpenHelper.COLUMN_ADDRESS_ID + " = " + address.getId(), null);
-        database.delete(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
-                ApplicationOpenHelper.COLUMN_ADDRESS_ID + " = " + address.getId(), null);
-        database.delete(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
-                ApplicationOpenHelper.COLUMN_ADDRESS_ID + " = " + address.getId(), null);
-    }
-
-    //TODO extract to utility for handling whole db
-    public void deleteAllProtocols(){
-        database.delete(ApplicationOpenHelper.TABLE_PROTOCOL_PADEREWSKIEGO,
-                null, null);
-        database.delete(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
-                null, null);
-        database.delete(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
-                null, null);
-    }
-
-    public Protocol insertProtocolSiemianowice(Protocol protocol) {
+    public ProtocolNewPaderewskiego insertProtocolNewPaderewskiego(ProtocolNewPaderewskiego protocol) {
 
         ContentValues values = new ContentValues();
+        //new paderewskiego specific fields
+        values.put(applicationHelper.COLUMN_PHONE_NR, protocol.get_telephone());
+        values.put(applicationHelper.COLUMN_KITCHEN_CLEANED, protocol.get_kitchen_clean());
+        values.put(applicationHelper.COLUMN_BATH_CLEANED, protocol.get_bath_clean());
+        values.put(applicationHelper.COLUMN_TOILET_CLEANED, protocol.get_toilet_clean());
+        values.put(applicationHelper.COLUMN_FLUE_CLEANED, protocol.get_flue_clean());
+        //end of new paderewskiego specific fields
         values.put(applicationHelper.COLUMN_ADDRESS_ID, protocol.get_address_id());
         values.put(applicationHelper.COLUMN_WORKER_NAME, protocol.get_worker_name());
         values.put(applicationHelper.COLUMN_TEMP_OUTSIDE, protocol.get_temp_outside());
@@ -176,27 +168,27 @@ public class ProtocolDataSource {
         values.put(applicationHelper.COLUMN_COMMENTS_FOR_MANAGER, protocol.get_comments_for_manager());
         values.put(applicationHelper.COLUMN_CREATED, protocol.get_created());
 
-        long insertId = database.insert(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE, null,
+        long insertId = database.insert(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO, null,
                 values);
 
-        Cursor cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
+        Cursor cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
                 allColumns, ApplicationOpenHelper.COLUMN_ID + " = " + insertId, null,
                 null, null, null);
 
         cursor.moveToFirst();
-        Protocol newProtocol = cursorToProtocolShort(cursor);
+        ProtocolNewPaderewskiego newProtocol = cursorToProtocolShort(cursor);
         cursor.close();
         return newProtocol;
     }
 
-    public List<Protocol> getAllSiemianowiceProtocolsByAddressId(int addressId) {
-        List<Protocol> protocols = new ArrayList<Protocol>();
-        Cursor cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
+    public List<ProtocolNewPaderewskiego> getAllNewPaderewskiegoProtocolsByAddressId(int addressId) {
+        List<ProtocolNewPaderewskiego> protocols = new ArrayList<ProtocolNewPaderewskiego>();
+        Cursor cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
                 allColumns, applicationHelper.COLUMN_ADDRESS_ID + " = " + addressId, null, null, null,  applicationHelper.COLUMN_CREATED + " desc");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Protocol protocol = cursorToProtocolShort(cursor);
+            ProtocolNewPaderewskiego protocol = cursorToProtocolShort(cursor);
             protocols.add(protocol);
             cursor.moveToNext();
         }
@@ -205,9 +197,9 @@ public class ProtocolDataSource {
         return protocols;
     }
 
-    public Protocol getSiemianowiceProtocolsById(int protocolId) {
-        Protocol protocol;
-        Cursor cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
+    public ProtocolNewPaderewskiego getNewPaderewskiegoProtocolsById(int protocolId) {
+        ProtocolNewPaderewskiego protocol;
+        Cursor cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
                 allColumns, ApplicationOpenHelper.COLUMN_ID + " = " + protocolId, null,
                 null, null, null);
 
@@ -217,16 +209,16 @@ public class ProtocolDataSource {
         return protocol;
     }
 
-    private Protocol cursorToProtocolShort(Cursor cursor) {
-        Protocol protocol = new Protocol();
+    private ProtocolNewPaderewskiego cursorToProtocolShort(Cursor cursor) {
+        ProtocolNewPaderewskiego protocol = new ProtocolNewPaderewskiego();
         protocol.set_id(cursor.getInt(0));
         protocol.set_address_id(Integer.parseInt(cursor.getString(1)));
         protocol.set_created(cursor.getString(40));
         return protocol;
     }
 
-    private Protocol cursorToProtocol(Cursor cursor) {
-        Protocol protocol = new Protocol();
+    private ProtocolNewPaderewskiego cursorToProtocol(Cursor cursor) {
+        ProtocolNewPaderewskiego protocol = new ProtocolNewPaderewskiego();
         protocol.set_id(cursor.getInt(0));
         protocol.set_address_id(Integer.parseInt(cursor.getString(1)));
         protocol.set_worker_name(cursor.getString(2));
@@ -308,6 +300,13 @@ public class ProtocolDataSource {
         protocol.set_comments_for_user(cursor.getString(38));
         protocol.set_comments_for_manager(cursor.getString(39));
         protocol.set_created(cursor.getString(40));
+        //new paderewskiego specific fields
+        protocol.set_telephone(cursor.getString(41));
+        protocol.set_kitchen_clean(cursor.getString(42));
+        protocol.set_bath_clean(cursor.getString(43));
+        protocol.set_toilet_clean(cursor.getString(44));
+        protocol.set_flue_clean(cursor.getString(45));
+        //end ofnew paderewskiego specific fields
         return protocol;
     }
 }
