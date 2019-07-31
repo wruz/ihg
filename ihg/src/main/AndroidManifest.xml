@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wruzjan.ihg"
-    android:versionCode="1"
-    android:versionName="1.0" >
-
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="14" />
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.wruzjan.ihg">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_LOGS" />
@@ -19,7 +14,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        >
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
             android:name="com.wruzjan.ihg.SplashScreen"
             android:label="@string/app_name"
@@ -29,11 +24,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.wruzjan.ihg.MainActivity"
-            android:label="@string/ma_title"
-            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.wruzjan.ihg.ChooseWorkerActivity"
@@ -90,7 +80,5 @@
             android:label="Wybierz drukarkę"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ChooseWorkerNewPaderewskiegoActivity" />
     </application>
-
 </manifest>
