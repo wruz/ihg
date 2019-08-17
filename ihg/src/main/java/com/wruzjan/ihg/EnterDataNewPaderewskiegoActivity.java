@@ -28,7 +28,6 @@ import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
-import com.wruzjan.ihg.utils.excel.GenerateExcelNewPaderewskiego;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
 import com.wruzjan.ihg.utils.pdf.GeneratePDFNewPaderewskiego;
@@ -836,11 +835,9 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             toast.show();
         }
 //      generate files
-        GenerateExcelNewPaderewskiego excelGenerator = new GenerateExcelNewPaderewskiego();
         GeneratePDFNewPaderewskiego pdfGenerator = new GeneratePDFNewPaderewskiego();
         try {
             PROTOCOL = protocol;
-            xlsFilePath = excelGenerator.generate(address, protocol, false);
             pdfFilePath = pdfGenerator.generatePdf(address, protocol, false);
 
             //      save in database
@@ -878,9 +875,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                         public void onClick(DialogInterface dialog, int id) {
                             // save anyway
                             try{
-                                GenerateExcelNewPaderewskiego excelGenerator = new GenerateExcelNewPaderewskiego();
                                 GeneratePDFNewPaderewskiego pdfGenerator = new GeneratePDFNewPaderewskiego();
-                                xlsFilePath = excelGenerator.generate(address, PROTOCOL, true);
                                 pdfFilePath = pdfGenerator.generatePdf(address, PROTOCOL, true);
 
                                 //      save in database

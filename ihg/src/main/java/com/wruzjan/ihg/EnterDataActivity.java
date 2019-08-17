@@ -28,7 +28,6 @@ import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
-import com.wruzjan.ihg.utils.excel.GenerateExcel;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.Protocol;
 import com.wruzjan.ihg.utils.pdf.GeneratePDF;
@@ -789,11 +788,9 @@ public class EnterDataActivity extends Activity {
             toast.show();
         }
 //      generate files
-        GenerateExcel excelGenerator = new GenerateExcel();
         GeneratePDF pdfGenerator = new GeneratePDF();
         try {
             PROTOCOL = protocol;
-            xlsFilePath = excelGenerator.generate(address, protocol, false);
             pdfFilePath = pdfGenerator.generatePdf(address, protocol, false);
 
             //      save in database
@@ -831,9 +828,7 @@ public class EnterDataActivity extends Activity {
                         public void onClick(DialogInterface dialog, int id) {
                             // save anyway
                             try{
-                                GenerateExcel excelGenerator = new GenerateExcel();
                                 GeneratePDF pdfGenerator = new GeneratePDF();
-                                xlsFilePath = excelGenerator.generate(address, PROTOCOL, true);
                                 pdfFilePath = pdfGenerator.generatePdf(address, PROTOCOL, true);
 
                                 //      save in database
