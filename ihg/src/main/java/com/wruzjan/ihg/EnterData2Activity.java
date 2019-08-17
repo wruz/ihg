@@ -45,7 +45,6 @@ public class EnterData2Activity extends Activity {
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
     private Address address;
     private ProtocolPaderewskiego PROTOCOL;
-    private String xlsFilePath;
     private String pdfFilePath;
     private int windows_no_micro;
     private int windows_micro;

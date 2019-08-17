@@ -51,7 +51,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
     private Address address;
     private ProtocolNewPaderewskiego PROTOCOL;
-    private String xlsFilePath;
     private String pdfFilePath;
     private boolean protocolSaved = false;
 

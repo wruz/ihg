@@ -51,7 +51,6 @@ public class EnterDataActivity extends Activity {
     private ProtocolDataSource protocolDataSource;
     private Address address;
     private Protocol PROTOCOL;
-    private String xlsFilePath;
     private String pdfFilePath;
     private boolean protocolSaved = false;
 
