@@ -1,10 +1,12 @@
 package com.wruzjan.ihg;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,12 +22,15 @@ import android.widget.Toast;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.model.Address;
-import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 
 import java.util.List;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class BrowseAddressesActivity extends Activity {
 
@@ -112,6 +117,17 @@ public class BrowseAddressesActivity extends Activity {
             public void afterTextChanged(Editable arg0) {
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!isExternalStorageAccessGranted()) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    0);
+        }
     }
 
     @Override
@@ -344,7 +360,9 @@ public class BrowseAddressesActivity extends Activity {
         protocolPaderewskiegoDataSource.close();
         protocolNewPaderewskiegoDataSource.close();
         super.onPause();
-
     }
 
+    private boolean isExternalStorageAccessGranted() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
 }
