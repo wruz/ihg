@@ -1,15 +1,15 @@
 package com.wruzjan.ihg;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,12 +22,15 @@ import android.widget.Toast;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.model.Address;
-import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 
 import java.util.List;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class BrowseAddressesActivity extends Activity {
 
@@ -37,7 +40,6 @@ public class BrowseAddressesActivity extends Activity {
     private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
     private ListView addressesList;
 
-    private EditText inputSearch;
     private int selectedPosition = 0;
     private ArrayAdapter<Address> adapter;
 
@@ -59,14 +61,14 @@ public class BrowseAddressesActivity extends Activity {
         protocolNewPaderewskiegoDataSource = new ProtocolNewPaderewskiegoDataSource(this);
         protocolNewPaderewskiegoDataSource.open();
 
-        addressesList = (ListView) findViewById(R.id.addresses_list);
-        inputSearch = (EditText) findViewById(R.id.inputSearch);
+        addressesList = findViewById(R.id.addresses_list);
+        EditText inputSearch = findViewById(R.id.inputSearch);
 
         List<Address> values = datasource.getAllAddresses();
 
         // Use the built-in layout for showing a list item with a single
         // line of text whose background is changes when activated.
-        adapter = new ArrayAdapter<Address>(this,
+        adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_activated_1, values);
 
         addressesList.setAdapter(adapter);
@@ -115,7 +117,17 @@ public class BrowseAddressesActivity extends Activity {
             public void afterTextChanged(Editable arg0) {
             }
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!isExternalStorageAccessGranted()) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    0);
+        }
     }
 
     @Override
@@ -238,7 +250,7 @@ public class BrowseAddressesActivity extends Activity {
                         try{
                             protocolDataSource.deleteAllProtocols();
                             Context context = getApplicationContext();
-                            CharSequence text = String.format("Protokoły zostały poprawnie usunięte");
+                            CharSequence text = "Protokoły zostały poprawnie usunięte";
                             int duration = Toast.LENGTH_LONG;
 
                             Toast toast = Toast.makeText(context, text, duration);
@@ -284,7 +296,7 @@ public class BrowseAddressesActivity extends Activity {
                             protocolDataSource.deleteAllProtocols();
                             datasource.deleteAllAddresses();
                             Context context = getApplicationContext();
-                            CharSequence text = String.format("Protokoły zostały poprawnie usunięte");
+                            CharSequence text = "Protokoły zostały poprawnie usunięte";
                             int duration = Toast.LENGTH_LONG;
 
                             Toast toast = Toast.makeText(context, text, duration);
@@ -348,7 +360,9 @@ public class BrowseAddressesActivity extends Activity {
         protocolPaderewskiegoDataSource.close();
         protocolNewPaderewskiegoDataSource.close();
         super.onPause();
-
     }
 
+    private boolean isExternalStorageAccessGranted() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
 }
