@@ -26,6 +26,7 @@ import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
+import com.wruzjan.ihg.utils.excel.GenerateExcelPaderewskiego;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.ProtocolPaderewskiego;
 import com.wruzjan.ihg.utils.pdf.GeneratePDFPaderewskiego;
@@ -45,6 +46,7 @@ public class EnterData2Activity extends Activity {
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
     private Address address;
     private ProtocolPaderewskiego PROTOCOL;
+    private String xlsFilePath;
     private String pdfFilePath;
     private int windows_no_micro;
     private int windows_micro;
@@ -1624,10 +1626,12 @@ public class EnterData2Activity extends Activity {
             protocol.set_eq_other(eqOthersWorking);
 
 //      generate files
+        GenerateExcelPaderewskiego xlsGenerator = new GenerateExcelPaderewskiego();
         GeneratePDFPaderewskiego pdfGenerator = new GeneratePDFPaderewskiego();
 
         try {
             PROTOCOL = protocol;
+            xlsFilePath = xlsGenerator.generate(address, protocol, false);
             pdfFilePath = pdfGenerator.generatePdf(address, protocol, false);
 
             //      save in database
@@ -1667,7 +1671,9 @@ public class EnterData2Activity extends Activity {
                         public void onClick(DialogInterface dialog, int id) {
                             // save anyway
                             try{
+                                GenerateExcelPaderewskiego xlsGenerator = new GenerateExcelPaderewskiego();
                                 GeneratePDFPaderewskiego pdfGenerator = new GeneratePDFPaderewskiego();
+                                xlsFilePath = xlsGenerator.generate(address, PROTOCOL, true);
                                 pdfFilePath = pdfGenerator.generatePdf(address, PROTOCOL, true);
 
                                 //      save in database
