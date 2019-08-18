@@ -6,10 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +35,6 @@ public class BrowseAddressesActivity extends Activity {
     private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
     private ListView addressesList;
 
-    private EditText inputSearch;
     private int selectedPosition = 0;
     private ArrayAdapter<Address> adapter;
 
@@ -59,14 +56,14 @@ public class BrowseAddressesActivity extends Activity {
         protocolNewPaderewskiegoDataSource = new ProtocolNewPaderewskiegoDataSource(this);
         protocolNewPaderewskiegoDataSource.open();
 
-        addressesList = (ListView) findViewById(R.id.addresses_list);
-        inputSearch = (EditText) findViewById(R.id.inputSearch);
+        addressesList = findViewById(R.id.addresses_list);
+        EditText inputSearch = findViewById(R.id.inputSearch);
 
         List<Address> values = datasource.getAllAddresses();
 
         // Use the built-in layout for showing a list item with a single
         // line of text whose background is changes when activated.
-        adapter = new ArrayAdapter<Address>(this,
+        adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_activated_1, values);
 
         addressesList.setAdapter(adapter);
@@ -115,7 +112,6 @@ public class BrowseAddressesActivity extends Activity {
             public void afterTextChanged(Editable arg0) {
             }
         });
-
     }
 
     @Override
@@ -238,7 +234,7 @@ public class BrowseAddressesActivity extends Activity {
                         try{
                             protocolDataSource.deleteAllProtocols();
                             Context context = getApplicationContext();
-                            CharSequence text = String.format("Protokoły zostały poprawnie usunięte");
+                            CharSequence text = "Protokoły zostały poprawnie usunięte";
                             int duration = Toast.LENGTH_LONG;
 
                             Toast toast = Toast.makeText(context, text, duration);
@@ -284,7 +280,7 @@ public class BrowseAddressesActivity extends Activity {
                             protocolDataSource.deleteAllProtocols();
                             datasource.deleteAllAddresses();
                             Context context = getApplicationContext();
-                            CharSequence text = String.format("Protokoły zostały poprawnie usunięte");
+                            CharSequence text = "Protokoły zostały poprawnie usunięte";
                             int duration = Toast.LENGTH_LONG;
 
                             Toast toast = Toast.makeText(context, text, duration);
