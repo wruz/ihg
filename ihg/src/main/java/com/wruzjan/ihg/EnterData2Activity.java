@@ -1628,7 +1628,7 @@ public class EnterData2Activity extends Activity {
 
         try {
             PROTOCOL = protocol;
-            pdfFilePath = pdfGenerator.generatePdf(address, protocol, false);
+            pdfFilePath = pdfGenerator.generatePdf(address, protocol);
 
             //      save in database
             protocolPaderewskiegoDataSource.insertProtocolPaderewskiego(protocol);
@@ -1647,66 +1647,14 @@ public class EnterData2Activity extends Activity {
 
             Button dropboxButton =(Button)findViewById(R.id.dropbox_button);
             dropboxButton.setEnabled(true);
-
         } catch (Exception e) {
-            //dialog
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                    EnterData2Activity.this);
-            alertDialogBuilder.setTitle(e.getMessage());
+            Context context = getApplicationContext();
+            e.printStackTrace();
+            CharSequence text = String.format("Zapis pliku się nie udał: %s", e.getMessage());
+            int duration = Toast.LENGTH_LONG;
 
-            alertDialogBuilder
-//                    .setMessage("Click yes to exit!")
-                    .setCancelable(false)
-                    .setNegativeButton("anuluj", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // cancel dialog
-                            dialog.cancel();
-                        }
-                    })
-                    .setPositiveButton("nadpisz plik", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // save anyway
-                            try{
-                                GeneratePDFPaderewskiego pdfGenerator = new GeneratePDFPaderewskiego();
-                                pdfFilePath = pdfGenerator.generatePdf(address, PROTOCOL, true);
-
-                                //      save in database
-                                protocolPaderewskiegoDataSource.insertProtocolPaderewskiego(PROTOCOL);
-
-                                protocolSaved = true;
-
-                                Context context = getApplicationContext();
-                                CharSequence text = String.format(AlertUtils.FILE_SAVE_SUCCESS);
-                                int duration = Toast.LENGTH_SHORT;
-
-                                Toast toast = Toast.makeText(context, text, duration);
-                                toast.show();
-
-                                Button sendButton =(Button)findViewById(R.id.send_button);
-                                sendButton.setEnabled(true);
-
-                                Button dropboxButton =(Button)findViewById(R.id.dropbox_button);
-                                dropboxButton.setEnabled(true);
-                            } catch (Exception e){
-                                Context context = getApplicationContext();
-                                e.printStackTrace();
-                                CharSequence text = String.format("Zapis pliku się nie udał: %s", e.getMessage());
-                                int duration = Toast.LENGTH_LONG;
-
-                                Toast toast = Toast.makeText(context, text, duration);
-                                toast.show();
-                            }
-
-                        }
-                    });
-
-            // create alert dialog
-            AlertDialog alertDialog = alertDialogBuilder.create();
-
-            // show it
-            alertDialog.show();
-
-
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
     }
 
