@@ -21,4 +21,7 @@ dependencies {
     implementation fileTree(dir: 'src/main/lib', include: ['*.jar'])
 
 	implementation "androidx.appcompat:appcompat:1.0.2"
+
+    // CSV
+    implementation "com.opencsv:opencsv:4.1"
 }

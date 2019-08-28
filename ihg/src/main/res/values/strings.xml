@@ -45,6 +45,10 @@
     <string name="yes">tak</string>
     <string name="no">nie</string>
 
+    <!--raport dzienny-->
+    <string name="generate_daily_report_siemanowice">Wygeneruj raport dzienny (Siemianowice)</string>
+    <string name="generate_daily_report_nowy_paderewskiego">Wygeneruj raport dzienny (Nowy Paderewskiego)</string>
+
     <!-- główny ekran wyboru -->
     <string name="ma_title">Wybierz czynność</string>
     <string name="ma_add_new_form">dodaj nowy formularz</string>
@@ -60,7 +64,7 @@
     <string name="title_activity_browse_addresses">Lista zapisanych adresów</string>
     <string name="add_form_to_address">dodaj protokół (Siemianowice)</string>
     <string name="add_form2_to_address">dodaj protokół (Paderewskiego)</string>
-    <string name="add_form3_to_address">dodaj protokół (nowy Paderewskiego)</string>
+    <string name="add_form3_to_address">dodaj protokół (Nowy Paderewskiego)</string>
     <string name="show_old_protocols">przeglądaj protokoły</string>
     <string name="add_new_address">dodaj nowy adres</string>
     <string name="delete_address">usuń adres</string>
@@ -131,6 +135,5 @@
     <string name="comments_for_user">zalecenia lub uwagi dla użytkownika lokalu</string>
     <string name="pad_comments_for_user">zalecenia</string>
     <string name="comments_for_manager">zalecenia lub uwagi dla zarządcy budynku</string>
-
 
 </resources>

@@ -1,6 +1,6 @@
 package com.wruzjan.ihg.utils.model;
 
-import java.util.Date;
+import com.opencsv.bean.StatefulBeanToCsv;
 
 public class Protocol {
 
