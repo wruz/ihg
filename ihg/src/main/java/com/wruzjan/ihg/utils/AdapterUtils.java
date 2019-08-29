@@ -35,4 +35,9 @@ public class AdapterUtils {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return arrayAdapter;
     }
+
+    public static void setItemToSpinner(@NonNull Spinner spinner, @NonNull ArrayAdapter<String> adapter, float value) {
+        int selectedItemIndex = adapter.getPosition(String.format(Locale.US, "%.1f", value));
+        spinner.setSelection(selectedItemIndex);
+    }
 }
