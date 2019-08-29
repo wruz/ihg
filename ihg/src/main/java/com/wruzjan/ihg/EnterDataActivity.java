@@ -97,16 +97,16 @@ public class EnterDataActivity extends Activity {
         });
 
         kitchenClosedSpinner = findViewById(R.id.kitchen_airflow_windows_closed);
-        kitchenClosedSpinnerAdapter = createAdapterAndAssignToSpinner(kitchenClosedSpinner);
+        kitchenClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(kitchenClosedSpinner);
 
         bathroomClosedSpinner = findViewById(R.id.bathroom_airflow_windows_closed);
-        bathroomClosedSpinnerAdapter = createAdapterAndAssignToSpinner(bathroomClosedSpinner);
+        bathroomClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(bathroomClosedSpinner);
 
         toiletClosedSpinner = findViewById(R.id.toilet_airflow_windows_closed);
-        toiletClosedSpinnerAdapter = createAdapterAndAssignToSpinner(toiletClosedSpinner);
+        toiletClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(toiletClosedSpinner);
 
         flueClosedSpinner = findViewById(R.id.flue_airflow_windows_closed);
-        flueClosedSpinnerAdapter = createAdapterAndAssignToSpinner(flueClosedSpinner);
+        flueClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(flueClosedSpinner);
 
         Switch kitchenAvailableSwitch = (Switch) findViewById(R.id.kitchen_availability);
         kitchenAvailableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -1233,14 +1233,5 @@ public class EnterDataActivity extends Activity {
             userComments = userComments.replace(comment, "");
         }
         return userComments;
-    }
-
-
-    @NonNull
-    private static ArrayAdapter<String> createAdapterAndAssignToSpinner(@NonNull Spinner spinner) {
-        ArrayAdapter<String> adapter = AdapterUtils.createInRangeAdapter(spinner.getContext(), -2.0f, 3.0f, 0.1f);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(adapter.getPosition("0.0"));
-        return adapter;
     }
 }
