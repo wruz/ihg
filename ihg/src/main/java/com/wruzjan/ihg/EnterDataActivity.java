@@ -1,5 +1,6 @@
 package com.wruzjan.ihg;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,10 +20,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
@@ -42,6 +44,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+
+import androidx.annotation.NonNull;
 
 public class EnterDataActivity extends Activity {
 
@@ -53,6 +58,18 @@ public class EnterDataActivity extends Activity {
     private Protocol PROTOCOL;
     private String pdfFilePath;
     private boolean protocolSaved = false;
+
+    private Spinner kitchenClosedSpinner;
+    private ArrayAdapter<String> kitchenClosedSpinnerAdapter;
+
+    private Spinner bathroomClosedSpinner;
+    private ArrayAdapter<String> bathroomClosedSpinnerAdapter;
+
+    private Spinner toiletClosedSpinner;
+    private ArrayAdapter<String> toiletClosedSpinnerAdapter;
+
+    private Spinner flueClosedSpinner;
+    private ArrayAdapter<String> flueClosedSpinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,32 +96,29 @@ public class EnterDataActivity extends Activity {
             }
         });
 
+        kitchenClosedSpinner = findViewById(R.id.kitchen_airflow_windows_closed);
+        kitchenClosedSpinnerAdapter = createAdapterAndAssignToSpinner(kitchenClosedSpinner);
+
+        bathroomClosedSpinner = findViewById(R.id.bathroom_airflow_windows_closed);
+        bathroomClosedSpinnerAdapter = createAdapterAndAssignToSpinner(bathroomClosedSpinner);
+
+        toiletClosedSpinner = findViewById(R.id.toilet_airflow_windows_closed);
+        toiletClosedSpinnerAdapter = createAdapterAndAssignToSpinner(toiletClosedSpinner);
+
+        flueClosedSpinner = findViewById(R.id.flue_airflow_windows_closed);
+        flueClosedSpinnerAdapter = createAdapterAndAssignToSpinner(flueClosedSpinner);
+
         Switch kitchenAvailableSwitch = (Switch) findViewById(R.id.kitchen_availability);
         kitchenAvailableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // The toggle is enabled
-//                    EditText kitchenDimX = (EditText) findViewById(R.id.kitchen_grid_dimension_1);
-//                    kitchenDimX.setHint("pole wymagane");
-//                    kitchenDimX.requestFocus();
-//                    EditText kitchenDimY = (EditText) findViewById(R.id.kitchen_grid_dimension_2);
-//                    kitchenDimY.setHint("pole wymagane");
                     EditText kitchenMicro = (EditText) findViewById(R.id.kitchen_airflow_microventilation);
                     kitchenMicro.setHint("pole wymagane");
-                    EditText kitchenClosed = (EditText) findViewById(R.id.kitchen_airflow_windows_closed);
-                    kitchenClosed.setHint("pole wymagane");
                     EditText kitchenComments = (EditText) findViewById(R.id.kitchen_comments);
                     kitchenComments.setHint(null);
                 } else {
-                    // The toggle is disabled
-//                    EditText kitchenDimX = (EditText) findViewById(R.id.kitchen_grid_dimension_1);
-//                    kitchenDimX.setHint(null);
-//                    EditText kitchenDimY = (EditText) findViewById(R.id.kitchen_grid_dimension_2);
-//                    kitchenDimY.setHint(null);
                     EditText kitchenMicro = (EditText) findViewById(R.id.kitchen_airflow_microventilation);
                     kitchenMicro.setHint(null);
-                    EditText kitchenClosed = (EditText) findViewById(R.id.kitchen_airflow_windows_closed);
-                    kitchenClosed.setHint(null);
                     EditText kitchenComments = (EditText) findViewById(R.id.kitchen_comments);
                     kitchenComments.setHint("pole wymagane");
                     kitchenComments.requestFocus();
@@ -116,28 +130,13 @@ public class EnterDataActivity extends Activity {
         bathroomAvailableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // The toggle is enabled
-//                    EditText bathDimX = (EditText) findViewById(R.id.bathroom_grid_dimension_1);
-//                    bathDimX.setHint("pole wymagane");
-//                    bathDimX.requestFocus();
-//                    EditText bathDimY = (EditText) findViewById(R.id.bathroom_grid_dimension_2);
-//                    bathDimY.setHint("pole wymagane");
                     EditText bathMicro = (EditText) findViewById(R.id.bathroom_airflow_microventilation);
                     bathMicro.setHint("pole wymagane");
-                    EditText bathClosed = (EditText) findViewById(R.id.bathroom_airflow_windows_closed);
-                    bathClosed.setHint("pole wymagane");
                     EditText bathComments = (EditText) findViewById(R.id.bathroom_comments);
                     bathComments.setHint(null);
                 } else {
-                    // The toggle is disabled
-//                    EditText bathDimX = (EditText) findViewById(R.id.bathroom_grid_dimension_1);
-//                    bathDimX.setHint(null);
-//                    EditText bathDimY = (EditText) findViewById(R.id.bathroom_grid_dimension_2);
-//                    bathDimY.setHint(null);
                     EditText bathMicro = (EditText) findViewById(R.id.bathroom_airflow_microventilation);
                     bathMicro.setHint(null);
-                    EditText bathClosed = (EditText) findViewById(R.id.bathroom_airflow_windows_closed);
-                    bathClosed.setHint(null);
                     EditText bathComments = (EditText) findViewById(R.id.bathroom_comments);
                     bathComments.setHint("pole wymagane");
                     bathComments.requestFocus();
@@ -157,8 +156,6 @@ public class EnterDataActivity extends Activity {
 //                    toiletDimY.setHint("pole wymagane");
                     EditText toiletMicro = (EditText) findViewById(R.id.toilet_airflow_microventilation);
                     toiletMicro.setHint("pole wymagane");
-                    EditText toiletClosed = (EditText) findViewById(R.id.toilet_airflow_windows_closed);
-                    toiletClosed.setHint("pole wymagane");
                     EditText toiletComments = (EditText) findViewById(R.id.toilet_comments);
                     toiletComments.setText(AlertUtils.BLANK);
                 } else {
@@ -170,8 +167,6 @@ public class EnterDataActivity extends Activity {
 //                    toiletDimY.setHint(null);
                     EditText toiletMicro = (EditText) findViewById(R.id.toilet_airflow_microventilation);
                     toiletMicro.setHint(null);
-                    EditText toiletClosed = (EditText) findViewById(R.id.toilet_airflow_windows_closed);
-                    toiletClosed.setHint(null);
                     EditText toiletComments = (EditText) findViewById(R.id.toilet_comments);
                     toiletComments.setText(AlertUtils.LACK);
                     toiletComments.requestFocus();
@@ -185,9 +180,7 @@ public class EnterDataActivity extends Activity {
                     // The toggle is enabled
                     EditText flueMicro = (EditText) findViewById(R.id.flue_airflow_microventilation);
                     flueMicro.setHint("pole wymagane");
-                    EditText flueClosed = (EditText) findViewById(R.id.flue_airflow_windows_closed);
-                    flueClosed.setHint("pole wymagane");
-                    flueClosed.requestFocus();
+                    flueClosedSpinner.requestFocus();
                     EditText flueComments = (EditText) findViewById(R.id.flue_comments);
                     flueComments.setHint(null);
                 } else {
@@ -195,8 +188,6 @@ public class EnterDataActivity extends Activity {
                     EditText flueMicro = (EditText) findViewById(R.id.flue_airflow_microventilation);
                     flueMicro.setHint(null);
                     flueMicro.requestFocus();
-                    EditText flueClosed = (EditText) findViewById(R.id.flue_airflow_windows_closed);
-                    flueClosed.setHint(null);
                     EditText flueComments = (EditText) findViewById(R.id.flue_comments);
                     flueComments.setHint("pole wymagane");
                     flueComments.requestFocus();
@@ -451,8 +442,8 @@ public class EnterDataActivity extends Activity {
                     kitchenGridRoundTextView.setText(Double.toString(protocolEdited.get_kitchen_grid_dimension_round()));
                 }
                 if(Float.compare(protocolEdited.get_kitchen_airflow_windows_closed(), 0.0f)!=0){
-                    TextView kitchenAirflowClosedTextView = (TextView) findViewById(R.id.kitchen_airflow_windows_closed);
-                    kitchenAirflowClosedTextView.setText(Float.toString(protocolEdited.get_kitchen_airflow_windows_closed()));
+                    int selectedItemIndex = kitchenClosedSpinnerAdapter.getPosition(String.format(Locale.US, "%.1f", protocolEdited.get_kitchen_airflow_windows_closed()));
+                    kitchenClosedSpinner.setSelection(selectedItemIndex);
                 }
                 if(Float.compare(protocolEdited.get_kitchen_airflow_microventilation(), 0.0f)!=0){
                     TextView kitchenAirflowMicroTextView = (TextView) findViewById(R.id.kitchen_airflow_microventilation);
@@ -475,8 +466,8 @@ public class EnterDataActivity extends Activity {
                     toiletGridRoundTextView.setText(Double.toString(protocolEdited.get_toilet_grid_dimension_round()));
                 }
                 if(Float.compare(protocolEdited.get_toilet_airflow_windows_closed(), 0.0f)!=0){
-                    TextView toiletAirflowClosedTextView = (TextView) findViewById(R.id.toilet_airflow_windows_closed);
-                    toiletAirflowClosedTextView.setText(Float.toString(protocolEdited.get_toilet_airflow_windows_closed()));
+                    int selectedItemIndex = toiletClosedSpinnerAdapter.getPosition(String.format(Locale.US, "%.1f", protocolEdited.get_toilet_airflow_windows_closed()));
+                    toiletClosedSpinner.setSelection(selectedItemIndex);
                 }
                 if(Float.compare(protocolEdited.get_toilet_airflow_microventilation(), 0.0f)!=0){
                     TextView toiletAirflowMicroTextView = (TextView) findViewById(R.id.toilet_airflow_microventilation);
@@ -499,8 +490,8 @@ public class EnterDataActivity extends Activity {
                     bathGridRoundTextView.setText(Double.toString(protocolEdited.get_bathroom_grid_dimension_round()));
                 }
                 if(Float.compare(protocolEdited.get_bathroom_airflow_windows_closed(), 0.0f)!=0){
-                    TextView bathAirflowClosedTextView = (TextView) findViewById(R.id.bathroom_airflow_windows_closed);
-                    bathAirflowClosedTextView.setText(Float.toString(protocolEdited.get_bathroom_airflow_windows_closed()));
+                    int selectedItemIndex = bathroomClosedSpinnerAdapter.getPosition(String.format(Locale.US, "%.1f", protocolEdited.get_bathroom_airflow_windows_closed()));
+                    bathroomClosedSpinner.setSelection(selectedItemIndex);
                 }
                 if(Float.compare(protocolEdited.get_bathroom_airflow_microventilation(), 0.0f)!=0){
                     TextView bathAirflowMicroTextView = (TextView) findViewById(R.id.bathroom_airflow_microventilation);
@@ -511,8 +502,8 @@ public class EnterDataActivity extends Activity {
                 //flue
                 flueAvailableSwitch.setChecked(protocolEdited.is_flue_enabled());
                 if(Float.compare(protocolEdited.get_flue_airflow_windows_closed(), 0.0f)!=0){
-                    TextView flueAirflowClosedTextView = (TextView) findViewById(R.id.flue_airflow_windows_closed);
-                    flueAirflowClosedTextView.setText(Float.toString(protocolEdited.get_flue_airflow_windows_closed()));
+                    int selectedItemIndex = flueClosedSpinnerAdapter.getPosition(String.format(Locale.US, "%.1f", protocolEdited.get_flue_airflow_windows_closed()));
+                    flueClosedSpinner.setSelection(selectedItemIndex);
                 }
                 if(Float.compare(protocolEdited.get_flue_airflow_microventilation(), 0.0f)!=0){
                     TextView flueAirflowMicroTextView = (TextView) findViewById(R.id.flue_airflow_microventilation);
@@ -546,7 +537,6 @@ public class EnterDataActivity extends Activity {
         }
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -590,8 +580,7 @@ public class EnterDataActivity extends Activity {
         String kitchenGridY = kitchenGridYTextView.getText().toString();
         TextView kitchenGridRoundTextView = (TextView) findViewById(R.id.kitchen_grid_dimension_round);
         String kitchenGridRound = kitchenGridRoundTextView.getText().toString();
-        TextView kitchenAirflowClosedTextView = (TextView) findViewById(R.id.kitchen_airflow_windows_closed);
-        String kitchenAirflowClosed = kitchenAirflowClosedTextView.getText().toString();
+        String kitchenAirflowClosed = kitchenClosedSpinner.getSelectedItem().toString();
         TextView kitchenAirflowMicroTextView = (TextView) findViewById(R.id.kitchen_airflow_microventilation);
         String kitchenAirflowMicro = kitchenAirflowMicroTextView.getText().toString();
         TextView kitchenCommentsTextView = (TextView) findViewById(R.id.kitchen_comments);
@@ -605,8 +594,7 @@ public class EnterDataActivity extends Activity {
         String bathGridY = bathGridYTextView.getText().toString();
         TextView bathGridRoundTextView = (TextView) findViewById(R.id.bathroom_grid_dimension_round);
         String bathGridRound = bathGridRoundTextView.getText().toString();
-        TextView bathAirflowClosedTextView = (TextView) findViewById(R.id.bathroom_airflow_windows_closed);
-        String bathAirflowClosed = bathAirflowClosedTextView.getText().toString();
+        String bathAirflowClosed = bathroomClosedSpinner.getSelectedItem().toString();
         TextView bathAirflowMicroTextView = (TextView) findViewById(R.id.bathroom_airflow_microventilation);
         String bathAirflowMicro = bathAirflowMicroTextView.getText().toString();
         TextView bathroomCommentsTextView = (TextView) findViewById(R.id.bathroom_comments);
@@ -620,8 +608,7 @@ public class EnterDataActivity extends Activity {
         String toiletGridY = toiletGridYTextView.getText().toString();
         TextView toiletGridRoundTextView = (TextView) findViewById(R.id.toilet_grid_dimension_round);
         String toiletGridRound = toiletGridRoundTextView.getText().toString();
-        TextView toiletAirflowClosedTextView = (TextView) findViewById(R.id.toilet_airflow_windows_closed);
-        String toiletAirflowClosed = toiletAirflowClosedTextView.getText().toString();
+        String toiletAirflowClosed = toiletClosedSpinner.getSelectedItem().toString();
         TextView toiletAirflowMicroTextView = (TextView) findViewById(R.id.toilet_airflow_microventilation);
         String toiletAirflowMicro = toiletAirflowMicroTextView.getText().toString();
         TextView toiletCommentsTextView = (TextView) findViewById(R.id.toilet_comments);
@@ -629,8 +616,7 @@ public class EnterDataActivity extends Activity {
 
         Switch flueAvailableSwitch = (Switch) findViewById(R.id.flue_availability);
         boolean flueChecked = flueAvailableSwitch.isChecked();
-        TextView flueAirflowClosedTextView = (TextView) findViewById(R.id.flue_airflow_windows_closed);
-        String flueAirflowClosed = flueAirflowClosedTextView.getText().toString();
+        String flueAirflowClosed = flueClosedSpinner.getSelectedItem().toString();
         TextView flueAirflowMicroTextView = (TextView) findViewById(R.id.flue_airflow_microventilation);
         String flueAirflowMicro = flueAirflowMicroTextView.getText().toString();
         TextView flueCommentsTextView = (TextView) findViewById(R.id.flue_comments);
@@ -983,8 +969,7 @@ public class EnterDataActivity extends Activity {
         String kitchenGridY = kitchenGridYTextView.getText().toString();
         TextView kitchenGridRoundTextView = (TextView) findViewById(R.id.kitchen_grid_dimension_round);
         String kitchenGridRound = kitchenGridRoundTextView.getText().toString();
-        TextView kitchenAirflowClosedTextView = (TextView) findViewById(R.id.kitchen_airflow_windows_closed);
-        String kitchenAirflowClosed = kitchenAirflowClosedTextView.getText().toString();
+        String kitchenAirflowClosed = kitchenClosedSpinner.getSelectedItem().toString();
         TextView kitchenAirflowMicroTextView = (TextView) findViewById(R.id.kitchen_airflow_microventilation);
         String kitchenAirflowMicro = kitchenAirflowMicroTextView.getText().toString();
         TextView kitchenCommentsTextView = (TextView) findViewById(R.id.kitchen_comments);
@@ -998,8 +983,7 @@ public class EnterDataActivity extends Activity {
         String bathGridY = bathGridYTextView.getText().toString();
         TextView bathGridRoundTextView = (TextView) findViewById(R.id.bathroom_grid_dimension_round);
         String bathGridRound = bathGridRoundTextView.getText().toString();
-        TextView bathAirflowClosedTextView = (TextView) findViewById(R.id.bathroom_airflow_windows_closed);
-        String bathAirflowClosed = bathAirflowClosedTextView.getText().toString();
+        String bathAirflowClosed = bathroomClosedSpinner.getSelectedItem().toString();
         TextView bathAirflowMicroTextView = (TextView) findViewById(R.id.bathroom_airflow_microventilation);
         String bathAirflowMicro = bathAirflowMicroTextView.getText().toString();
         TextView bathroomCommentsTextView = (TextView) findViewById(R.id.bathroom_comments);
@@ -1013,8 +997,7 @@ public class EnterDataActivity extends Activity {
         String toiletGridY = toiletGridYTextView.getText().toString();
         TextView toiletGridRoundTextView = (TextView) findViewById(R.id.toilet_grid_dimension_round);
         String toiletGridRound = toiletGridRoundTextView.getText().toString();
-        TextView toiletAirflowClosedTextView = (TextView) findViewById(R.id.toilet_airflow_windows_closed);
-        String toiletAirflowClosed = toiletAirflowClosedTextView.getText().toString();
+        String toiletAirflowClosed = toiletClosedSpinner.getSelectedItem().toString();
         TextView toiletAirflowMicroTextView = (TextView) findViewById(R.id.toilet_airflow_microventilation);
         String toiletAirflowMicro = toiletAirflowMicroTextView.getText().toString();
         TextView toiletCommentsTextView = (TextView) findViewById(R.id.toilet_comments);
@@ -1022,8 +1005,7 @@ public class EnterDataActivity extends Activity {
 
         Switch flueAvailableSwitch = (Switch) findViewById(R.id.flue_availability);
         boolean flueChecked = flueAvailableSwitch.isChecked();
-        TextView flueAirflowClosedTextView = (TextView) findViewById(R.id.flue_airflow_windows_closed);
-        String flueAirflowClosed = flueAirflowClosedTextView.getText().toString();
+        String flueAirflowClosed = flueClosedSpinner.getSelectedItem().toString();
         TextView flueAirflowMicroTextView = (TextView) findViewById(R.id.flue_airflow_microventilation);
         String flueAirflowMicro = flueAirflowMicroTextView.getText().toString();
         TextView flueCommentsTextView = (TextView) findViewById(R.id.flue_comments);
@@ -1252,5 +1234,13 @@ public class EnterDataActivity extends Activity {
         }
         return userComments;
     }
-    
+
+
+    @NonNull
+    private static ArrayAdapter<String> createAdapterAndAssignToSpinner(@NonNull Spinner spinner) {
+        ArrayAdapter<String> adapter = AdapterUtils.createInRangeAdapter(spinner.getContext(), -2.0f, 3.0f, 0.1f);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(adapter.getPosition("0.0"));
+        return adapter;
+    }
 }
