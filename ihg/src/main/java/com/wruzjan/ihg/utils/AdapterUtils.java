@@ -2,7 +2,6 @@ package com.wruzjan.ihg.utils;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -15,15 +14,6 @@ public class AdapterUtils {
         //no-op
     }
 
-    @NonNull
-    public static ArrayAdapter<String> createAdapterAndAssignToSpinner(@NonNull Spinner spinner) {
-        ArrayAdapter<String> adapter = AdapterUtils.createInRangeAdapter(spinner.getContext(), -2.0f, 3.0f, 0.1f);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(adapter.getPosition("0.0"));
-        return adapter;
-    }
-
-    @NonNull
     public static ArrayAdapter<String> createInRangeAdapter(@NonNull Context context, float startValue, float endValue, float step) {
         ArrayList<String> values = new ArrayList<>();
 

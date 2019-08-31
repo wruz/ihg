@@ -126,13 +126,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="@string/airflow_windows_closed" />
-                <Spinner
+                <EditText
                     android:id="@+id/kitchen_airflow_windows_closed"
                     android:inputType="numberDecimal|numberSigned"
                     android:hint="@string/required"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content" >
-                </Spinner>
+                </EditText>
                 <TextView
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
@@ -345,13 +345,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="@string/airflow_windows_closed" />
-                <Spinner
+                <EditText
                     android:id="@+id/toilet_airflow_windows_closed"
                     android:inputType="numberDecimal|numberSigned"
                     android:hint="@string/required"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content" >
-                </Spinner>
+                </EditText>
                 <TextView
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
@@ -560,13 +560,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="@string/airflow_windows_closed" />
-                <Spinner
+                <EditText
                     android:id="@+id/bath_airflow_windows_closed"
                     android:inputType="numberDecimal|numberSigned"
                     android:hint="@string/required"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content" >
-                </Spinner>
+                </EditText>
                 <TextView
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
@@ -710,13 +710,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="@string/airflow_windows_closed" />
-                <Spinner
+                <EditText
                     android:id="@+id/flue_airflow_windows_closed"
                     android:inputType="numberDecimal|numberSigned"
                     android:hint="@string/required"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content" >
-                </Spinner>
+                </EditText>
                 <TextView
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
