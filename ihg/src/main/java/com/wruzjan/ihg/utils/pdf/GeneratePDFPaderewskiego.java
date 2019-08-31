@@ -370,17 +370,18 @@ public class GeneratePDFPaderewskiego {
         }
         str_path = str_path + "/" + address.getStreet().trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
         boolean success = (new File(str_path).mkdirs());
-        str_path = str_path + "/" + address.getStreet().trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()) + ".pdf";
+        str_path = str_path + "/" + address.getStreet().trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
 
+        String pdfExtension = ".pdf";
         String numberOfCopy = "";
         int i = 0;
 
-        while((new File(str_path + numberOfCopy).exists())) {
+        while((new File(str_path + numberOfCopy + pdfExtension).exists())) {
             i++;
             numberOfCopy = "(" + i + ")";
         }
 
-        str_path = str_path + numberOfCopy;
+        str_path = str_path + numberOfCopy + pdfExtension;
 
         PdfReader reader;
         PdfStamper stamper;
