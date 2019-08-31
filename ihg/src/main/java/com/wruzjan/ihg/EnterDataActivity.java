@@ -97,16 +97,16 @@ public class EnterDataActivity extends Activity {
         });
 
         kitchenClosedSpinner = findViewById(R.id.kitchen_airflow_windows_closed);
-        kitchenClosedSpinnerAdapter = createAdapterAndAssignToSpinner(kitchenClosedSpinner);
+        kitchenClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(kitchenClosedSpinner);
 
         bathroomClosedSpinner = findViewById(R.id.bathroom_airflow_windows_closed);
-        bathroomClosedSpinnerAdapter = createAdapterAndAssignToSpinner(bathroomClosedSpinner);
+        bathroomClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(bathroomClosedSpinner);
 
         toiletClosedSpinner = findViewById(R.id.toilet_airflow_windows_closed);
-        toiletClosedSpinnerAdapter = createAdapterAndAssignToSpinner(toiletClosedSpinner);
+        toiletClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(toiletClosedSpinner);
 
         flueClosedSpinner = findViewById(R.id.flue_airflow_windows_closed);
-        flueClosedSpinnerAdapter = createAdapterAndAssignToSpinner(flueClosedSpinner);
+        flueClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(flueClosedSpinner);
 
         Switch kitchenAvailableSwitch = (Switch) findViewById(R.id.kitchen_availability);
         kitchenAvailableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -442,8 +442,7 @@ public class EnterDataActivity extends Activity {
                     kitchenGridRoundTextView.setText(Double.toString(protocolEdited.get_kitchen_grid_dimension_round()));
                 }
                 if(Float.compare(protocolEdited.get_kitchen_airflow_windows_closed(), 0.0f)!=0){
-                    int selectedItemIndex = kitchenClosedSpinnerAdapter.getPosition(String.format(Locale.US, "%.1f", protocolEdited.get_kitchen_airflow_windows_closed()));
-                    kitchenClosedSpinner.setSelection(selectedItemIndex);
+                    AdapterUtils.setItemToSpinner(kitchenClosedSpinner, kitchenClosedSpinnerAdapter, protocolEdited.get_kitchen_airflow_windows_closed());
                 }
                 if(Float.compare(protocolEdited.get_kitchen_airflow_microventilation(), 0.0f)!=0){
                     TextView kitchenAirflowMicroTextView = (TextView) findViewById(R.id.kitchen_airflow_microventilation);
@@ -466,8 +465,7 @@ public class EnterDataActivity extends Activity {
                     toiletGridRoundTextView.setText(Double.toString(protocolEdited.get_toilet_grid_dimension_round()));
                 }
                 if(Float.compare(protocolEdited.get_toilet_airflow_windows_closed(), 0.0f)!=0){
-                    int selectedItemIndex = toiletClosedSpinnerAdapter.getPosition(String.format(Locale.US, "%.1f", protocolEdited.get_toilet_airflow_windows_closed()));
-                    toiletClosedSpinner.setSelection(selectedItemIndex);
+                    AdapterUtils.setItemToSpinner(toiletClosedSpinner, toiletClosedSpinnerAdapter, protocolEdited.get_toilet_airflow_windows_closed());
                 }
                 if(Float.compare(protocolEdited.get_toilet_airflow_microventilation(), 0.0f)!=0){
                     TextView toiletAirflowMicroTextView = (TextView) findViewById(R.id.toilet_airflow_microventilation);
@@ -490,8 +488,7 @@ public class EnterDataActivity extends Activity {
                     bathGridRoundTextView.setText(Double.toString(protocolEdited.get_bathroom_grid_dimension_round()));
                 }
                 if(Float.compare(protocolEdited.get_bathroom_airflow_windows_closed(), 0.0f)!=0){
-                    int selectedItemIndex = bathroomClosedSpinnerAdapter.getPosition(String.format(Locale.US, "%.1f", protocolEdited.get_bathroom_airflow_windows_closed()));
-                    bathroomClosedSpinner.setSelection(selectedItemIndex);
+                    AdapterUtils.setItemToSpinner(bathroomClosedSpinner, bathroomClosedSpinnerAdapter, protocolEdited.get_bathroom_airflow_windows_closed());
                 }
                 if(Float.compare(protocolEdited.get_bathroom_airflow_microventilation(), 0.0f)!=0){
                     TextView bathAirflowMicroTextView = (TextView) findViewById(R.id.bathroom_airflow_microventilation);
@@ -502,8 +499,7 @@ public class EnterDataActivity extends Activity {
                 //flue
                 flueAvailableSwitch.setChecked(protocolEdited.is_flue_enabled());
                 if(Float.compare(protocolEdited.get_flue_airflow_windows_closed(), 0.0f)!=0){
-                    int selectedItemIndex = flueClosedSpinnerAdapter.getPosition(String.format(Locale.US, "%.1f", protocolEdited.get_flue_airflow_windows_closed()));
-                    flueClosedSpinner.setSelection(selectedItemIndex);
+                    AdapterUtils.setItemToSpinner(flueClosedSpinner, flueClosedSpinnerAdapter, protocolEdited.get_flue_airflow_windows_closed());;
                 }
                 if(Float.compare(protocolEdited.get_flue_airflow_microventilation(), 0.0f)!=0){
                     TextView flueAirflowMicroTextView = (TextView) findViewById(R.id.flue_airflow_microventilation);
@@ -1233,14 +1229,5 @@ public class EnterDataActivity extends Activity {
             userComments = userComments.replace(comment, "");
         }
         return userComments;
-    }
-
-
-    @NonNull
-    private static ArrayAdapter<String> createAdapterAndAssignToSpinner(@NonNull Spinner spinner) {
-        ArrayAdapter<String> adapter = AdapterUtils.createInRangeAdapter(spinner.getContext(), -2.0f, 3.0f, 0.1f);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(adapter.getPosition("0.0"));
-        return adapter;
     }
 }
