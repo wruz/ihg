@@ -33,10 +33,10 @@ public class AdapterUtils {
     }
 
     @NonNull
-    public static ArrayAdapter<String> createAdapterAndAssignToSpinner(@NonNull Spinner spinner) {
+    public static ArrayAdapter<String> createAdapterAndAssignToSpinner(@NonNull Spinner spinner, @NonNull String value) {
         ArrayAdapter<String> adapter = AdapterUtils.createInRangeAdapter(spinner.getContext(), -2.0f, 3.0f, 0.1f);
         spinner.setAdapter(adapter);
-        spinner.setSelection(adapter.getPosition("0.0"));
+        spinner.setSelection(adapter.getPosition(value));
         return adapter;
     }
 }
