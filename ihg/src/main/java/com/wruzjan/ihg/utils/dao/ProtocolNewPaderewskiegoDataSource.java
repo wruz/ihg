@@ -213,7 +213,7 @@ public class ProtocolNewPaderewskiegoDataSource {
         ProtocolNewPaderewskiego protocol = new ProtocolNewPaderewskiego();
         protocol.set_id(cursor.getInt(0));
         protocol.set_address_id(Integer.parseInt(cursor.getString(1)));
-        protocol.set_created(cursor.getString(40));
+        protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));
         return protocol;
     }
 
