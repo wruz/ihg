@@ -80,16 +80,16 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         protocolNewPaderewskiegoDataSource.open();
 
         kitchenClosedSpinner = findViewById(R.id.kitchen_airflow_windows_closed);
-        kitchenClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(kitchenClosedSpinner);
+        kitchenClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(kitchenClosedSpinner, "0.0");
 
         bathroomClosedSpinner = findViewById(R.id.bathroom_airflow_windows_closed);
-        bathroomClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(bathroomClosedSpinner);
+        bathroomClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(bathroomClosedSpinner, "0.0");
 
         toiletClosedSpinner = findViewById(R.id.toilet_airflow_windows_closed);
-        toiletClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(toiletClosedSpinner);
+        toiletClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(toiletClosedSpinner, "0.0");
 
         flueClosedSpinner = findViewById(R.id.flue_airflow_windows_closed);
-        flueClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(flueClosedSpinner);
+        flueClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(flueClosedSpinner, "0.0");
 
         CheckBox gasFittingsCheck = (CheckBox) findViewById(R.id.is_gas_fittings);
         gasFittingsCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

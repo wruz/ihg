@@ -151,13 +151,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/airflow_microventilation" />
-            <EditText
+            <Spinner
                 android:id="@+id/kitchen_airflow_microventilation"
                 android:inputType="numberDecimal|numberSigned"
                 android:hint="@string/required"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content" >
-            </EditText>
+            </Spinner>
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
@@ -314,13 +314,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/airflow_microventilation" />
-            <EditText
+            <Spinner
                 android:id="@+id/bathroom_airflow_microventilation"
                 android:inputType="numberDecimal|numberSigned"
                 android:hint="@string/required"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content" >
-            </EditText>
+            </Spinner>
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
@@ -477,13 +477,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/airflow_microventilation" />
-            <EditText
+            <Spinner
                 android:id="@+id/toilet_airflow_microventilation"
                 android:inputType="numberDecimal|numberSigned"
                 android:hint="@string/required"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content" >
-            </EditText>
+            </Spinner>
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
@@ -575,13 +575,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/airflow_microventilation" />
-            <EditText
+            <Spinner
                 android:id="@+id/flue_airflow_microventilation"
                 android:inputType="numberDecimal|numberSigned"
                 android:hint="@string/required"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content" >
-            </EditText>
+            </Spinner>
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
