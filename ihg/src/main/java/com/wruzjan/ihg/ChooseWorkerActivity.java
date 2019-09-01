@@ -1,10 +1,10 @@
 package com.wruzjan.ihg;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Activity;
 import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
@@ -14,13 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.StringUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.model.Address;
+import com.wruzjan.ihg.utils.model.Protocol;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class ChooseWorkerActivity extends Activity {
 
@@ -31,6 +35,11 @@ public class ChooseWorkerActivity extends Activity {
     private int protocolId;
     private boolean editFlag;
 
+    private ProtocolDataSource protocolDataSource;
+
+    private TextView tempInsideTextView;
+    private TextView tempOutsideTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +47,12 @@ public class ChooseWorkerActivity extends Activity {
 
         datasource = new AddressDataSource(this);
         datasource.open();
+
+        protocolDataSource = new ProtocolDataSource(this);
+        protocolDataSource.open();
+
+        tempInsideTextView = findViewById(R.id.temp_inside);
+        tempOutsideTextView = findViewById(R.id.temp_outside);
 
         Spinner spinner = (Spinner) findViewById(R.id.workers_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -56,6 +71,11 @@ public class ChooseWorkerActivity extends Activity {
             addressId = intent.getIntExtra(Utils.ADDRESS_ID, -1);
             protocolId = intent.getIntExtra(Utils.PROTOCOL_ID, -1);
             editFlag = intent.getBooleanExtra(Utils.EDIT_FLAG, false);
+
+            // TODO - przenieść do AsyncTaska
+            Protocol protocol = protocolDataSource.getSiemianowiceProtocolsById(protocolId);
+            tempInsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_inside()));
+            tempOutsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_outside()));
         } else {
             //get address
             if(intent.hasExtra(Utils.ADDRESS_ID)){
@@ -107,9 +127,7 @@ public class ChooseWorkerActivity extends Activity {
         Spinner workersSpinner = (Spinner) findViewById(R.id.workers_spinner);
         String worker = (String) workersSpinner.getSelectedItem();
         //get temperatures
-        TextView tempInsideTextView = (TextView) findViewById(R.id.temp_inside);
         String tempInside = tempInsideTextView.getText().toString();
-        TextView tempOutsideTextView = (TextView) findViewById(R.id.temp_outside);
         String tempOutside = tempOutsideTextView.getText().toString();
         //keep worker name and start EnterKitchenDataActivity
 
@@ -146,6 +164,7 @@ public class ChooseWorkerActivity extends Activity {
     @Override
     protected void onPause() {
         datasource.close();
+        protocolDataSource.close();
         super.onPause();
 
     }
@@ -153,6 +172,7 @@ public class ChooseWorkerActivity extends Activity {
     @Override
     protected void onResume() {
         datasource.open();
+        protocolDataSource.open();
         super.onResume();
     }
 }
