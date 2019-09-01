@@ -772,7 +772,7 @@ public class EnterDataActivity extends Activity {
         GeneratePDF pdfGenerator = new GeneratePDF();
         try {
             PROTOCOL = protocol;
-            pdfFilePath = pdfGenerator.generatePdf(address, protocol, false);
+            pdfFilePath = pdfGenerator.generatePdf(address, protocol);
 
             //      save in database
             protocolDataSource.insertProtocolSiemianowice(protocol);
@@ -785,71 +785,21 @@ public class EnterDataActivity extends Activity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
 
-            Button sendButton =(Button)findViewById(R.id.send_button);
+            Button sendButton = (Button) findViewById(R.id.send_button);
             sendButton.setEnabled(true);
 
-            Button dropboxButton =(Button)findViewById(R.id.dropbox_button);
+            Button dropboxButton = (Button) findViewById(R.id.dropbox_button);
             dropboxButton.setEnabled(true);
-
         } catch (Exception e) {
-            //dialog
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                    EnterDataActivity.this);
-            alertDialogBuilder.setTitle(e.getMessage());
+            Context context = getApplicationContext();
+            e.printStackTrace();
+            Log.d("IGH_DEBUG", e.toString());
+            CharSequence text = String.format("Zapis pliku się nie udał: %s", e.getMessage());
+            int duration = Toast.LENGTH_LONG;
 
-            alertDialogBuilder
-                    .setCancelable(false)
-                    .setNegativeButton("anuluj", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // cancel dialog
-                            dialog.cancel();
-                        }
-                    })
-                    .setPositiveButton("nadpisz plik", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // save anyway
-                            try{
-                                GeneratePDF pdfGenerator = new GeneratePDF();
-                                pdfFilePath = pdfGenerator.generatePdf(address, PROTOCOL, true);
-
-                                //      save in database
-                                protocolDataSource.insertProtocolSiemianowice(PROTOCOL);
-                                protocolSaved = true;
-
-                                Context context = getApplicationContext();
-                                CharSequence text = String.format("Plik został poprawnie zapisany w pamięci urządzenia");
-                                int duration = Toast.LENGTH_SHORT;
-
-                                Toast toast = Toast.makeText(context, text, duration);
-                                toast.show();
-
-                                Button sendButton =(Button)findViewById(R.id.send_button);
-                                sendButton.setEnabled(true);
-
-                                Button dropboxButton =(Button)findViewById(R.id.dropbox_button);
-                                dropboxButton.setEnabled(true);
-                            } catch (Exception e){
-                                Context context = getApplicationContext();
-                                e.printStackTrace();
-                                Log.d("IGH_DEBUG", e.toString());
-                                CharSequence text = String.format("Zapis pliku się nie udał: %s", e.getMessage());
-                                int duration = Toast.LENGTH_LONG;
-
-                                Toast toast = Toast.makeText(context, text, duration);
-                                toast.show();
-                            }
-
-                        }
-                    });
-
-            // create alert dialog
-            AlertDialog alertDialog = alertDialogBuilder.create();
-
-            // show it
-            alertDialog.show();
-
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
-
     }
 
     public void sendMail(View view) {

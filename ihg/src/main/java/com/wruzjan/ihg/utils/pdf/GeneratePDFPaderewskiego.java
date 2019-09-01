@@ -360,7 +360,7 @@ public class GeneratePDFPaderewskiego {
 
     }
 
-    public String generatePdf(Address address, ProtocolPaderewskiego protocol, boolean forceSave) throws Exception {
+    public String generatePdf(Address address, ProtocolPaderewskiego protocol) throws Exception {
 
         String str_path = Environment.getExternalStorageDirectory().toString() + "/IHG/" + address.getCity() + "/";
         if (address.getDistrinct().isEmpty()) {
@@ -370,17 +370,18 @@ public class GeneratePDFPaderewskiego {
         }
         str_path = str_path + "/" + address.getStreet().trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
         boolean success = (new File(str_path).mkdirs());
-        str_path = str_path + "/" + address.getStreet().trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()) + ".pdf";
+        str_path = str_path + "/" + address.getStreet().trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
 
-        //prevent from override files
-        if(!forceSave){
-            if(new File(str_path).exists()){
-                throw new Exception("próba nadpisania pliku dla adresu: "+address.getCity()+", "
-                        +address.getStreet()+" "
-                        +address.getBuilding()+"/"
-                        +address.getFlat());
-            }
+        String pdfExtension = ".pdf";
+        String numberOfCopy = "";
+        int i = 0;
+
+        while((new File(str_path + numberOfCopy + pdfExtension).exists())) {
+            i++;
+            numberOfCopy = "(" + i + ")";
         }
+
+        str_path = str_path + numberOfCopy + pdfExtension;
 
         PdfReader reader;
         PdfStamper stamper;
