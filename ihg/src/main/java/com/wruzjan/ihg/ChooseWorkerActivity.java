@@ -20,11 +20,14 @@ import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.Protocol;
+import com.wruzjan.ihg.utils.threading.GetSiemanowiceByProtocolIdAsyncTask;
+import com.wruzjan.ihg.utils.view.ProgressLayout;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
+
+import androidx.annotation.NonNull;
 
 public class ChooseWorkerActivity extends Activity {
 
@@ -39,6 +42,9 @@ public class ChooseWorkerActivity extends Activity {
 
     private TextView tempInsideTextView;
     private TextView tempOutsideTextView;
+    private ProgressLayout progressLayout;
+
+    private GetSiemanowiceByProtocolIdAsyncTask getSiemanowiceByProtocolIdAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +57,12 @@ public class ChooseWorkerActivity extends Activity {
         protocolDataSource = new ProtocolDataSource(this);
         protocolDataSource.open();
 
+        getSiemanowiceByProtocolIdAsyncTask = new GetSiemanowiceByProtocolIdAsyncTask(protocolDataSource);
+        getSiemanowiceByProtocolIdAsyncTask.setUiListener(updateTemperatureListener());
+
         tempInsideTextView = findViewById(R.id.temp_inside);
         tempOutsideTextView = findViewById(R.id.temp_outside);
+        progressLayout = findViewById(R.id.progress);
 
         Spinner spinner = (Spinner) findViewById(R.id.workers_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -72,10 +82,8 @@ public class ChooseWorkerActivity extends Activity {
             protocolId = intent.getIntExtra(Utils.PROTOCOL_ID, -1);
             editFlag = intent.getBooleanExtra(Utils.EDIT_FLAG, false);
 
-            // TODO - przenieść do AsyncTaska
-            Protocol protocol = protocolDataSource.getSiemianowiceProtocolsById(protocolId);
-            tempInsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_inside()));
-            tempOutsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_outside()));
+            progressLayout.setVisibility(View.VISIBLE);
+            getSiemanowiceByProtocolIdAsyncTask.execute(protocolId);
         } else {
             //get address
             if(intent.hasExtra(Utils.ADDRESS_ID)){
@@ -165,8 +173,9 @@ public class ChooseWorkerActivity extends Activity {
     protected void onPause() {
         datasource.close();
         protocolDataSource.close();
+        getSiemanowiceByProtocolIdAsyncTask.setUiListener(null);
+        getSiemanowiceByProtocolIdAsyncTask.cancel(true);
         super.onPause();
-
     }
 
     @Override
@@ -174,5 +183,16 @@ public class ChooseWorkerActivity extends Activity {
         datasource.open();
         protocolDataSource.open();
         super.onResume();
+    }
+
+    private GetSiemanowiceByProtocolIdAsyncTask.UiListener<Protocol> updateTemperatureListener() {
+        return new GetSiemanowiceByProtocolIdAsyncTask.UiListener<Protocol>() {
+            @Override
+            public void onPostExecute(@NonNull Protocol protocol) {
+                progressLayout.setVisibility(View.GONE);
+                tempInsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_inside()));
+                tempOutsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_outside()));
+            }
+        };
     }
 }
