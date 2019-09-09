@@ -757,14 +757,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gas_cooker"/>
+
             <Switch
                 android:id="@+id/gas_cooker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
                 android:checked="true"
-                android:textOn="@string/working_z"
-                android:textOff="@string/not_working_z"
-                android:layout_marginBottom="20dip" />
+                android:textOff="@string/leaky_z"
+                android:textOn="@string/tight_z" />
 
         </LinearLayout>
 
@@ -777,14 +778,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bathroom_bake"/>
+
             <Switch
                 android:id="@+id/bathroom_bake"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
                 android:checked="true"
-                android:textOn="@string/working_m"
-                android:textOff="@string/not_working_m"
-                android:layout_marginBottom="20dip" />
+                android:textOff="@string/leaky_m"
+                android:textOn="@string/tight_m" />
         </LinearLayout>
 
         <LinearLayout

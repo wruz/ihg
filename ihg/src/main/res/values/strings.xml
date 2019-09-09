@@ -22,6 +22,10 @@
     <string name="not_working_z">niesprawna</string>
     <string name="working_m">sprawny</string>
     <string name="not_working_m">niesprawny</string>
+    <string name="leaky_z">nieszczelna</string>
+    <string name="tight_z">szczelna</string>
+    <string name="leaky_m">nieszczelny</string>
+    <string name="tight_m">szczelny</string>
     <string name="comments">uwagi</string>
     <string name="celcius_degrees">°C</string>
     <string name="telephone">numer telefonu</string>
