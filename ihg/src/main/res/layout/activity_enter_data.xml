@@ -61,12 +61,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/grid_dimension" />
+
             <EditText
                 android:id="@+id/kitchen_grid_dimension_1"
-                android:inputType="numberDecimal"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content" >
-            </EditText>
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="14"></EditText>
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
@@ -78,12 +79,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/mutiply" />
+
             <EditText
                 android:id="@+id/kitchen_grid_dimension_2"
-                android:inputType="numberDecimal"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content" >
-            </EditText>
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="14"></EditText>
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
@@ -224,12 +226,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/grid_dimension" />
+
             <EditText
                 android:id="@+id/bathroom_grid_dimension_1"
-                android:inputType="numberDecimal"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content" >
-            </EditText>
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="14"></EditText>
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
@@ -241,12 +244,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/mutiply" />
+
             <EditText
                 android:id="@+id/bathroom_grid_dimension_2"
-                android:inputType="numberDecimal"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content" >
-            </EditText>
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="14"></EditText>
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
@@ -387,12 +391,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/grid_dimension" />
+
             <EditText
                 android:id="@+id/toilet_grid_dimension_1"
-                android:inputType="numberDecimal"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content" >
-            </EditText>
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="14"></EditText>
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
@@ -404,12 +409,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/mutiply" />
+
             <EditText
                 android:id="@+id/toilet_grid_dimension_2"
-                android:inputType="numberDecimal"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content" >
-            </EditText>
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="14"></EditText>
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
