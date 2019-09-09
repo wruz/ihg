@@ -1,10 +1,10 @@
 package com.wruzjan.ihg;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Activity;
 import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
@@ -14,13 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.StringUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.model.Address;
+import com.wruzjan.ihg.utils.model.Protocol;
+import com.wruzjan.ihg.utils.threading.GetSiemanowiceByProtocolIdAsyncTask;
+import com.wruzjan.ihg.utils.view.ProgressLayout;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import androidx.annotation.NonNull;
 
 public class ChooseWorkerActivity extends Activity {
 
@@ -31,6 +38,14 @@ public class ChooseWorkerActivity extends Activity {
     private int protocolId;
     private boolean editFlag;
 
+    private ProtocolDataSource protocolDataSource;
+
+    private TextView tempInsideTextView;
+    private TextView tempOutsideTextView;
+    private ProgressLayout progressLayout;
+
+    private GetSiemanowiceByProtocolIdAsyncTask getSiemanowiceByProtocolIdAsyncTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +53,16 @@ public class ChooseWorkerActivity extends Activity {
 
         datasource = new AddressDataSource(this);
         datasource.open();
+
+        protocolDataSource = new ProtocolDataSource(this);
+        protocolDataSource.open();
+
+        getSiemanowiceByProtocolIdAsyncTask = new GetSiemanowiceByProtocolIdAsyncTask(protocolDataSource);
+        getSiemanowiceByProtocolIdAsyncTask.setUiListener(updateTemperatureListener());
+
+        tempInsideTextView = findViewById(R.id.temp_inside);
+        tempOutsideTextView = findViewById(R.id.temp_outside);
+        progressLayout = findViewById(R.id.progress);
 
         Spinner spinner = (Spinner) findViewById(R.id.workers_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -56,6 +81,9 @@ public class ChooseWorkerActivity extends Activity {
             addressId = intent.getIntExtra(Utils.ADDRESS_ID, -1);
             protocolId = intent.getIntExtra(Utils.PROTOCOL_ID, -1);
             editFlag = intent.getBooleanExtra(Utils.EDIT_FLAG, false);
+
+            progressLayout.setVisibility(View.VISIBLE);
+            getSiemanowiceByProtocolIdAsyncTask.execute(protocolId);
         } else {
             //get address
             if(intent.hasExtra(Utils.ADDRESS_ID)){
@@ -107,9 +135,7 @@ public class ChooseWorkerActivity extends Activity {
         Spinner workersSpinner = (Spinner) findViewById(R.id.workers_spinner);
         String worker = (String) workersSpinner.getSelectedItem();
         //get temperatures
-        TextView tempInsideTextView = (TextView) findViewById(R.id.temp_inside);
         String tempInside = tempInsideTextView.getText().toString();
-        TextView tempOutsideTextView = (TextView) findViewById(R.id.temp_outside);
         String tempOutside = tempOutsideTextView.getText().toString();
         //keep worker name and start EnterKitchenDataActivity
 
@@ -146,13 +172,27 @@ public class ChooseWorkerActivity extends Activity {
     @Override
     protected void onPause() {
         datasource.close();
+        protocolDataSource.close();
+        getSiemanowiceByProtocolIdAsyncTask.setUiListener(null);
+        getSiemanowiceByProtocolIdAsyncTask.cancel(true);
         super.onPause();
-
     }
 
     @Override
     protected void onResume() {
         datasource.open();
+        protocolDataSource.open();
         super.onResume();
+    }
+
+    private GetSiemanowiceByProtocolIdAsyncTask.UiListener<Protocol> updateTemperatureListener() {
+        return new GetSiemanowiceByProtocolIdAsyncTask.UiListener<Protocol>() {
+            @Override
+            public void onPostExecute(@NonNull Protocol protocol) {
+                progressLayout.setVisibility(View.GONE);
+                tempInsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_inside()));
+                tempOutsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_outside()));
+            }
+        };
     }
 }
