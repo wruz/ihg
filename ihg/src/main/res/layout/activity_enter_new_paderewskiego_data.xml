@@ -178,13 +178,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/cleaning" />
+
             <Switch
                 android:id="@+id/kitchen_clean"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:textOn="@string/yes"
-                android:textOff="@string/no" />
+                android:checked="false"
+                android:textOff="@string/no"
+                android:textOn="@string/yes" />
         </LinearLayout>
 
         <LinearLayout
@@ -362,13 +363,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/cleaning" />
+
             <Switch
                 android:id="@+id/bath_clean"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:textOn="@string/yes"
-                android:textOff="@string/no" />
+                android:checked="false"
+                android:textOff="@string/no"
+                android:textOn="@string/yes" />
         </LinearLayout>
 
         <LinearLayout
@@ -546,13 +548,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/cleaning" />
+
             <Switch
                 android:id="@+id/toilet_clean"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:textOn="@string/yes"
-                android:textOff="@string/no" />
+                android:checked="false"
+                android:textOff="@string/no"
+                android:textOn="@string/yes" />
         </LinearLayout>
 
         <LinearLayout
