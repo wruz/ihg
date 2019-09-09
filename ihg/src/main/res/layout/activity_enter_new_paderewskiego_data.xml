@@ -708,19 +708,23 @@
             android:id="@+id/linearLayout1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <CheckBox android:id="@+id/is_gas_fittings"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/is_gas_fittings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/gas_fittings"/>
+                android:checked="true"
+                android:text="@string/gas_fittings" />
+
             <Switch
                 android:id="@+id/gas_fittings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
                 android:checked="true"
-                android:textOn="@string/working_z"
                 android:textOff="@string/not_working_z"
-                android:layout_marginBottom="20dip" />
+                android:textOn="@string/working_z" />
 
         </LinearLayout>
 
