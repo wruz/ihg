@@ -45,6 +45,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import androidx.core.content.FileProvider;
+
 public class EnterDataNewPaderewskiegoActivity extends Activity {
 
     private static ArrayList<String> PRINTER_MACS = new ArrayList<String>();
@@ -848,7 +850,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     }
 
     public void sendMail(View view) {
-        Uri uri = Uri.fromFile(new File(pdfFilePath));
+        Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(pdfFilePath));
 
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
@@ -875,7 +877,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     }
 
     public void dropbox(View view) {
-        Uri uri = Uri.fromFile(new File(pdfFilePath));
+        Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(pdfFilePath));
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");

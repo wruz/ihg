@@ -39,6 +39,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import androidx.core.content.FileProvider;
+
 public class EnterData2Activity extends Activity {
 
     private AddressDataSource addressDataSource;
@@ -1659,7 +1661,7 @@ public class EnterData2Activity extends Activity {
     }
 
     public void sendMail(View view) {
-        Uri uri = Uri.fromFile(new File(pdfFilePath));
+        Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(pdfFilePath));
 
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
@@ -1686,7 +1688,7 @@ public class EnterData2Activity extends Activity {
     }
 
     public void dropbox(View view) {
-        Uri uri = Uri.fromFile(new File(pdfFilePath));
+        Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(pdfFilePath));
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
