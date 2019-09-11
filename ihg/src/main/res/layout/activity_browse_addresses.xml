@@ -128,12 +128,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="generateDailyReportSiemianowice"
                 android:text="@string/generate_daily_report_siemanowice" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="generateDailyReportNewPaderewskiego"
                 android:text="@string/generate_daily_report_nowy_paderewskiego" />
 
         </LinearLayout>

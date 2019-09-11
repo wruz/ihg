@@ -1,78 +1,55 @@
 package com.wruzjan.ihg.utils.model;
 
-import com.opencsv.bean.CsvBindByPosition;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class DailyReportCsvBean {
+public class DailyReport {
 
-    @CsvBindByPosition(position = 0)
-    @NonNull
+    @Nullable
     private final String locatorId;
-    @CsvBindByPosition(position = 1)
     @NonNull
     private final String street;
-    @CsvBindByPosition(position = 2)
     @NonNull
     private final String houseNumber;
-    @CsvBindByPosition(position = 3)
     @Nullable
     private final String flatNumber;
-    @CsvBindByPosition(position = 4)
     @NonNull
     private final String city;
-    @CsvBindByPosition(position = 5)
     @NonNull
     private final String inspectionDate;
-    @CsvBindByPosition(position = 6)
     @Nullable
     private final String previousInspectionDate;
-    @CsvBindByPosition(position = 7)
     @NonNull
     private final String kitchen;
-    @CsvBindByPosition(position = 8)
     @Nullable
     private final String kitchenComments;
-    @CsvBindByPosition(position = 9)
     @NonNull
     private final String bathroom;
-    @CsvBindByPosition(position = 10)
     @Nullable
     private final String bathroomComments;
-    @CsvBindByPosition(position = 11)
     @NonNull
     private final String toilet;
-    @CsvBindByPosition(position = 12)
     @Nullable
     private final String toiletComments;
-    @CsvBindByPosition(position = 13)
     @NonNull
     private final String flue;
-    @CsvBindByPosition(position = 14)
     @Nullable
     private final String flueComments;
-    @CsvBindByPosition(position = 15)
     @NonNull
     private final String gas;
-    @CsvBindByPosition(position = 16)
     @Nullable
     private final String gasComments;
-    @CsvBindByPosition(position = 17)
     @Nullable
     private final String co2;
-    @CsvBindByPosition(position = 18)
     @Nullable
     private final String commentsForUser;
-    @CsvBindByPosition(position = 19)
     @Nullable
     private final String commentsForManager;
-    @CsvBindByPosition(position = 20)
     @Nullable
     private final String smComments;
 
-    private DailyReportCsvBean(
-            @NonNull String locatorId,
+    private DailyReport(
+            @Nullable String locatorId,
             @NonNull String street,
             @NonNull String houseNumber,
             @Nullable String flatNumber,
@@ -116,6 +93,110 @@ public class DailyReportCsvBean {
         this.smComments = smComments;
     }
 
+    @Nullable
+    public String getLocatorId() {
+        return locatorId;
+    }
+
+    @NonNull
+    public String getStreet() {
+        return street;
+    }
+
+    @NonNull
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    @Nullable
+    public String getFlatNumber() {
+        return flatNumber;
+    }
+
+    @NonNull
+    public String getCity() {
+        return city;
+    }
+
+    @NonNull
+    public String getInspectionDate() {
+        return inspectionDate;
+    }
+
+    @Nullable
+    public String getPreviousInspectionDate() {
+        return previousInspectionDate;
+    }
+
+    @NonNull
+    public String getKitchen() {
+        return kitchen;
+    }
+
+    @Nullable
+    public String getKitchenComments() {
+        return kitchenComments;
+    }
+
+    @NonNull
+    public String getBathroom() {
+        return bathroom;
+    }
+
+    @Nullable
+    public String getBathroomComments() {
+        return bathroomComments;
+    }
+
+    @NonNull
+    public String getToilet() {
+        return toilet;
+    }
+
+    @Nullable
+    public String getToiletComments() {
+        return toiletComments;
+    }
+
+    @NonNull
+    public String getFlue() {
+        return flue;
+    }
+
+    @Nullable
+    public String getFlueComments() {
+        return flueComments;
+    }
+
+    @NonNull
+    public String getGas() {
+        return gas;
+    }
+
+    @Nullable
+    public String getGasComments() {
+        return gasComments;
+    }
+
+    @Nullable
+    public String getCo2() {
+        return co2;
+    }
+
+    @Nullable
+    public String getCommentsForUser() {
+        return commentsForUser;
+    }
+
+    @Nullable
+    public String getCommentsForManager() {
+        return commentsForManager;
+    }
+
+    @Nullable
+    public String getSmComments() {
+        return smComments;
+    }
 
     public static final class Builder {
         private String locatorId;
@@ -252,8 +333,8 @@ public class DailyReportCsvBean {
             return this;
         }
 
-        public DailyReportCsvBean build() {
-            return new DailyReportCsvBean(locatorId, street, houseNumber, flatNumber, city, inspectionDate, previousInspectionDate, kitchen, kitchenComments, bathroom, bathroomComments, toilet, toiletComments, flue, flueComments, gas, gasComments, co2, commentsForUser, commentsForManager, smComments);
+        public DailyReport build() {
+            return new DailyReport(locatorId, street, houseNumber, flatNumber, city, inspectionDate, previousInspectionDate, kitchen, kitchenComments, bathroom, bathroomComments, toilet, toiletComments, flue, flueComments, gas, gasComments, co2, commentsForUser, commentsForManager, smComments);
         }
     }
 }

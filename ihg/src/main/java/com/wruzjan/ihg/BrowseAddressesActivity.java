@@ -1,7 +1,6 @@
 package com.wruzjan.ihg;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,11 +28,14 @@ import com.wruzjan.ihg.utils.model.Address;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-public class BrowseAddressesActivity extends Activity {
+public class BrowseAddressesActivity extends AppCompatActivity {
 
+    public static final String DAILY_REPORT_SIEMANOWICE_FRAGMENT = "DAILY_REPORT_SIEMANOWICE_FRAGMENT";
     private AddressDataSource datasource;
     private ProtocolDataSource protocolDataSource;
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
@@ -360,6 +362,18 @@ public class BrowseAddressesActivity extends Activity {
         protocolPaderewskiegoDataSource.close();
         protocolNewPaderewskiegoDataSource.close();
         super.onPause();
+    }
+
+    public void generateDailyReportSiemianowice(@NonNull View view) {
+        GenerateDailyReportDialog dialog = (GenerateDailyReportDialog) getSupportFragmentManager().findFragmentByTag(DAILY_REPORT_SIEMANOWICE_FRAGMENT);
+        if (dialog == null) {
+            dialog = GenerateDailyReportDialog.newInstance(GenerateDailyReportDialog.City.SIEMANOWICE);
+        }
+        dialog.show(getSupportFragmentManager(), DAILY_REPORT_SIEMANOWICE_FRAGMENT);
+    }
+
+    public void generateDailyReportNewPaderewskiego(@NonNull View view) {
+
     }
 
     private boolean isExternalStorageAccessGranted() {

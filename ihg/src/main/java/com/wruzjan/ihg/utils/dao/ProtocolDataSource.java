@@ -13,6 +13,8 @@ import com.wruzjan.ihg.utils.model.Protocol;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 public class ProtocolDataSource {
 
     private SQLiteDatabase database;
@@ -187,6 +189,27 @@ public class ProtocolDataSource {
         Protocol newProtocol = cursorToProtocolShort(cursor);
         cursor.close();
         return newProtocol;
+    }
+
+    public List<Protocol> getSiemanowiceProtocolsByCreationDate(@NonNull String date) {
+        Cursor cursor = null;
+        try {
+            List<Protocol> protocols = new ArrayList<>();
+            cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
+                    allColumns, applicationHelper.COLUMN_CREATED + " LIKE '" + date + "%'", null, null, null,  applicationHelper.COLUMN_CREATED + " asc");
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                Protocol protocol = cursorToProtocolShort(cursor);
+                protocols.add(protocol);
+                cursor.moveToNext();
+            }
+            return protocols;
+        } finally {
+            // Make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     public List<Protocol> getAllSiemianowiceProtocolsByAddressId(int addressId) {
