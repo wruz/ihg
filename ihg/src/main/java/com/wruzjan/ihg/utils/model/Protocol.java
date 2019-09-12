@@ -1,7 +1,5 @@
 package com.wruzjan.ihg.utils.model;
 
-import com.opencsv.bean.StatefulBeanToCsv;
-
 public class Protocol {
 
     private int _id;

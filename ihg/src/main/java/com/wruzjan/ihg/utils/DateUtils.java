@@ -8,4 +8,8 @@ public class DateUtils {
 
     public static final DateFormat DATABASE_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
     public static final DateFormat CSV_FILE_NAME_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+    private DateUtils() {
+        // no-op
+    }
 }

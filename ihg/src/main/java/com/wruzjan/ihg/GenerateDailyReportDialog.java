@@ -2,28 +2,16 @@ package com.wruzjan.ihg;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
-import com.wruzjan.ihg.utils.dao.AddressDataSource;
-import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
-import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
-import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
-import com.wruzjan.ihg.utils.threading.GenerateNewPaderewskiegoDailyReportAsyncTask;
-import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
-
-import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 public class GenerateDailyReportDialog extends DialogFragment {
@@ -33,7 +21,8 @@ public class GenerateDailyReportDialog extends DialogFragment {
     private DatePicker datePicker;
     private City city;
 
-    @Nullable private Listener listener;
+    @Nullable
+    private Listener listener;
 
     public static GenerateDailyReportDialog newInstance(@NonNull City city) {
         GenerateDailyReportDialog dialog = new GenerateDailyReportDialog();
@@ -85,13 +74,13 @@ public class GenerateDailyReportDialog extends DialogFragment {
         this.listener = listener;
     }
 
-    interface Listener {
-
-        void onReportGenerate(@NonNull City city, @NonNull Date reportDate);
-    }
-
     enum City {
         SIEMANOWICE,
         NOWY_PADERWSKIEGO
+    }
+
+    interface Listener {
+
+        void onReportGenerate(@NonNull City city, @NonNull Date reportDate);
     }
 }
