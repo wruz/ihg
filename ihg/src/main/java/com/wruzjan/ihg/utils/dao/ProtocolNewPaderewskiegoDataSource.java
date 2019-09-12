@@ -13,6 +13,8 @@ import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 public class ProtocolNewPaderewskiegoDataSource {
 
     private SQLiteDatabase database;
@@ -181,6 +183,27 @@ public class ProtocolNewPaderewskiegoDataSource {
         return newProtocol;
     }
 
+    public List<ProtocolNewPaderewskiego> getNewPaderewskiegoProtocolsByCreationDate(@NonNull String date) {
+        Cursor cursor = null;
+        try {
+            List<ProtocolNewPaderewskiego> protocols = new ArrayList<>();
+            cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
+                    allColumns, ApplicationOpenHelper.COLUMN_CREATED + " LIKE '" + date + "%'", null, null, null,  ApplicationOpenHelper.COLUMN_CREATED + " asc");
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                ProtocolNewPaderewskiego protocol = cursorToProtocol(cursor);
+                protocols.add(protocol);
+                cursor.moveToNext();
+            }
+            return protocols;
+        } finally {
+            // Make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
     public List<ProtocolNewPaderewskiego> getAllNewPaderewskiegoProtocolsByAddressId(int addressId) {
         List<ProtocolNewPaderewskiego> protocols = new ArrayList<ProtocolNewPaderewskiego>();
         Cursor cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
@@ -299,7 +322,7 @@ public class ProtocolNewPaderewskiegoDataSource {
         protocol.set_equipment_comments(cursor.getString(37));
         protocol.set_comments_for_user(cursor.getString(38));
         protocol.set_comments_for_manager(cursor.getString(39));
-        protocol.set_created(cursor.getString(40));
+        protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));
         //new paderewskiego specific fields
         protocol.set_telephone(cursor.getString(41));
         protocol.set_kitchen_clean(cursor.getString(42));

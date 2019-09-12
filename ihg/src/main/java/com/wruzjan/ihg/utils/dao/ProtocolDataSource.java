@@ -196,10 +196,10 @@ public class ProtocolDataSource {
         try {
             List<Protocol> protocols = new ArrayList<>();
             cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
-                    allColumns, applicationHelper.COLUMN_CREATED + " LIKE '" + date + "%'", null, null, null,  applicationHelper.COLUMN_CREATED + " asc");
+                    allColumns, ApplicationOpenHelper.COLUMN_CREATED + " LIKE '" + date + "%'", null, null, null,  ApplicationOpenHelper.COLUMN_CREATED + " asc");
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                Protocol protocol = cursorToProtocolShort(cursor);
+                Protocol protocol = cursorToProtocol(cursor);
                 protocols.add(protocol);
                 cursor.moveToNext();
             }
@@ -330,7 +330,7 @@ public class ProtocolDataSource {
         protocol.set_equipment_comments(cursor.getString(37));
         protocol.set_comments_for_user(cursor.getString(38));
         protocol.set_comments_for_manager(cursor.getString(39));
-        protocol.set_created(cursor.getString(40));
+        protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));
         return protocol;
     }
 }

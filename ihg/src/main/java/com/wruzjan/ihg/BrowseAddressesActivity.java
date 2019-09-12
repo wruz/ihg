@@ -36,6 +36,7 @@ import androidx.core.content.ContextCompat;
 public class BrowseAddressesActivity extends AppCompatActivity {
 
     public static final String DAILY_REPORT_SIEMANOWICE_FRAGMENT = "DAILY_REPORT_SIEMANOWICE_FRAGMENT";
+    public static final String DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT = "DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT";
     private AddressDataSource datasource;
     private ProtocolDataSource protocolDataSource;
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
@@ -373,7 +374,11 @@ public class BrowseAddressesActivity extends AppCompatActivity {
     }
 
     public void generateDailyReportNewPaderewskiego(@NonNull View view) {
-
+        GenerateDailyReportDialog dialog = (GenerateDailyReportDialog) getSupportFragmentManager().findFragmentByTag(DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT);
+        if (dialog == null) {
+            dialog = GenerateDailyReportDialog.newInstance(GenerateDailyReportDialog.City.NOWY_PADERWSKIEGO);
+        }
+        dialog.show(getSupportFragmentManager(), DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT);
     }
 
     private boolean isExternalStorageAccessGranted() {
