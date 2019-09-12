@@ -135,6 +135,8 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
             public void afterTextChanged(Editable arg0) {
             }
         });
+
+        throw new RuntimeException("Pamiętać o przeniesieniu stringów do resource'ów i zaimplementować mikrouchył");
     }
 
     @Override
