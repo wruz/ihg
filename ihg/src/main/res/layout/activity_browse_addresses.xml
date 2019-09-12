@@ -1,168 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".BrowseAddressesActivity">
+    android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="right"
-        android:id="@+id/linearLayout2">
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/linearLayout2">
-
-            <Button android:id="@+id/add_new_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_new_address"
-                android:onClick="addNewAddress"
-                android:layout_alignParentBottom="true"/>
-
-            <Button android:id="@+id/delete_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete_address"
-                android:onClick="deleteAddress"
-                android:layout_alignParentBottom="true"/>
-
-            <Button android:id="@+id/old_protocols"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/show_old_protocols"
-                android:onClick="showOldProtocols"
-                android:layout_alignParentBottom="true"/>
-
-        </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/linearLayout2">
-
-        <Button android:id="@+id/add_form_to_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_form_to_address"
-            android:onClick="addNewFormToAddress"
-            android:layout_alignParentBottom="true"/>
-
-        <Button android:id="@+id/add_form2_to_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_form2_to_address"
-            android:onClick="addNewForm2ToAddress"
-            android:layout_alignParentBottom="true"/>
-
-    </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/linearLayout2">
-
-            <Button android:id="@+id/add_form3_to_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_form3_to_address"
-                android:onClick="addNewFormNewPaderewskiegoToAddress"
-                android:layout_alignParentBottom="true"/>
-
-        </LinearLayout>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/linearLayout2">
-
-            <!--usuń protokoły-->
-            <Button
-                android:id="@+id/detele_all_protocols_button"
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/delete_all_protocols_button"
-                android:onClick="deleteAllProtocols"
-                android:layout_gravity="right" />
-
-            <!--usuń adresy-->
-            <Button
-                android:id="@+id/detele_all_addresses_button"
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/delete_all_addresses_button"
-                android:onClick="deleteAllAddresses"
-                android:layout_gravity="right" />
-
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".BrowseAddressesActivity">
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="right"
+            android:orientation="vertical">
 
-            <Button
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="generateDailyReportSiemianowice"
-                android:text="@string/generate_daily_report_siemanowice" />
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
 
-            <Button
-                android:layout_width="0dp"
+                <Button
+                    android:id="@+id/add_new_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:onClick="addNewAddress"
+                    android:text="@string/add_new_address"/>
+
+                <Button
+                    android:id="@+id/delete_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:onClick="deleteAddress"
+                    android:text="@string/delete_address"/>
+
+                <Button
+                    android:id="@+id/old_protocols"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:onClick="showOldProtocols"
+                    android:text="@string/show_old_protocols"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="generateDailyReportNewPaderewskiego"
-                android:text="@string/generate_daily_report_nowy_paderewskiego" />
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/add_form_to_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:onClick="addNewFormToAddress"
+                    android:text="@string/add_form_to_address"/>
+
+                <Button
+                    android:id="@+id/add_form2_to_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:onClick="addNewForm2ToAddress"
+                    android:text="@string/add_form2_to_address"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/add_form3_to_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:onClick="addNewFormNewPaderewskiegoToAddress"
+                    android:text="@string/add_form3_to_address"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <!--usuń protokoły-->
+                <Button
+                    android:id="@+id/detele_all_protocols_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:onClick="deleteAllProtocols"
+                    android:text="@string/delete_all_protocols_button"/>
+
+                <!--usuń adresy-->
+                <Button
+                    android:id="@+id/detele_all_addresses_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:onClick="deleteAllAddresses"
+                    android:text="@string/delete_all_addresses_button"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="generateDailyReportSiemianowice"
+                    android:text="@string/generate_daily_report_siemanowice"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="generateDailyReportNewPaderewskiego"
+                    android:text="@string/generate_daily_report_nowy_paderewskiego"/>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+
+            <EditText
+                android:id="@+id/inputSearch"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="znajdź adres"
+                android:inputType="textVisiblePassword"/>
+
+            <LinearLayout android:id="@+id/list_wrapper"
+                          xmlns:android="http://schemas.android.com/apk/res/android"
+                          xmlns:tools="http://schemas.android.com/tools"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center_horizontal"
+                          android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/addresses_list"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"></ListView>
+            </LinearLayout>
         </LinearLayout>
+    </RelativeLayout>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
-
-    <EditText android:id="@+id/inputSearch"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="znajdź adres"
-        android:inputType="textVisiblePassword"/>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <com.wruzjan.ihg.utils.view.ProgressLayout
+        android:id="@+id/progress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/list_wrapper">
-        <ListView android:id="@+id/addresses_list"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" ></ListView>
-    </LinearLayout>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-</RelativeLayout>
+</FrameLayout>

@@ -44,7 +44,7 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
 
         List<Protocol> protocols = protocolDataSource.getSiemanowiceProtocolsByCreationDate(DATABASE_DATE_FORMAT.format(creationDate));
         if (protocols.isEmpty()) {
-            return null;
+            return "";
         }
 
         String reportDirectoryPath = getReportDirectoryPath(creationDate);

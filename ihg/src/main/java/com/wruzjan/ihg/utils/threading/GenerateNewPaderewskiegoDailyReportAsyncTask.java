@@ -51,7 +51,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
 
         List<ProtocolNewPaderewskiego> protocols = protocolDataSource.getNewPaderewskiegoProtocolsByCreationDate(DATABASE_DATE_FORMAT.format(creationDate));
         if (protocols.isEmpty()) {
-            return null;
+            return "";
         }
 
         String reportDirectoryPath = getReportDirectoryPath(creationDate);

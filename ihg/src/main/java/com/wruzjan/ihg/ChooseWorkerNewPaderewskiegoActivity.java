@@ -17,13 +17,11 @@ import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.StringUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
-import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.model.Address;
-import com.wruzjan.ihg.utils.model.Protocol;
 import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
+import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
 import com.wruzjan.ihg.utils.threading.GetNewPaderewskiegoProtocolsByIdAsyncTask;
-import com.wruzjan.ihg.utils.threading.GetSiemanowiceByProtocolIdAsyncTask;
 import com.wruzjan.ihg.utils.view.ProgressLayout;
 
 import java.io.File;
@@ -64,7 +62,7 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
         protocolDataSource.open();
 
         getNewPaderewskiegoProtocolsByIdAsyncTask = new GetNewPaderewskiegoProtocolsByIdAsyncTask(protocolDataSource);
-        getNewPaderewskiegoProtocolsByIdAsyncTask.setUiListener(updateTemperatureListener());
+        getNewPaderewskiegoProtocolsByIdAsyncTask.setPostExecuteUiListener(updateTemperatureListener());
 
         tempInsideTextView = findViewById(R.id.temp_inside);
         tempOutsideTextView = findViewById(R.id.temp_outside);
@@ -138,7 +136,7 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
     protected void onPause() {
         datasource.close();
         protocolDataSource.close();
-        getNewPaderewskiegoProtocolsByIdAsyncTask.setUiListener(null);
+        getNewPaderewskiegoProtocolsByIdAsyncTask.setPostExecuteUiListener(null);
         getNewPaderewskiegoProtocolsByIdAsyncTask.cancel(true);
         super.onPause();
 
@@ -193,8 +191,8 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
         }
     }
 
-    private GetNewPaderewskiegoProtocolsByIdAsyncTask.UiListener<ProtocolNewPaderewskiego> updateTemperatureListener() {
-        return new GetSiemanowiceByProtocolIdAsyncTask.UiListener<ProtocolNewPaderewskiego>() {
+    private BaseAsyncTask.PostExecuteUiListener<ProtocolNewPaderewskiego> updateTemperatureListener() {
+        return new BaseAsyncTask.PostExecuteUiListener<ProtocolNewPaderewskiego>() {
             @Override
             public void onPostExecute(@NonNull ProtocolNewPaderewskiego protocol) {
                 progressLayout.setVisibility(View.GONE);

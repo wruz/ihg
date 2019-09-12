@@ -20,6 +20,7 @@ import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.Protocol;
+import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
 import com.wruzjan.ihg.utils.threading.GetSiemanowiceByProtocolIdAsyncTask;
 import com.wruzjan.ihg.utils.view.ProgressLayout;
 
@@ -58,7 +59,7 @@ public class ChooseWorkerActivity extends Activity {
         protocolDataSource.open();
 
         getSiemanowiceByProtocolIdAsyncTask = new GetSiemanowiceByProtocolIdAsyncTask(protocolDataSource);
-        getSiemanowiceByProtocolIdAsyncTask.setUiListener(updateTemperatureListener());
+        getSiemanowiceByProtocolIdAsyncTask.setPostExecuteUiListener(updateTemperatureListener());
 
         tempInsideTextView = findViewById(R.id.temp_inside);
         tempOutsideTextView = findViewById(R.id.temp_outside);
@@ -173,7 +174,7 @@ public class ChooseWorkerActivity extends Activity {
     protected void onPause() {
         datasource.close();
         protocolDataSource.close();
-        getSiemanowiceByProtocolIdAsyncTask.setUiListener(null);
+        getSiemanowiceByProtocolIdAsyncTask.setPostExecuteUiListener(null);
         getSiemanowiceByProtocolIdAsyncTask.cancel(true);
         super.onPause();
     }
@@ -185,8 +186,8 @@ public class ChooseWorkerActivity extends Activity {
         super.onResume();
     }
 
-    private GetSiemanowiceByProtocolIdAsyncTask.UiListener<Protocol> updateTemperatureListener() {
-        return new GetSiemanowiceByProtocolIdAsyncTask.UiListener<Protocol>() {
+    private BaseAsyncTask.PostExecuteUiListener<Protocol> updateTemperatureListener() {
+        return new BaseAsyncTask.PostExecuteUiListener<Protocol>() {
             @Override
             public void onPostExecute(@NonNull Protocol protocol) {
                 progressLayout.setVisibility(View.GONE);
