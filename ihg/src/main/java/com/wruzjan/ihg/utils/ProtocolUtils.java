@@ -23,7 +23,7 @@ public class ProtocolUtils {
         float windowsClosed = protocol.get_kitchen_airflow_windows_closed();
         float dimX = protocol.get_kitchen_grid_dimension_x();
         float dimY = protocol.get_kitchen_grid_dimension_y();
-        return calculateAirflowWindowsClosed(dimRound, windowsClosed, dimX, dimY);
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
     }
 
     public static float calculateSiemanowiceBathroomAirflowWindowsClosed(@NonNull Protocol protocol) {
@@ -31,7 +31,7 @@ public class ProtocolUtils {
         float windowsClosed = protocol.get_bathroom_airflow_windows_closed();
         float dimX = protocol.get_bathroom_grid_dimension_x();
         float dimY = protocol.get_bathroom_grid_dimension_y();
-        return calculateAirflowWindowsClosed(dimRound, windowsClosed, dimX, dimY);
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
     }
 
     public static float calculateSiemanowiceToiletAirflowWindowsClosed(@NonNull Protocol protocol) {
@@ -39,7 +39,7 @@ public class ProtocolUtils {
         float windowsClosed = protocol.get_toilet_airflow_windows_closed();
         float dimX = protocol.get_toilet_grid_dimension_x();
         float dimY = protocol.get_toilet_grid_dimension_y();
-        return calculateAirflowWindowsClosed(dimRound, windowsClosed, dimX, dimY);
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
     }
 
     public static float calculateNewPaderwskiegoKitchenAirflowWindowsClosed(@NonNull ProtocolNewPaderewskiego protocol) {
@@ -47,7 +47,7 @@ public class ProtocolUtils {
         float windowsClosed = protocol.get_kitchen_airflow_windows_closed();
         float dimX = protocol.get_kitchen_grid_dimension_x();
         float dimY = protocol.get_kitchen_grid_dimension_y();
-        return calculateAirflowWindowsClosed(dimRound, windowsClosed, dimX, dimY);
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
     }
 
     public static float calculateNewPaderwskiegoBathroomAirflowWindowsClosed(@NonNull ProtocolNewPaderewskiego protocol) {
@@ -55,7 +55,7 @@ public class ProtocolUtils {
         float windowsClosed = protocol.get_bathroom_airflow_windows_closed();
         float dimX = protocol.get_bathroom_grid_dimension_x();
         float dimY = protocol.get_bathroom_grid_dimension_y();
-        return calculateAirflowWindowsClosed(dimRound, windowsClosed, dimX, dimY);
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
     }
 
     public static float calculateNewPaderwskiegoToiletAirflowWindowsClosed(@NonNull ProtocolNewPaderewskiego protocol) {
@@ -63,7 +63,55 @@ public class ProtocolUtils {
         float windowsClosed = protocol.get_toilet_airflow_windows_closed();
         float dimX = protocol.get_toilet_grid_dimension_x();
         float dimY = protocol.get_toilet_grid_dimension_y();
-        return calculateAirflowWindowsClosed(dimRound, windowsClosed, dimX, dimY);
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
+    }
+
+    public static float calculateSiemanowiceKitchenAirflowMicrovent(@NonNull Protocol protocol) {
+        double dimRound = protocol.get_kitchen_grid_dimension_round();
+        float windowsClosed = protocol.get_kitchen_airflow_microventilation();
+        float dimX = protocol.get_kitchen_grid_dimension_x();
+        float dimY = protocol.get_kitchen_grid_dimension_y();
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
+    }
+
+    public static float calculateSiemanowiceBathroomAirflowMicrovent(@NonNull Protocol protocol) {
+        double dimRound = protocol.get_bathroom_grid_dimension_round();
+        float windowsClosed = protocol.get_bathroom_airflow_microventilation();
+        float dimX = protocol.get_bathroom_grid_dimension_x();
+        float dimY = protocol.get_bathroom_grid_dimension_y();
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
+    }
+
+    public static float calculateSiemanowiceToiletAirflowMicrovent(@NonNull Protocol protocol) {
+        double dimRound = protocol.get_toilet_grid_dimension_round();
+        float windowsClosed = protocol.get_toilet_airflow_microventilation();
+        float dimX = protocol.get_toilet_grid_dimension_x();
+        float dimY = protocol.get_toilet_grid_dimension_y();
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
+    }
+
+    public static float calculateNewPaderwskiegoKitchenAirflowMicrovent(@NonNull ProtocolNewPaderewskiego protocol) {
+        double dimRound = protocol.get_kitchen_grid_dimension_round();
+        float windowsClosed = protocol.get_kitchen_airflow_microventilation();
+        float dimX = protocol.get_kitchen_grid_dimension_x();
+        float dimY = protocol.get_kitchen_grid_dimension_y();
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
+    }
+
+    public static float calculateNewPaderwskiegoBathroomAirflowMicrovent(@NonNull ProtocolNewPaderewskiego protocol) {
+        double dimRound = protocol.get_bathroom_grid_dimension_round();
+        float windowsClosed = protocol.get_bathroom_airflow_microventilation();
+        float dimX = protocol.get_bathroom_grid_dimension_x();
+        float dimY = protocol.get_bathroom_grid_dimension_y();
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
+    }
+
+    public static float calculateNewPaderwskiegoToiletAirflowMicrovent(@NonNull ProtocolNewPaderewskiego protocol) {
+        double dimRound = protocol.get_toilet_grid_dimension_round();
+        float windowsClosed = protocol.get_toilet_airflow_microventilation();
+        float dimX = protocol.get_toilet_grid_dimension_x();
+        float dimY = protocol.get_toilet_grid_dimension_y();
+        return calculateAirflow(dimRound, windowsClosed, dimX, dimY);
     }
 
     public static float calculateSiemanowiceFlueAirflowWindowsClosed(@NonNull Protocol protocol) {
@@ -74,7 +122,15 @@ public class ProtocolUtils {
         return protocol.get_flue_airflow_windows_closed() * 70.3f;
     }
 
-    private static float calculateAirflowWindowsClosed(double dimRound, float windowsClosed, float dimX, float dimY) {
+    public static float calculateSiemanowiceFlueAirflowMicrovent(@NonNull Protocol protocol) {
+        return protocol.get_flue_airflow_microventilation() * 70.3f;
+    }
+
+    public static float calculateNewPaderwskiegoFlueAirflowMicrovent(@NonNull ProtocolNewPaderewskiego protocol) {
+        return protocol.get_flue_airflow_microventilation() * 70.3f;
+    }
+
+    private static float calculateAirflow(double dimRound, float windowsClosed, float dimX, float dimY) {
         if (Double.compare(dimRound, 0.0) == 0) {
             return windowsClosed * dimX * dimY * MEASURE_FACTOR;
         } else {

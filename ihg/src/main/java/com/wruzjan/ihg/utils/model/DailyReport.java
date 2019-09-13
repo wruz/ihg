@@ -20,19 +20,27 @@ public class DailyReport {
     @Nullable
     private final String previousInspectionDate;
     @NonNull
-    private final String kitchen;
+    private final String kitchenWindowsClosed;
+    @NonNull
+    private final String kitchenMicrovent;
     @Nullable
     private final String kitchenComments;
     @NonNull
-    private final String bathroom;
+    private final String bathroomWindowsClosed;
+    @NonNull
+    private final String bathroomMicrovent;
     @Nullable
     private final String bathroomComments;
     @NonNull
-    private final String toilet;
+    private final String toiletWindowsClosed;
+    @NonNull
+    private final String toiletMicrovent;
     @Nullable
     private final String toiletComments;
     @NonNull
-    private final String flue;
+    private final String flueWindowsClosed;
+    @NonNull
+    private final String flueMicrovent;
     @Nullable
     private final String flueComments;
     @NonNull
@@ -48,49 +56,36 @@ public class DailyReport {
     @Nullable
     private final String smComments;
 
-    private DailyReport(
-            @Nullable String locatorId,
-            @NonNull String street,
-            @NonNull String houseNumber,
-            @Nullable String flatNumber,
-            @NonNull String city,
-            @NonNull String inspectionDate,
-            @Nullable String previousInspectionDate,
-            @NonNull String kitchen,
-            @Nullable String kitchenComments,
-            @NonNull String bathroom,
-            @Nullable String bathroomComments,
-            @NonNull String toilet,
-            @Nullable String toiletComments,
-            @NonNull String flue,
-            @Nullable String flueComments,
-            @NonNull String gas,
-            @Nullable String gasComments,
-            @Nullable String co2,
-            @Nullable String commentsForUser,
-            @Nullable String commentsForManager,
-            @Nullable String smComments) {
-        this.locatorId = locatorId;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.flatNumber = flatNumber;
-        this.city = city;
-        this.inspectionDate = inspectionDate;
-        this.previousInspectionDate = previousInspectionDate;
-        this.kitchen = kitchen;
-        this.kitchenComments = kitchenComments;
-        this.bathroom = bathroom;
-        this.bathroomComments = bathroomComments;
-        this.toilet = toilet;
-        this.toiletComments = toiletComments;
-        this.flue = flue;
-        this.flueComments = flueComments;
-        this.gas = gas;
-        this.gasComments = gasComments;
-        this.co2 = co2;
-        this.commentsForUser = commentsForUser;
-        this.commentsForManager = commentsForManager;
-        this.smComments = smComments;
+    private DailyReport(Builder builder) {
+        locatorId = builder.locatorId;
+        street = builder.street;
+        houseNumber = builder.houseNumber;
+        flatNumber = builder.flatNumber;
+        city = builder.city;
+        inspectionDate = builder.inspectionDate;
+        previousInspectionDate = builder.previousInspectionDate;
+        kitchenWindowsClosed = builder.kitchenWindowsClosed;
+        kitchenMicrovent = builder.kitchenMicrovent;
+        kitchenComments = builder.kitchenComments;
+        bathroomWindowsClosed = builder.bathroomWindowsClosed;
+        bathroomMicrovent = builder.bathroomMicrovent;
+        bathroomComments = builder.bathroomComments;
+        toiletWindowsClosed = builder.toiletWindowsClosed;
+        toiletMicrovent = builder.toiletMicrovent;
+        toiletComments = builder.toiletComments;
+        flueWindowsClosed = builder.flueWindowsClosed;
+        flueMicrovent = builder.flueMicrovent;
+        flueComments = builder.flueComments;
+        gas = builder.gas;
+        gasComments = builder.gasComments;
+        co2 = builder.co2;
+        commentsForUser = builder.commentsForUser;
+        commentsForManager = builder.commentsForManager;
+        smComments = builder.smComments;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
     @Nullable
@@ -129,8 +124,8 @@ public class DailyReport {
     }
 
     @NonNull
-    public String getKitchen() {
-        return kitchen;
+    public String getKitchenWindowsClosed() {
+        return kitchenWindowsClosed;
     }
 
     @Nullable
@@ -139,8 +134,8 @@ public class DailyReport {
     }
 
     @NonNull
-    public String getBathroom() {
-        return bathroom;
+    public String getBathroomWindowsClosed() {
+        return bathroomWindowsClosed;
     }
 
     @Nullable
@@ -149,8 +144,8 @@ public class DailyReport {
     }
 
     @NonNull
-    public String getToilet() {
-        return toilet;
+    public String getToiletWindowsClosed() {
+        return toiletWindowsClosed;
     }
 
     @Nullable
@@ -159,8 +154,8 @@ public class DailyReport {
     }
 
     @NonNull
-    public String getFlue() {
-        return flue;
+    public String getFlueWindowsClosed() {
+        return flueMicrovent;
     }
 
     @Nullable
@@ -198,6 +193,26 @@ public class DailyReport {
         return smComments;
     }
 
+    @NonNull
+    public String getKitchenMicrovent() {
+        return kitchenMicrovent;
+    }
+
+    @NonNull
+    public String getBathroomMicrovent() {
+        return bathroomMicrovent;
+    }
+
+    @NonNull
+    public String getToiletMicrovent() {
+        return toiletMicrovent;
+    }
+
+    @NonNull
+    public String getFlueMicrovent() {
+        return flueMicrovent;
+    }
+
     public static final class Builder {
         private String locatorId;
         private String street;
@@ -206,13 +221,17 @@ public class DailyReport {
         private String city;
         private String inspectionDate;
         private String previousInspectionDate;
-        private String kitchen;
+        private String kitchenWindowsClosed;
+        private String kitchenMicrovent;
         private String kitchenComments;
-        private String bathroom;
+        private String bathroomWindowsClosed;
+        private String bathroomMicrovent;
         private String bathroomComments;
-        private String toilet;
+        private String toiletWindowsClosed;
+        private String toiletMicrovent;
         private String toiletComments;
-        private String flue;
+        private String flueWindowsClosed;
+        private String flueMicrovent;
         private String flueComments;
         private String gas;
         private String gasComments;
@@ -224,117 +243,133 @@ public class DailyReport {
         private Builder() {
         }
 
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        public Builder withLocatorId(String locatorId) {
-            this.locatorId = locatorId;
+        public Builder withLocatorId(String val) {
+            locatorId = val;
             return this;
         }
 
-        public Builder withStreet(String street) {
-            this.street = street;
+        public Builder withStreet(String val) {
+            street = val;
             return this;
         }
 
-        public Builder withHouseNumber(String houseNumber) {
-            this.houseNumber = houseNumber;
+        public Builder withHouseNumber(String val) {
+            houseNumber = val;
             return this;
         }
 
-        public Builder withFlatNumber(String flatNumber) {
-            this.flatNumber = flatNumber;
+        public Builder withFlatNumber(String val) {
+            flatNumber = val;
             return this;
         }
 
-        public Builder withCity(String city) {
-            this.city = city;
+        public Builder withCity(String val) {
+            city = val;
             return this;
         }
 
-        public Builder withInspectionDate(String inspectionDate) {
-            this.inspectionDate = inspectionDate;
+        public Builder withInspectionDate(String val) {
+            inspectionDate = val;
             return this;
         }
 
-        public Builder withPreviousInspectionDate(String previousInspectionDate) {
-            this.previousInspectionDate = previousInspectionDate;
+        public Builder withPreviousInspectionDate(String val) {
+            previousInspectionDate = val;
             return this;
         }
 
-        public Builder withKitchen(String kitchen) {
-            this.kitchen = kitchen;
+        public Builder withKitchenWindowsClosed(String val) {
+            kitchenWindowsClosed = val;
             return this;
         }
 
-        public Builder withKitchenComments(String kitchenComments) {
-            this.kitchenComments = kitchenComments;
+        public Builder withKitchenMicrovent(String val) {
+            kitchenMicrovent = val;
             return this;
         }
 
-        public Builder withBathroom(String bathroom) {
-            this.bathroom = bathroom;
+        public Builder withKitchenComments(String val) {
+            kitchenComments = val;
             return this;
         }
 
-        public Builder withBathroomComments(String bathroomComments) {
-            this.bathroomComments = bathroomComments;
+        public Builder withBathroomWindowsClosed(String val) {
+            bathroomWindowsClosed = val;
             return this;
         }
 
-        public Builder withToilet(String toilet) {
-            this.toilet = toilet;
+        public Builder withBathroomMicrovent(String val) {
+            bathroomMicrovent = val;
             return this;
         }
 
-        public Builder withToiletComments(String toiletComments) {
-            this.toiletComments = toiletComments;
+        public Builder withBathroomComments(String val) {
+            bathroomComments = val;
             return this;
         }
 
-        public Builder withFlue(String flue) {
-            this.flue = flue;
+        public Builder withToiletWindowsClosed(String val) {
+            toiletWindowsClosed = val;
             return this;
         }
 
-        public Builder withFlueComments(String flueComments) {
-            this.flueComments = flueComments;
+        public Builder withToiletMicrovent(String val) {
+            toiletMicrovent = val;
             return this;
         }
 
-        public Builder withGas(String gas) {
-            this.gas = gas;
+        public Builder withToiletComments(String val) {
+            toiletComments = val;
             return this;
         }
 
-        public Builder withGasComments(String gasComments) {
-            this.gasComments = gasComments;
+        public Builder withFlueWindowsClosed(String val) {
+            flueWindowsClosed = val;
             return this;
         }
 
-        public Builder withCo2(String co2) {
-            this.co2 = co2;
+        public Builder withFlueMicrovent(String val) {
+            flueMicrovent = val;
             return this;
         }
 
-        public Builder withCommentsForUser(String commentsForUser) {
-            this.commentsForUser = commentsForUser;
+        public Builder withFlueComments(String val) {
+            flueComments = val;
             return this;
         }
 
-        public Builder withCommentsForManager(String commentsForManager) {
-            this.commentsForManager = commentsForManager;
+        public Builder withGas(String val) {
+            gas = val;
             return this;
         }
 
-        public Builder withSmComments(String smComments) {
-            this.smComments = smComments;
+        public Builder withGasComments(String val) {
+            gasComments = val;
+            return this;
+        }
+
+        public Builder withCo2(String val) {
+            co2 = val;
+            return this;
+        }
+
+        public Builder withCommentsForUser(String val) {
+            commentsForUser = val;
+            return this;
+        }
+
+        public Builder withCommentsForManager(String val) {
+            commentsForManager = val;
+            return this;
+        }
+
+        public Builder withSmComments(String val) {
+            smComments = val;
             return this;
         }
 
         public DailyReport build() {
-            return new DailyReport(locatorId, street, houseNumber, flatNumber, city, inspectionDate, previousInspectionDate, kitchen, kitchenComments, bathroom, bathroomComments, toilet, toiletComments, flue, flueComments, gas, gasComments, co2, commentsForUser, commentsForManager, smComments);
+            return new DailyReport(this);
         }
     }
 }

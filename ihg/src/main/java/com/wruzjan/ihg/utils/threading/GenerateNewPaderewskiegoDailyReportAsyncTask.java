@@ -26,9 +26,13 @@ import static com.wruzjan.ihg.utils.ProtocolUtils.BATHROOM_ACCEPTANCE_THRESHOLD;
 import static com.wruzjan.ihg.utils.ProtocolUtils.FLUE_ACCEPTANCE_THRESHOLD;
 import static com.wruzjan.ihg.utils.ProtocolUtils.KITCHEN_ACCEPTANCE_THRESHOLD;
 import static com.wruzjan.ihg.utils.ProtocolUtils.TOILET_ACCEPTANCE_THRESHOLD;
+import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoBathroomAirflowMicrovent;
 import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoBathroomAirflowWindowsClosed;
+import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoFlueAirflowMicrovent;
 import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoFlueAirflowWindowsClosed;
+import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoKitchenAirflowMicrovent;
 import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoKitchenAirflowWindowsClosed;
+import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoToiletAirflowMicrovent;
 import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoToiletAirflowWindowsClosed;
 
 public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<Date, String> {
@@ -74,7 +78,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
             writer = new BufferedWriter(new FileWriter(file));
             CSVWriter csvWriter = new CSVWriter(writer, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
 
-            csvWriter.writeNext(new String[] {
+            csvWriter.writeNext(new String[]{
                     "lokatorID",
                     "ulica",
                     "dom",
@@ -83,14 +87,18 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                     "data przeglądu",
                     "data poprzedniego przeglądu",
                     "kuchnia zamknięte",
+                    "kuchnia mikrouchył",
                     "kuchnia uwagi",
                     "łazienka zamknięte",
+                    "łazienka mikrouchył",
                     "łazienka uwagi",
                     "WC zamknięte",
+                    "WC mikrouchył",
                     "WC uwagi",
                     "spalinowy zamknięte",
+                    "spalinowy mikrouchył",
                     "spalinowy uwagi",
-                    "instalacja gazowa zamknięte",
+                    "instalacja gazowa",
                     "instalacja gazowa uwagi",
                     "tlenek węgla",
                     "zalecenia dla lokatora",
@@ -106,7 +114,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
 
                 DailyReport bean = mapToDailyReport(protocol, previousProtocol, address);
 
-                csvWriter.writeNext(new String[] {
+                csvWriter.writeNext(new String[]{
                         bean.getLocatorId(),
                         bean.getStreet(),
                         bean.getHouseNumber(),
@@ -114,13 +122,17 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                         bean.getCity(),
                         bean.getInspectionDate(),
                         bean.getPreviousInspectionDate(),
-                        bean.getKitchen(),
+                        bean.getKitchenWindowsClosed(),
+                        bean.getKitchenMicrovent(),
                         bean.getKitchenComments(),
-                        bean.getBathroom(),
+                        bean.getBathroomWindowsClosed(),
+                        bean.getBathroomMicrovent(),
                         bean.getBathroomComments(),
-                        bean.getToilet(),
+                        bean.getToiletWindowsClosed(),
+                        bean.getToiletWindowsClosed(),
                         bean.getToiletComments(),
-                        bean.getFlue(),
+                        bean.getFlueWindowsClosed(),
+                        bean.getFlueMicrovent(),
                         bean.getFlueComments(),
                         bean.getGas(),
                         bean.getGasComments(),
@@ -145,27 +157,31 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
     }
 
     private DailyReport mapToDailyReport(ProtocolNewPaderewskiego protocol, ProtocolNewPaderewskiego previousProtocol, Address address) {
-        return DailyReport.Builder.builder()
-                            .withStreet(address.getStreet())
-                            .withHouseNumber(address.getBuilding())
-                            .withFlatNumber(address.getFlat())
-                            .withCity(address.getCity())
-                            .withInspectionDate(protocol.get_created())
-                            .withPreviousInspectionDate(previousProtocol != null ? previousProtocol.get_created() : null)
-                            .withKitchen(determineOverflowOrUnderflowState(calculateNewPaderwskiegoKitchenAirflowWindowsClosed(protocol), KITCHEN_ACCEPTANCE_THRESHOLD))
-                            .withKitchenComments(protocol.get_kitchen_comments())
-                            .withBathroom(determineOverflowOrUnderflowState(calculateNewPaderwskiegoBathroomAirflowWindowsClosed(protocol), BATHROOM_ACCEPTANCE_THRESHOLD))
-                            .withBathroomComments(protocol.get_bathroom_comments())
-                            .withToilet(determineOverflowOrUnderflowState(calculateNewPaderwskiegoToiletAirflowWindowsClosed(protocol), TOILET_ACCEPTANCE_THRESHOLD))
-                            .withToiletComments(protocol.get_toilet_comments())
-                            .withFlue(determineOverflowOrUnderflowState(calculateNewPaderwskiegoFlueAirflowWindowsClosed(protocol), FLUE_ACCEPTANCE_THRESHOLD))
-                            .withFlueComments(protocol.get_flue_comments())
-                            .withGas(protocol.is_gas_cooker_working() ? "szczelna" : "nieszczelna")
-                            .withGasComments(protocol.get_gas_fittings_comments())
-                            .withCo2(Float.toString(protocol.get_co2()))
-                            .withCommentsForUser(protocol.get_comments_for_user())
-                            .withCommentsForManager(protocol.get_comments_for_manager())
-                            .build();
+        return DailyReport.newBuilder()
+                .withStreet(address.getStreet())
+                .withHouseNumber(address.getBuilding())
+                .withFlatNumber(address.getFlat())
+                .withCity(address.getCity())
+                .withInspectionDate(protocol.get_created())
+                .withPreviousInspectionDate(previousProtocol != null ? previousProtocol.get_created() : null)
+                .withKitchenWindowsClosed(determineOverflowOrUnderflowState(calculateNewPaderwskiegoKitchenAirflowWindowsClosed(protocol), KITCHEN_ACCEPTANCE_THRESHOLD))
+                .withKitchenMicrovent(determineOverflowOrUnderflowState(calculateNewPaderwskiegoKitchenAirflowMicrovent(protocol), KITCHEN_ACCEPTANCE_THRESHOLD))
+                .withKitchenComments(protocol.get_kitchen_comments())
+                .withBathroomWindowsClosed(determineOverflowOrUnderflowState(calculateNewPaderwskiegoBathroomAirflowWindowsClosed(protocol), BATHROOM_ACCEPTANCE_THRESHOLD))
+                .withBathroomMicrovent(determineOverflowOrUnderflowState(calculateNewPaderwskiegoBathroomAirflowMicrovent(protocol), BATHROOM_ACCEPTANCE_THRESHOLD))
+                .withBathroomComments(protocol.get_bathroom_comments())
+                .withToiletWindowsClosed(determineOverflowOrUnderflowState(calculateNewPaderwskiegoToiletAirflowWindowsClosed(protocol), TOILET_ACCEPTANCE_THRESHOLD))
+                .withToiletMicrovent(determineOverflowOrUnderflowState(calculateNewPaderwskiegoToiletAirflowMicrovent(protocol), TOILET_ACCEPTANCE_THRESHOLD))
+                .withToiletComments(protocol.get_toilet_comments())
+                .withFlueWindowsClosed(determineOverflowOrUnderflowState(calculateNewPaderwskiegoFlueAirflowWindowsClosed(protocol), FLUE_ACCEPTANCE_THRESHOLD))
+                .withFlueMicrovent(determineOverflowOrUnderflowState(calculateNewPaderwskiegoFlueAirflowMicrovent(protocol), FLUE_ACCEPTANCE_THRESHOLD))
+                .withFlueComments(protocol.get_flue_comments())
+                .withGas(protocol.is_gas_cooker_working() ? "szczelna" : "nieszczelna")
+                .withGasComments(protocol.get_gas_fittings_comments())
+                .withCo2(Float.toString(protocol.get_co2()))
+                .withCommentsForUser(protocol.get_comments_for_user())
+                .withCommentsForManager(protocol.get_comments_for_manager())
+                .build();
     }
 
     private String determineOverflowOrUnderflowState(float airflow, int kitchenAcceptanceThreshold) {

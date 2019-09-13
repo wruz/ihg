@@ -42,13 +42,13 @@ public class GenerateDailyReportDialog extends DialogFragment {
         AlertDialog alertDialog = new AlertDialog.Builder(requireActivity())
                 .setTitle(city.toString())
                 .setView(rootView)
-                .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.generate_daily_report_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
-                .setPositiveButton("Generuj raport dzienny", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.generate_daily_report, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Calendar calendar = Calendar.getInstance();
