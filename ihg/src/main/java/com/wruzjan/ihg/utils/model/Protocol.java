@@ -1,7 +1,5 @@
 package com.wruzjan.ihg.utils.model;
 
-import java.util.Date;
-
 public class Protocol {
 
     private int _id;

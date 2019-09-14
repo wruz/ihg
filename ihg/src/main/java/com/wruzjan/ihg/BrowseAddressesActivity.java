@@ -1,12 +1,12 @@
 package com.wruzjan.ihg;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,14 +26,26 @@ import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.model.Address;
+import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
+import com.wruzjan.ihg.utils.threading.GenerateNewPaderewskiegoDailyReportAsyncTask;
+import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
+import com.wruzjan.ihg.utils.view.ProgressLayout;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
-public class BrowseAddressesActivity extends Activity {
+public class BrowseAddressesActivity extends AppCompatActivity implements GenerateDailyReportDialog.Listener, BaseAsyncTask.PreExecuteUiListener, BaseAsyncTask.PostExecuteUiListener<String> {
 
+    public static final String DAILY_REPORT_SIEMANOWICE_FRAGMENT = "DAILY_REPORT_SIEMANOWICE_FRAGMENT";
+    public static final String DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT = "DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT";
     private AddressDataSource datasource;
     private ProtocolDataSource protocolDataSource;
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
@@ -43,11 +55,18 @@ public class BrowseAddressesActivity extends Activity {
     private int selectedPosition = 0;
     private ArrayAdapter<Address> adapter;
 
+    @Nullable private GenerateSiemanowiceDailyReportAsyncTask generateSiemanowiceDailyReportAsyncTask;
+    @Nullable private GenerateNewPaderewskiegoDailyReportAsyncTask generateNewPaderewskiegoDailyReportAsyncTask;
+
+    private ProgressLayout progressLayout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_browse_addresses);
+
+        progressLayout = findViewById(R.id.progress);
 
         datasource = new AddressDataSource(this);
         datasource.open();
@@ -137,7 +156,7 @@ public class BrowseAddressesActivity extends Activity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(this, PrinterSettingActivity.class);
         startActivity(intent);
         return true;
@@ -156,7 +175,7 @@ public class BrowseAddressesActivity extends Activity {
      */
     public void deleteAddress(View view) {
 //        get selected address
-        Address address =  (Address) addressesList.getItemAtPosition(selectedPosition);
+        Address address = (Address) addressesList.getItemAtPosition(selectedPosition);
 //        delete address
         datasource.deleteAddress(address);
         //TODO delete corresponding protocols also, but ask user about it first
@@ -178,8 +197,8 @@ public class BrowseAddressesActivity extends Activity {
     public void addNewFormToAddress(View view) {
 
         Intent intent = new Intent(this, ChooseWorkerActivity.class);
-        if(addressesList.getCount() != 0){
-            Address address =  (Address) addressesList.getItemAtPosition(selectedPosition);
+        if (addressesList.getCount() != 0) {
+            Address address = (Address) addressesList.getItemAtPosition(selectedPosition);
             intent.putExtra(Utils.ADDRESS_ID, address.getId());
             startActivity(intent);
         } else {
@@ -195,8 +214,8 @@ public class BrowseAddressesActivity extends Activity {
 
     public void addNewForm2ToAddress(View view) {
         Intent intent = new Intent(this, ChooseWorker2Activity.class);
-        if(addressesList.getCount() != 0){
-            Address address =  (Address) addressesList.getItemAtPosition(selectedPosition);
+        if (addressesList.getCount() != 0) {
+            Address address = (Address) addressesList.getItemAtPosition(selectedPosition);
             intent.putExtra(Utils.ADDRESS_ID, address.getId());
             startActivity(intent);
         } else {
@@ -217,8 +236,8 @@ public class BrowseAddressesActivity extends Activity {
      */
     public void addNewFormNewPaderewskiegoToAddress(View view) {
         Intent intent = new Intent(this, ChooseWorkerNewPaderewskiegoActivity.class);
-        if(addressesList.getCount() != 0){
-            Address address =  (Address) addressesList.getItemAtPosition(selectedPosition);
+        if (addressesList.getCount() != 0) {
+            Address address = (Address) addressesList.getItemAtPosition(selectedPosition);
             intent.putExtra(Utils.ADDRESS_ID, address.getId());
             startActivity(intent);
         } else {
@@ -231,7 +250,7 @@ public class BrowseAddressesActivity extends Activity {
         }
     }
 
-    public void deleteAllProtocols(View view){
+    public void deleteAllProtocols(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 BrowseAddressesActivity.this);
         alertDialogBuilder.setTitle("zostaną usunięte wszystkie protokoły zapisane w urządzeniu");
@@ -247,7 +266,7 @@ public class BrowseAddressesActivity extends Activity {
                 .setPositiveButton("usuń", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // delete all protocols
-                        try{
+                        try {
                             protocolDataSource.deleteAllProtocols();
                             Context context = getApplicationContext();
                             CharSequence text = "Protokoły zostały poprawnie usunięte";
@@ -256,7 +275,7 @@ public class BrowseAddressesActivity extends Activity {
                             Toast toast = Toast.makeText(context, text, duration);
                             toast.show();
 
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             Context context = getApplicationContext();
                             e.printStackTrace();
                             CharSequence text = String.format("Usunięcie plików się nie udało: %s", e.getMessage());
@@ -276,7 +295,7 @@ public class BrowseAddressesActivity extends Activity {
         alertDialog.show();
     }
 
-    public void deleteAllAddresses(View view){
+    public void deleteAllAddresses(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 BrowseAddressesActivity.this);
         alertDialogBuilder.setTitle("zostaną usunięte wszystkie adresy i protokoły zapisane w urządzeniu");
@@ -292,7 +311,7 @@ public class BrowseAddressesActivity extends Activity {
                 .setPositiveButton("usuń", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // delete all protocols
-                        try{
+                        try {
                             protocolDataSource.deleteAllProtocols();
                             datasource.deleteAllAddresses();
                             Context context = getApplicationContext();
@@ -306,7 +325,7 @@ public class BrowseAddressesActivity extends Activity {
                             finish();
                             startActivity(getIntent());
 
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             Context context = getApplicationContext();
                             e.printStackTrace();
                             CharSequence text = String.format("Usunięcie plików się nie udało: %s", e.getMessage());
@@ -328,8 +347,8 @@ public class BrowseAddressesActivity extends Activity {
 
     public void showOldProtocols(View view) {
         Intent intent = new Intent(this, BrowseProtocolsActivity.class);
-        if(addressesList.getCount() != 0){
-            Address address =  (Address) addressesList.getItemAtPosition(selectedPosition);
+        if (addressesList.getCount() != 0) {
+            Address address = (Address) addressesList.getItemAtPosition(selectedPosition);
             intent.putExtra(Utils.ADDRESS_ID, address.getId());
             startActivity(intent);
         } else {
@@ -355,11 +374,100 @@ public class BrowseAddressesActivity extends Activity {
 
     @Override
     protected void onPause() {
+        if (generateSiemanowiceDailyReportAsyncTask != null) {
+            generateSiemanowiceDailyReportAsyncTask.setPreExecuteUiListener(null);
+            generateSiemanowiceDailyReportAsyncTask.setPostExecuteUiListener(null);
+        }
+
+        if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
+            generateNewPaderewskiegoDailyReportAsyncTask.setPreExecuteUiListener(null);
+            generateNewPaderewskiegoDailyReportAsyncTask.setPostExecuteUiListener(null);
+        }
+
         datasource.close();
         protocolDataSource.close();
         protocolPaderewskiegoDataSource.close();
         protocolNewPaderewskiegoDataSource.close();
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (generateSiemanowiceDailyReportAsyncTask != null) {
+            generateSiemanowiceDailyReportAsyncTask.cancel(true);
+        }
+        if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
+            generateNewPaderewskiegoDailyReportAsyncTask.cancel(true);
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onReportGenerate(@NonNull GenerateDailyReportDialog.City city, @NonNull Date reportDate) {
+        switch (city) {
+            case SIEMANOWICE:
+                if (generateSiemanowiceDailyReportAsyncTask != null) {
+                    generateSiemanowiceDailyReportAsyncTask.cancel(true);
+                }
+                generateSiemanowiceDailyReportAsyncTask = new GenerateSiemanowiceDailyReportAsyncTask(datasource, protocolDataSource);
+                generateSiemanowiceDailyReportAsyncTask.setPreExecuteUiListener(this);
+                generateSiemanowiceDailyReportAsyncTask.setPostExecuteUiListener(this);
+                generateSiemanowiceDailyReportAsyncTask.execute(reportDate);
+                break;
+            case NOWY_PADERWSKIEGO:
+                if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
+                    generateNewPaderewskiegoDailyReportAsyncTask.cancel(true);
+                }
+                generateNewPaderewskiegoDailyReportAsyncTask = new GenerateNewPaderewskiegoDailyReportAsyncTask(datasource, protocolNewPaderewskiegoDataSource);
+                generateNewPaderewskiegoDailyReportAsyncTask.setPreExecuteUiListener(this);
+                generateNewPaderewskiegoDailyReportAsyncTask.setPostExecuteUiListener(this);
+                generateNewPaderewskiegoDailyReportAsyncTask.execute(reportDate);
+                break;
+        }
+    }
+
+    @Override
+    public void onPreExecute() {
+        progressLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPostExecute(@NonNull String reportFilePath) {
+        progressLayout.setVisibility(View.GONE);
+
+        if (!reportFilePath.isEmpty()) {
+            Uri uri =  FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(reportFilePath));
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+            try {
+                startActivity(Intent.createChooser(intent, "Wybierz aplikację Dropbox"));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(this, "Brak klienta Dropbox na urządzeniu.", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Brak protokołów z tego dnia", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void generateDailyReportSiemianowice(@NonNull View view) {
+        GenerateDailyReportDialog dialog = (GenerateDailyReportDialog) getSupportFragmentManager().findFragmentByTag(DAILY_REPORT_SIEMANOWICE_FRAGMENT);
+        if (dialog == null) {
+            dialog = GenerateDailyReportDialog.newInstance(GenerateDailyReportDialog.City.SIEMANOWICE);
+        }
+        dialog.setListener(this);
+        dialog.show(getSupportFragmentManager(), DAILY_REPORT_SIEMANOWICE_FRAGMENT);
+    }
+
+    public void generateDailyReportNewPaderewskiego(@NonNull View view) {
+        GenerateDailyReportDialog dialog = (GenerateDailyReportDialog) getSupportFragmentManager().findFragmentByTag(DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT);
+        if (dialog == null) {
+            dialog = GenerateDailyReportDialog.newInstance(GenerateDailyReportDialog.City.NOWY_PADERWSKIEGO);
+        }
+        dialog.setListener(this);
+        dialog.show(getSupportFragmentManager(), DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT);
     }
 
     private boolean isExternalStorageAccessGranted() {

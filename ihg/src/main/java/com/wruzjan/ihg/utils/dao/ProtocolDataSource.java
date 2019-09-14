@@ -13,6 +13,8 @@ import com.wruzjan.ihg.utils.model.Protocol;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 public class ProtocolDataSource {
 
     private SQLiteDatabase database;
@@ -189,6 +191,27 @@ public class ProtocolDataSource {
         return newProtocol;
     }
 
+    public List<Protocol> getSiemanowiceProtocolsByCreationDate(@NonNull String date) {
+        Cursor cursor = null;
+        try {
+            List<Protocol> protocols = new ArrayList<>();
+            cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
+                    allColumns, ApplicationOpenHelper.COLUMN_CREATED + " LIKE '" + date + "%'", null, null, null,  ApplicationOpenHelper.COLUMN_CREATED + " asc");
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                Protocol protocol = cursorToProtocol(cursor);
+                protocols.add(protocol);
+                cursor.moveToNext();
+            }
+            return protocols;
+        } finally {
+            // Make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
     public List<Protocol> getAllSiemianowiceProtocolsByAddressId(int addressId) {
         List<Protocol> protocols = new ArrayList<Protocol>();
         Cursor cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
@@ -307,7 +330,7 @@ public class ProtocolDataSource {
         protocol.set_equipment_comments(cursor.getString(37));
         protocol.set_comments_for_user(cursor.getString(38));
         protocol.set_comments_for_manager(cursor.getString(39));
-        protocol.set_created(cursor.getString(40));
+        protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));
         return protocol;
     }
 }

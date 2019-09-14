@@ -8,21 +8,41 @@ import androidx.annotation.Nullable;
 public abstract class BaseAsyncTask<P, R> extends AsyncTask<P, Void, R> {
 
     @Nullable
-    private UiListener<R> uiListener;
+    private PreExecuteUiListener preExecuteUiListener;
+
+    @Nullable
+    private PostExecuteUiListener<R> postExecuteUiListener;
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if (preExecuteUiListener != null) {
+            preExecuteUiListener.onPreExecute();
+        }
+    }
 
     @Override
     protected void onPostExecute(R protocol) {
         super.onPostExecute(protocol);
-        if (uiListener != null) {
-            uiListener.onPostExecute(protocol);
+        if (postExecuteUiListener != null) {
+            postExecuteUiListener.onPostExecute(protocol);
         }
     }
 
-    public void setUiListener(@Nullable UiListener<R> uiListener) {
-        this.uiListener = uiListener;
+    public void setPreExecuteUiListener(@Nullable PreExecuteUiListener preExecuteUiListener) {
+        this.preExecuteUiListener = preExecuteUiListener;
     }
 
-    public interface UiListener<R> {
+    public void setPostExecuteUiListener(@Nullable PostExecuteUiListener<R> postExecuteUiListener) {
+        this.postExecuteUiListener = postExecuteUiListener;
+    }
+
+    public interface PreExecuteUiListener {
+
+        void onPreExecute();
+    }
+
+    public interface PostExecuteUiListener<R> {
 
         void onPostExecute(@NonNull R protocol);
     }
