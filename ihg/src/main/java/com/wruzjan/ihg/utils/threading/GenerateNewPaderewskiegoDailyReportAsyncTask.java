@@ -129,7 +129,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                         bean.getBathroomMicrovent(),
                         bean.getBathroomComments(),
                         bean.getToiletWindowsClosed(),
-                        bean.getToiletWindowsClosed(),
+                        bean.getToiletMicrovent(),
                         bean.getToiletComments(),
                         bean.getFlueWindowsClosed(),
                         bean.getFlueMicrovent(),

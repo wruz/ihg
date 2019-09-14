@@ -48,6 +48,8 @@
     <!--raport dzienny-->
     <string name="generate_daily_report_siemanowice">Wygeneruj raport dzienny (Siemianowice)</string>
     <string name="generate_daily_report_nowy_paderewskiego">Wygeneruj raport dzienny (Nowy Paderewskiego)</string>
+    <string name="generate_daily_report_cancel">Anuluj</string>
+    <string name="generate_daily_report">Generuj raport dzienny</string>
 
     <!-- główny ekran wyboru -->
     <string name="ma_title">Wybierz czynność</string>
@@ -135,7 +137,4 @@
     <string name="comments_for_user">zalecenia lub uwagi dla użytkownika lokalu</string>
     <string name="pad_comments_for_user">zalecenia</string>
     <string name="comments_for_manager">zalecenia lub uwagi dla zarządcy budynku</string>
-    <string name="generate_daily_report_cancel">Anuluj</string>
-    <string name="generate_daily_report">Generuj raport dzienny</string>
-
 </resources>
