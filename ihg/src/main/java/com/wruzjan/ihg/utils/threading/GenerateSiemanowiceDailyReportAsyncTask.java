@@ -180,6 +180,6 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
     private String getReportDirectoryPath(Date creationDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(creationDate);
-        return Environment.getExternalStorageDirectory().toString() + "/IHG/raporty/Siemanowice/Administracja/" + calendar.get(Calendar.YEAR) + "/" + calendar.get(Calendar.MONTH);
+        return Environment.getExternalStorageDirectory().toString() + "/IHG/raporty/Siemanowice/Administracja/" + calendar.get(Calendar.YEAR) + "/" + (calendar.get(Calendar.MONTH) + 1);
     }
 }
