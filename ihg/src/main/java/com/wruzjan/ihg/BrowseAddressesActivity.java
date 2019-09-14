@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -54,8 +55,8 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     private int selectedPosition = 0;
     private ArrayAdapter<Address> adapter;
 
-    private GenerateSiemanowiceDailyReportAsyncTask generateSiemanowiceDailyReportAsyncTask;
-    private GenerateNewPaderewskiegoDailyReportAsyncTask generateNewPaderewskiegoDailyReportAsyncTask;
+    @Nullable private GenerateSiemanowiceDailyReportAsyncTask generateSiemanowiceDailyReportAsyncTask;
+    @Nullable private GenerateNewPaderewskiegoDailyReportAsyncTask generateNewPaderewskiegoDailyReportAsyncTask;
 
     private ProgressLayout progressLayout;
 
@@ -392,8 +393,12 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
 
     @Override
     protected void onDestroy() {
-        generateSiemanowiceDailyReportAsyncTask.cancel(true);
-        generateNewPaderewskiegoDailyReportAsyncTask.cancel(true);
+        if (generateSiemanowiceDailyReportAsyncTask != null) {
+            generateSiemanowiceDailyReportAsyncTask.cancel(true);
+        }
+        if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
+            generateNewPaderewskiegoDailyReportAsyncTask.cancel(true);
+        }
         super.onDestroy();
     }
 
