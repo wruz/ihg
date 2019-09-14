@@ -26,13 +26,13 @@ import static com.wruzjan.ihg.utils.ProtocolUtils.BATHROOM_ACCEPTANCE_THRESHOLD;
 import static com.wruzjan.ihg.utils.ProtocolUtils.FLUE_ACCEPTANCE_THRESHOLD;
 import static com.wruzjan.ihg.utils.ProtocolUtils.KITCHEN_ACCEPTANCE_THRESHOLD;
 import static com.wruzjan.ihg.utils.ProtocolUtils.TOILET_ACCEPTANCE_THRESHOLD;
-import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoBathroomAirflowMicrovent;
+import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderewskiegoBathroomAirflowMicrovent;
 import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoBathroomAirflowWindowsClosed;
-import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoFlueAirflowMicrovent;
-import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoFlueAirflowWindowsClosed;
-import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoKitchenAirflowMicrovent;
+import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderewskiegoFlueAirflowMicrovent;
+import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderewskiegoFlueAirflowWindowsClosed;
+import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderewskiegoKitchenAirflowMicrovent;
 import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoKitchenAirflowWindowsClosed;
-import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoToiletAirflowMicrovent;
+import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderewskiegoToiletAirflowMicrovent;
 import static com.wruzjan.ihg.utils.ProtocolUtils.calculateNewPaderwskiegoToiletAirflowWindowsClosed;
 
 public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<Date, String> {
@@ -165,16 +165,16 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                 .withInspectionDate(protocol.get_created())
                 .withPreviousInspectionDate(previousProtocol != null ? previousProtocol.get_created() : null)
                 .withKitchenWindowsClosed(determineOverflowOrUnderflowState(calculateNewPaderwskiegoKitchenAirflowWindowsClosed(protocol), KITCHEN_ACCEPTANCE_THRESHOLD))
-                .withKitchenMicrovent(determineOverflowOrUnderflowState(calculateNewPaderwskiegoKitchenAirflowMicrovent(protocol), KITCHEN_ACCEPTANCE_THRESHOLD))
+                .withKitchenMicrovent(determineOverflowOrUnderflowState(calculateNewPaderewskiegoKitchenAirflowMicrovent(protocol), KITCHEN_ACCEPTANCE_THRESHOLD))
                 .withKitchenComments(protocol.get_kitchen_comments())
                 .withBathroomWindowsClosed(determineOverflowOrUnderflowState(calculateNewPaderwskiegoBathroomAirflowWindowsClosed(protocol), BATHROOM_ACCEPTANCE_THRESHOLD))
-                .withBathroomMicrovent(determineOverflowOrUnderflowState(calculateNewPaderwskiegoBathroomAirflowMicrovent(protocol), BATHROOM_ACCEPTANCE_THRESHOLD))
+                .withBathroomMicrovent(determineOverflowOrUnderflowState(calculateNewPaderewskiegoBathroomAirflowMicrovent(protocol), BATHROOM_ACCEPTANCE_THRESHOLD))
                 .withBathroomComments(protocol.get_bathroom_comments())
                 .withToiletWindowsClosed(determineOverflowOrUnderflowState(calculateNewPaderwskiegoToiletAirflowWindowsClosed(protocol), TOILET_ACCEPTANCE_THRESHOLD))
-                .withToiletMicrovent(determineOverflowOrUnderflowState(calculateNewPaderwskiegoToiletAirflowMicrovent(protocol), TOILET_ACCEPTANCE_THRESHOLD))
+                .withToiletMicrovent(determineOverflowOrUnderflowState(calculateNewPaderewskiegoToiletAirflowMicrovent(protocol), TOILET_ACCEPTANCE_THRESHOLD))
                 .withToiletComments(protocol.get_toilet_comments())
-                .withFlueWindowsClosed(determineOverflowOrUnderflowState(calculateNewPaderwskiegoFlueAirflowWindowsClosed(protocol), FLUE_ACCEPTANCE_THRESHOLD))
-                .withFlueMicrovent(determineOverflowOrUnderflowState(calculateNewPaderwskiegoFlueAirflowMicrovent(protocol), FLUE_ACCEPTANCE_THRESHOLD))
+                .withFlueWindowsClosed(determineOverflowOrUnderflowState(calculateNewPaderewskiegoFlueAirflowWindowsClosed(protocol), FLUE_ACCEPTANCE_THRESHOLD))
+                .withFlueMicrovent(determineOverflowOrUnderflowState(calculateNewPaderewskiegoFlueAirflowMicrovent(protocol), FLUE_ACCEPTANCE_THRESHOLD))
                 .withFlueComments(protocol.get_flue_comments())
                 .withGas(protocol.is_gas_cooker_working() ? "szczelna" : "nieszczelna")
                 .withGasComments(protocol.get_gas_fittings_comments())
