@@ -66,7 +66,8 @@ public class ProtocolNewPaderewskiegoDataSource {
             ApplicationOpenHelper.COLUMN_BATH_CLEANED,
             ApplicationOpenHelper.COLUMN_TOILET_CLEANED,
             ApplicationOpenHelper.COLUMN_FLUE_CLEANED,
-            ApplicationOpenHelper.COLUMN_CREATED};
+            ApplicationOpenHelper.COLUMN_CREATED,
+            ApplicationOpenHelper.COLUMN_COMMENTS_FOR_MANAGER_INDICES};
 
     public ProtocolNewPaderewskiegoDataSource(Context context) {
         applicationHelper = new ApplicationOpenHelper(context);
@@ -170,6 +171,7 @@ public class ProtocolNewPaderewskiegoDataSource {
         values.put(applicationHelper.COLUMN_COMMENTS_FOR_USER, protocol.get_comments_for_user());
         values.put(applicationHelper.COLUMN_COMMENTS_FOR_MANAGER, protocol.get_comments_for_manager());
         values.put(applicationHelper.COLUMN_CREATED, protocol.get_created());
+        values.put(ApplicationOpenHelper.COLUMN_COMMENTS_FOR_MANAGER_INDICES, protocol.getManagerCommentsIndices());
 
         long insertId = database.insert(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO, null,
                 values);
@@ -345,6 +347,7 @@ public class ProtocolNewPaderewskiegoDataSource {
         protocol.set_comments_for_user(cursor.getString(38));
         protocol.set_comments_for_manager(cursor.getString(39));
         protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));
+        protocol.setManagerCommentsIndices(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_COMMENTS_FOR_MANAGER_INDICES)));
         //new paderewskiego specific fields
         protocol.set_telephone(cursor.getString(41));
         protocol.set_kitchen_clean(cursor.getString(42));

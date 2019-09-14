@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.StringUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
@@ -34,6 +35,7 @@ import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
 import com.wruzjan.ihg.utils.pdf.GeneratePDFNewPaderewskiego;
 import com.wruzjan.ihg.utils.printer.BluetoothConnectionNewPaderewskiego;
+import com.wruzjan.ihg.utils.view.MultiSelectionViewHelper;
 import com.zebra.android.comm.ZebraPrinterConnectionException;
 import com.zebra.android.discovery.BluetoothDiscoverer;
 import com.zebra.android.discovery.DiscoveredPrinter;
@@ -82,6 +84,9 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     private Spinner flueMicroventSpinner;
     private ArrayAdapter<String> flueMicroventSpinnerAdapter;
 
+    private TextView managerCommentsTextView;
+    private MultiSelectionViewHelper managerCommentsMultiSelectionViewHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +97,12 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
         protocolNewPaderewskiegoDataSource = new ProtocolNewPaderewskiegoDataSource(this);
         protocolNewPaderewskiegoDataSource.open();
+
+        managerCommentsTextView = findViewById(R.id.comments_for_manager);
+        managerCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
+                managerCommentsTextView,
+                getResources().getStringArray(R.array.general_comments)
+        );
 
         kitchenClosedSpinner = findViewById(R.id.kitchen_airflow_windows_closed);
         kitchenClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(kitchenClosedSpinner, "0.0");
@@ -530,11 +541,15 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 }
                 TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                 userCommentsTextView.setText(protocolEdited.get_comments_for_user());
-                TextView managerCommentsTextView = (TextView) findViewById(R.id.comments_for_manager);
-                managerCommentsTextView.setText(protocolEdited.get_comments_for_manager());
+
+                if (protocolEdited.getManagerCommentsIndices() != null) {
+                    int[] indices = StringUtils.parseNumberArrayFromString(protocolEdited.getManagerCommentsIndices());
+                    managerCommentsMultiSelectionViewHelper.setSelection(indices);
+                } else {
+                    managerCommentsTextView.setText(protocolEdited.get_comments_for_manager());
+                }
             }
         }
-
     }
 
 
@@ -657,8 +672,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         String co2 = co2TextView.getText().toString();
         TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
         String userComments = userCommentsTextView.getText().toString();
-        TextView managerCommentsTextView = (TextView) findViewById(R.id.comments_for_manager);
         String managerComments = managerCommentsTextView.getText().toString();
+        String managerCommentsIndices = managerCommentsMultiSelectionViewHelper.getSelectionIndicesString();
 
 //        validate required fields
 
@@ -776,6 +791,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         protocol.set_equipment_comments(getString(R.string.equipment_comment));
         protocol.set_comments_for_user(userComments);
         protocol.set_comments_for_manager(managerComments);
+        protocol.setManagerCommentsIndices(managerCommentsIndices);
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         protocol.set_created(dateFormat.format(new Date()));
 
@@ -1000,8 +1016,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         String co2 = co2TextView.getText().toString();
         TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
         String userComments = userCommentsTextView.getText().toString();
-        TextView managerCommentsTextView = (TextView) findViewById(R.id.comments_for_manager);
         String managerComments = managerCommentsTextView.getText().toString();
+        String managerCommentsIndices = managerCommentsMultiSelectionViewHelper.getSelectionIndicesString();
 
 //        validate required fields
         if(kitchenChecked){
@@ -1113,6 +1129,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         protocol.set_equipment_comments(getString(R.string.equipment_comment));
         protocol.set_comments_for_user(userComments);
         protocol.set_comments_for_manager(managerComments);
+        protocol.setManagerCommentsIndices(managerCommentsIndices);
 
         PROTOCOL = protocol;
 

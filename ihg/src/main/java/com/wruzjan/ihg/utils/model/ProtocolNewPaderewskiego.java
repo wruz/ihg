@@ -1,5 +1,7 @@
 package com.wruzjan.ihg.utils.model;
 
+import androidx.annotation.Nullable;
+
 public class ProtocolNewPaderewskiego {
 
     //new paderewskiego specific fields, just telephone incuded in constructors
@@ -65,6 +67,9 @@ public class ProtocolNewPaderewskiego {
     private String _equipment_comments;
     private String _comments_for_user;
     private String _comments_for_manager;
+
+    @Nullable
+    private String managerCommentsIndices;
 
     public ProtocolNewPaderewskiego(){
     }
@@ -566,11 +571,19 @@ public class ProtocolNewPaderewskiego {
         this._flue_clean = _flue_clean;
     }
 
+    @Nullable
+    public String getManagerCommentsIndices() {
+        return managerCommentsIndices;
+    }
+
+    public void setManagerCommentsIndices(@Nullable String managerCommentsIndices) {
+        this.managerCommentsIndices = managerCommentsIndices;
+    }
+
     //    Prepare record for listView
     @Override
     public String toString() {
         String readableAddress = this._created;
         return readableAddress;
     }
-
 }

@@ -1,5 +1,7 @@
 package com.wruzjan.ihg.utils.model;
 
+import androidx.annotation.Nullable;
+
 public class Protocol {
 
     private int _id;
@@ -54,6 +56,9 @@ public class Protocol {
     private String _equipment_comments;
     private String _comments_for_user;
     private String _comments_for_manager;
+
+    @Nullable private String managerCommentsIndices;
+    @Nullable private String userCommentsIndices;
 
     public Protocol(){
     }
@@ -485,11 +490,28 @@ public class Protocol {
         this._comments_for_manager = _comments_for_manager;
     }
 
+    @Nullable
+    public String getManagerCommentsIndices() {
+        return managerCommentsIndices;
+    }
+
+    public void setManagerCommentsIndices(@Nullable String managerCommentsIndices) {
+        this.managerCommentsIndices = managerCommentsIndices;
+    }
+
+    @Nullable
+    public String getUserCommentsIndices() {
+        return userCommentsIndices;
+    }
+
+    public void setUserCommentsIndices(@Nullable String userCommentsIndices) {
+        this.userCommentsIndices = userCommentsIndices;
+    }
+
     //    Prepare record for listView
     @Override
     public String toString() {
         String readableAddress = this._created;
         return readableAddress;
     }
-
 }
