@@ -12,7 +12,7 @@
     <string name="close_button">zamknij</string>
     <string name="delete_protocols_button">usuń protokoły</string>
     <string name="delete_all_protocols_button">usuń wszystkie protokoły</string>
-    <string name="delete_all_addresses_button">usuń wszystkie adresy</string>
+    <string name="delete_all_addresses_button">wyczyść listę</string>
     <string name="print_button">drukuj</string>
     <string name="get_signature_button">podpis</string>
     <string name="save_signature_button">zapisz</string>

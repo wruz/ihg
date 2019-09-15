@@ -298,7 +298,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     public void deleteAllAddresses(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 BrowseAddressesActivity.this);
-        alertDialogBuilder.setTitle("zostaną usunięte wszystkie adresy i protokoły zapisane w urządzeniu");
+        alertDialogBuilder.setTitle("Zostaną usunięte wszystkie adresy.");
 
         alertDialogBuilder
                 .setCancelable(false)
@@ -312,10 +312,9 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
                     public void onClick(DialogInterface dialog, int id) {
                         // delete all protocols
                         try {
-                            protocolDataSource.deleteAllProtocols();
                             datasource.deleteAllAddresses();
                             Context context = getApplicationContext();
-                            CharSequence text = "Protokoły zostały poprawnie usunięte";
+                            CharSequence text = "Adresy zostały poprawnie usunięte";
                             int duration = Toast.LENGTH_LONG;
 
                             Toast toast = Toast.makeText(context, text, duration);
@@ -328,7 +327,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
                         } catch (Exception e) {
                             Context context = getApplicationContext();
                             e.printStackTrace();
-                            CharSequence text = String.format("Usunięcie plików się nie udało: %s", e.getMessage());
+                            CharSequence text = String.format("Usunięcie adresów się nie udało: %s", e.getMessage());
                             int duration = Toast.LENGTH_LONG;
 
                             Toast toast = Toast.makeText(context, text, duration);
