@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static com.wruzjan.ihg.utils.DateUtils.DATABASE_DATE_FORMAT;
 import static com.wruzjan.ihg.utils.ProtocolUtils.BATHROOM_ACCEPTANCE_THRESHOLD;
@@ -106,13 +107,13 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                     "uwagi SM"
             });
 
+            ProtocolNewPaderewskiego previousProtocol = protocolDataSource.getProtocolBefore(protocols.get(0).get_id());
+
             for (int i = 0; i < protocols.size(); i++) {
                 ProtocolNewPaderewskiego protocol = protocols.get(i);
-                ProtocolNewPaderewskiego previousProtocol = (i > 0) ? protocols.get(i - 1) : null;
-
                 Address address = addressDataSource.getAddressById(protocol.get_address_id());
 
-                DailyReport bean = mapToDailyReport(protocol, previousProtocol, address);
+                DailyReport bean = mapToDailyReport(protocol, (i > 0) ? protocols.get(i - 1) : previousProtocol, address);
 
                 csvWriter.writeNext(new String[]{
                         bean.getLocatorId(),
@@ -156,7 +157,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
         return reportFilePath;
     }
 
-    private DailyReport mapToDailyReport(ProtocolNewPaderewskiego protocol, ProtocolNewPaderewskiego previousProtocol, Address address) {
+    private DailyReport mapToDailyReport(@NonNull ProtocolNewPaderewskiego protocol, @Nullable ProtocolNewPaderewskiego previousProtocol, @NonNull Address address) {
         return DailyReport.newBuilder()
                 .withStreet(address.getStreet())
                 .withHouseNumber(address.getBuilding())

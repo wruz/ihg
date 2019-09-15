@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static com.wruzjan.ihg.utils.DateUtils.DATABASE_DATE_FORMAT;
 import static com.wruzjan.ihg.utils.ProtocolUtils.*;
@@ -95,13 +96,13 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
                     "uwagi SM"
             });
 
+            Protocol previousProtocol = protocolDataSource.getProtocolBefore(protocols.get(0).get_id());
+
             for (int i = 0; i < protocols.size(); i++) {
                 Protocol protocol = protocols.get(i);
-                Protocol previousProtocol = (i > 0) ? protocols.get(i - 1) : null;
-
                 Address address = addressDataSource.getAddressById(protocol.get_address_id());
 
-                DailyReport bean = mapToDailyReport(protocol, previousProtocol, address);
+                DailyReport bean = mapToDailyReport(protocol, (i > 0) ? protocols.get(i - 1) : previousProtocol, address);
 
                 csvWriter.writeNext(new String[]{
                         bean.getLocatorId(),
@@ -145,7 +146,7 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
         return reportFilePath;
     }
 
-    private DailyReport mapToDailyReport(Protocol protocol, Protocol previousProtocol, Address address) {
+    private DailyReport mapToDailyReport(@NonNull Protocol protocol, @Nullable Protocol previousProtocol, @NonNull Address address) {
         return DailyReport.newBuilder()
                 .withStreet(address.getStreet())
                 .withHouseNumber(address.getBuilding())
