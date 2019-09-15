@@ -289,7 +289,12 @@ public class GeneratePDFPaderewskiego {
         form.setField("wind_speed", Double.toString(protocol.get_wind_speed()));
         form.setField("wind_direction", protocol.get_wind_direction());
         form.setField("pressure", Double.toString(protocol.get_pressure()));
-        form.setField("co2", Double.toString(protocol.get_co2()));
+
+        if (Double.compare(protocol.get_co2(), 0.0) == 0) {
+            form.setField("co2", "-");
+        } else {
+            form.setField("co2", Double.toString(protocol.get_co2()));
+        }
 
         form.setField("windows_all", Integer.toString(protocol.get_windows_all()));
         form.setField("windows_micro", Integer.toString(protocol.get_windows_micro()));
