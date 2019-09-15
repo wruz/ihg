@@ -798,25 +798,6 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="@string/comments" />
-            <EditText
-                android:id="@+id/equipment_comments"
-                android:inputType="textMultiLine"
-                android:layout_width="300dp"
-                android:maxLength="105"
-                android:layout_height="wrap_content" >
-            </EditText>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
                 android:text="@string/telephone" />
             <EditText
                 android:id="@+id/telephone"
