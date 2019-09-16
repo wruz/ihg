@@ -68,62 +68,6 @@
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/add_form_to_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:onClick="addNewFormToAddress"
-                    android:text="@string/add_form_to_address"/>
-
-                <Button
-                    android:id="@+id/add_form2_to_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:onClick="addNewForm2ToAddress"
-                    android:text="@string/add_form2_to_address"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/add_form3_to_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:onClick="addNewFormNewPaderewskiegoToAddress"
-                    android:text="@string/add_form3_to_address"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <!--usuń protokoły-->
-                <Button
-                    android:id="@+id/detele_all_protocols_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
-                    android:onClick="deleteAllProtocols"
-                    android:text="@string/delete_all_protocols_button"/>
-
                 <!--usuń adresy-->
                 <Button
                     android:id="@+id/detele_all_addresses_button"

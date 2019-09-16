@@ -173,10 +173,6 @@ public class BrowseProtocolsActivity extends Activity {
         }
 
         if(!hasSiemianowiceProrocols && !hasPaderewskiegoProrocols && !hasNewPaderewskiegoProrocols){
-
-            Button deleteButton =(Button)findViewById(R.id.detele_protocols_button);
-            deleteButton.setEnabled(false);
-
             Context context = getApplicationContext();
             CharSequence text = AlertUtils.NO_PROTOCOLS;
             int duration = Toast.LENGTH_LONG;
@@ -242,48 +238,6 @@ public class BrowseProtocolsActivity extends Activity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
-    }
-
-    public void deleteProtocols(View view) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                BrowseProtocolsActivity.this);
-        alertDialogBuilder.setTitle("zostaną usunięte wszystkie protokoły dla adresu: "+address.getCity()+", "
-                +address.getStreet()+" "
-                +address.getBuilding()+"/"
-                +address.getFlat());
-
-        alertDialogBuilder
-                .setCancelable(false)
-                .setNegativeButton("anuluj", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // cancel dialog
-                        dialog.cancel();
-                    }
-                })
-                .setPositiveButton("usuń", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // delete protocols
-                        try{
-                            protocolDataSource.deleteProtocols(address);
-                            close(null);
-                        } catch (Exception e){
-                            Context context = getApplicationContext();
-                            e.printStackTrace();
-                            CharSequence text = String.format("Usunięcie plików się nie udało: %s", e.getMessage());
-                            int duration = Toast.LENGTH_LONG;
-
-                            Toast toast = Toast.makeText(context, text, duration);
-                            toast.show();
-                        }
-
-                    }
-                });
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
     }
 
     public void close(View view) {
