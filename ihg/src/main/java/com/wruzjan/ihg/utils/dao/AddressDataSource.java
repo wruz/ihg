@@ -12,6 +12,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.wruzjan.ihg.utils.db.ApplicationOpenHelper;
 import com.wruzjan.ihg.utils.model.Address;
 
+import androidx.annotation.Nullable;
+
 
 public class AddressDataSource {
 
@@ -72,15 +74,25 @@ public class AddressDataSource {
         database.delete(ApplicationOpenHelper.TABLE_ADDRESSES, null, null);
     }
 
+    @Nullable
     public Address getAddressById(int id) {
-        Cursor cursor = database.query(ApplicationOpenHelper.TABLE_ADDRESSES,
-                allColumns, "_id = ?", new String[]{Integer.toString(id)}, null, null, null);
+        Cursor cursor = null;
+        try {
+            cursor = database.query(ApplicationOpenHelper.TABLE_ADDRESSES,
+                    allColumns, "_id = ?", new String[]{Integer.toString(id)}, null, null, null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                return cursorToAddress(cursor);
+            } else {
+                return null;
+            }
+        } finally {
+            // Make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
 
-        cursor.moveToFirst();
-        Address address = cursorToAddress(cursor);
-        // Make sure to close the cursor
-        cursor.close();
-        return address;
     }
 
     public List<Address> getAllAddresses() {
