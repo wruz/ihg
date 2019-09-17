@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -87,6 +88,10 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     private TextView managerCommentsTextView;
     private MultiSelectionViewHelper managerCommentsMultiSelectionViewHelper;
 
+    private TextView userCommentsTextView;
+    private MultiSelectionViewHelper userCommentsMultiSelectionViewHelper;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +106,12 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         managerCommentsTextView = findViewById(R.id.comments_for_manager);
         managerCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
                 managerCommentsTextView,
+                getResources().getStringArray(R.array.general_comments)
+        );
+
+        userCommentsTextView = findViewById(R.id.comments_for_user);
+        userCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
+                userCommentsTextView,
                 getResources().getStringArray(R.array.general_comments)
         );
 
@@ -167,8 +178,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     bathComments.setHint(null);
                 } else {
                     // The toggle is disabled
-                    EditText bathMicro = (EditText) findViewById(R.id.bathroom_airflow_microventilation);
-                    bathMicro.setHint(null);
                     EditText bathComments = (EditText) findViewById(R.id.bathroom_comments);
                     bathComments.setHint("pole wymagane");
                     bathComments.requestFocus();
@@ -541,12 +550,12 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 }
                 TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                 userCommentsTextView.setText(protocolEdited.get_comments_for_user());
+                if (!TextUtils.isEmpty(protocolEdited.get_comments_for_user())) {
+                    userCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_comments_for_user());
+                }
 
-                if (protocolEdited.getManagerCommentsIndices() != null) {
-                    int[] indices = StringUtils.parseNumberArrayFromString(protocolEdited.getManagerCommentsIndices());
-                    managerCommentsMultiSelectionViewHelper.setSelection(indices);
-                } else {
-                    managerCommentsTextView.setText(protocolEdited.get_comments_for_manager());
+                if (!TextUtils.isEmpty(protocolEdited.get_comments_for_manager())) {
+                    managerCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_comments_for_manager());
                 }
             }
         }
@@ -670,10 +679,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         boolean bathroomBakeChecked = bathroomBakeSwitch.isChecked();
         TextView co2TextView = (TextView)findViewById(R.id.co2);
         String co2 = co2TextView.getText().toString();
-        TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
         String userComments = userCommentsTextView.getText().toString();
         String managerComments = managerCommentsTextView.getText().toString();
-        String managerCommentsIndices = managerCommentsMultiSelectionViewHelper.getSelectionIndicesString();
 
 //        validate required fields
 
@@ -791,7 +798,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         protocol.set_equipment_comments(getString(R.string.equipment_comment));
         protocol.set_comments_for_user(userComments);
         protocol.set_comments_for_manager(managerComments);
-        protocol.setManagerCommentsIndices(managerCommentsIndices);
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         protocol.set_created(dateFormat.format(new Date()));
 
@@ -1014,10 +1020,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         boolean bathroomBakeChecked = bathroomBakeSwitch.isChecked();
         TextView co2TextView = (TextView)findViewById(R.id.co2);
         String co2 = co2TextView.getText().toString();
-        TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
         String userComments = userCommentsTextView.getText().toString();
         String managerComments = managerCommentsTextView.getText().toString();
-        String managerCommentsIndices = managerCommentsMultiSelectionViewHelper.getSelectionIndicesString();
 
 //        validate required fields
         if(kitchenChecked){
@@ -1129,7 +1133,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         protocol.set_equipment_comments(getString(R.string.equipment_comment));
         protocol.set_comments_for_user(userComments);
         protocol.set_comments_for_manager(managerComments);
-        protocol.setManagerCommentsIndices(managerCommentsIndices);
 
         PROTOCOL = protocol;
 

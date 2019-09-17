@@ -6,19 +6,23 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Arrays;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
-import java.util.Arrays;
-
 public class MultiSelectionViewHelper implements DialogInterface.OnMultiChoiceClickListener {
 
-    @NonNull private final TextView textView;
-    @NonNull private final String[] entries;
-    @NonNull private final boolean[] selection;
+    @NonNull
+    private final TextView textView;
+    @NonNull
+    private final String[] entries;
+    @NonNull
+    private final boolean[] selection;
 
-    @Nullable private String preAppendedText;
+    @Nullable
+    private String preAppendedText;
 
     public MultiSelectionViewHelper(@NonNull TextView textView, @NonNull String[] entries) {
         this.textView = textView;
@@ -54,15 +58,23 @@ public class MultiSelectionViewHelper implements DialogInterface.OnMultiChoiceCl
         return builder.toString();
     }
 
-    public void setSelection(int[] positions) {
+    public void setSelection(String selectionString) {
+        String[] splitComments = selectionString.split(", ");
+
         Arrays.fill(selection, false);
-        for (int position : positions) {
-            if (position < selection.length) {
-                selection[position] = true;
-            } else {
-                throw new IllegalArgumentException("Argument 'positions' is out of bounds.");
+
+        StringBuilder preAppendedBuilder = new StringBuilder();
+
+        for (String comment : splitComments) {
+            for (int i = 0; i < entries.length; ++i) {
+                if (entries[i].equalsIgnoreCase(comment)) {
+                    selection[i] = true;
+                } else {
+                    preAppendedBuilder.append(comment);
+                }
             }
         }
+        preAppendedText = preAppendedBuilder.toString();
         textView.setText(buildSelectedItemString());
     }
 

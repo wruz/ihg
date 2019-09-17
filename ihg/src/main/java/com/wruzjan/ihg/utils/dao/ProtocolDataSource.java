@@ -61,10 +61,7 @@ public class ProtocolDataSource {
             ApplicationOpenHelper.COLUMN_EQUIPMENT_COMMENTS,
             ApplicationOpenHelper.COLUMN_COMMENTS_FOR_USER,
             ApplicationOpenHelper.COLUMN_COMMENTS_FOR_MANAGER,
-            ApplicationOpenHelper.COLUMN_CREATED,
-            ApplicationOpenHelper.COLUMN_COMMENTS_FOR_MANAGER_INDICES,
-            ApplicationOpenHelper.COLUMN_COMMENTS_FOR_USER_INDICES
-    };
+            ApplicationOpenHelper.COLUMN_CREATED};
 
     public ProtocolDataSource(Context context) {
         applicationHelper = new ApplicationOpenHelper(context);
@@ -181,8 +178,6 @@ public class ProtocolDataSource {
         values.put(applicationHelper.COLUMN_COMMENTS_FOR_USER, protocol.get_comments_for_user());
         values.put(applicationHelper.COLUMN_COMMENTS_FOR_MANAGER, protocol.get_comments_for_manager());
         values.put(applicationHelper.COLUMN_CREATED, protocol.get_created());
-        values.put(ApplicationOpenHelper.COLUMN_COMMENTS_FOR_MANAGER_INDICES, protocol.getManagerCommentsIndices());
-        values.put(ApplicationOpenHelper.COLUMN_COMMENTS_FOR_USER_INDICES, protocol.getUserCommentsIndices());
 
         long insertId = database.insert(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE, null,
                 values);
@@ -358,8 +353,6 @@ public class ProtocolDataSource {
         protocol.set_comments_for_user(cursor.getString(38));
         protocol.set_comments_for_manager(cursor.getString(39));
         protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));
-        protocol.setManagerCommentsIndices(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_COMMENTS_FOR_MANAGER_INDICES)));
-        protocol.setUserCommentsIndices(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_COMMENTS_FOR_USER_INDICES)));
         return protocol;
     }
 }

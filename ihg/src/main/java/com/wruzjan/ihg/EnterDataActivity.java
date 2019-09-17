@@ -510,18 +510,11 @@ public class EnterDataActivity extends Activity {
                     co2TextView.setText(Integer.toString((int)(Math.round(protocolEdited.get_co2()))));
                 }
                 if (!TextUtils.isEmpty(protocolEdited.get_comments_for_user())) {
-                    userCommentsMultiSelectionViewHelper.setPreAppendedText(protocolEdited.get_comments_for_user());
-                }
-                if (!TextUtils.isEmpty(protocolEdited.getUserCommentsIndices())) {
-                    int[] indices = StringUtils.parseNumberArrayFromString(protocolEdited.getUserCommentsIndices());
-                    userCommentsMultiSelectionViewHelper.setSelection(indices);
+                    userCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_comments_for_user());
                 }
 
-                if (!TextUtils.isEmpty(protocolEdited.getManagerCommentsIndices())) {
-                    int[] indices = StringUtils.parseNumberArrayFromString(protocolEdited.getManagerCommentsIndices());
-                    managerCommentsMultiSelectionViewHelper.setSelection(indices);
-                } else {
-                    managerCommentsTextView.setText(protocolEdited.get_comments_for_manager());
+                if (!TextUtils.isEmpty(protocolEdited.get_comments_for_manager())) {
+                    managerCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_comments_for_manager());
                 }
             }
         }
@@ -624,9 +617,6 @@ public class EnterDataActivity extends Activity {
         boolean bathroomBakeChecked = bathroomBakeSwitch.isChecked();
         TextView co2TextView = (TextView)findViewById(R.id.co2);
         String co2 = co2TextView.getText().toString();
-        TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
-        String managerComments = managerCommentsTextView.getText().toString();
-        String managerCommentsIndices = managerCommentsMultiSelectionViewHelper.getSelectionIndicesString();
 
 //        validate required fields
 
@@ -737,10 +727,8 @@ public class EnterDataActivity extends Activity {
         protocol.set_bathroom_bake_present(bathroomBakePresent);
         protocol.set_bathroom_bake_working(bathroomBakeChecked);
         protocol.set_equipment_comments(getString(R.string.equipment_comment));
-        protocol.set_comments_for_user(userCommentsMultiSelectionViewHelper.getPreAppendedText());
-        protocol.set_comments_for_manager(managerComments);
-        protocol.setManagerCommentsIndices(managerCommentsIndices);
-        protocol.setUserCommentsIndices(userCommentsMultiSelectionViewHelper.getSelectionIndicesString());
+        protocol.set_comments_for_user(userCommentsTextView.getText().toString());
+        protocol.set_comments_for_manager(managerCommentsTextView.getText().toString());
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         protocol.set_created(dateFormat.format(new Date()));
 
@@ -964,8 +952,6 @@ public class EnterDataActivity extends Activity {
         TextView co2TextView = (TextView)findViewById(R.id.co2);
         String co2 = co2TextView.getText().toString();
         TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
-        String managerComments = managerCommentsTextView.getText().toString();
-        String managerCommentsIndices = managerCommentsMultiSelectionViewHelper.getSelectionIndicesString();
 
 //        validate required fields
         if(kitchenChecked){
@@ -1075,10 +1061,8 @@ public class EnterDataActivity extends Activity {
         protocol.set_bathroom_bake_present(bathroomBakePresent);
         protocol.set_bathroom_bake_working(bathroomBakeChecked);
         protocol.set_equipment_comments(getString(R.string.equipment_comment));
-        protocol.set_comments_for_user(userCommentsMultiSelectionViewHelper.getPreAppendedText());
-        protocol.setUserCommentsIndices(userCommentsMultiSelectionViewHelper.getSelectionIndicesString());
-        protocol.set_comments_for_manager(managerComments);
-        protocol.setManagerCommentsIndices(managerCommentsIndices);
+        protocol.set_comments_for_user(userCommentsTextView.getText().toString());
+        protocol.set_comments_for_manager(managerCommentsTextView.getText().toString());
 
         PROTOCOL = protocol;
 
