@@ -90,6 +90,8 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_activated_1, values);
 
+        findViewById(R.id.delete_address).setEnabled(!values.isEmpty());
+
         addressesList.setAdapter(adapter);
 
         if (adapter.isEmpty()) {
@@ -187,6 +189,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         CharSequence text = AlertUtils.ADDRESS_DELETED;
         int duration = Toast.LENGTH_SHORT;
 
+        findViewById(R.id.delete_address).setEnabled(addressesList.getCount() > 0);
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
