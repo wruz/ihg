@@ -951,7 +951,6 @@ public class EnterDataActivity extends Activity {
         boolean bathroomBakeChecked = bathroomBakeSwitch.isChecked();
         TextView co2TextView = (TextView)findViewById(R.id.co2);
         String co2 = co2TextView.getText().toString();
-        TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
 
 //        validate required fields
         if(kitchenChecked){

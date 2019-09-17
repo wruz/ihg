@@ -844,7 +844,7 @@
             <EditText
                 android:id="@+id/comments_for_user"
                 android:inputType="textMultiLine"
-                android:layout_width="250dp"
+                android:layout_width="match_parent"
                 android:maxLength="175"
                 android:layout_height="wrap_content" >
             </EditText>
@@ -863,7 +863,7 @@
             <EditText
                 android:id="@+id/comments_for_manager"
                 android:inputType="textMultiLine"
-                android:layout_width="250dp"
+                android:layout_width="match_parent"
                 android:maxLength="135"
                 android:layout_height="wrap_content" >
             </EditText>

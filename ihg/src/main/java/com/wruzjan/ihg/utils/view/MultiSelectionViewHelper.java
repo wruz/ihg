@@ -38,24 +38,14 @@ public class MultiSelectionViewHelper implements DialogInterface.OnMultiChoiceCl
     }
 
     public void setPreAppendedText(@Nullable String preAppendedText) {
-        this.preAppendedText = preAppendedText;
-        textView.setText(buildSelectedItemString());
-    }
-
-    public String getSelectionIndicesString() {
-        StringBuilder builder = new StringBuilder();
-        boolean foundAtLeastOneSelected = false;
-
-        for (int i = 0; i < entries.length; ++i) {
-            if (selection[i]) {
-                if (foundAtLeastOneSelected) {
-                    builder.append(",");
-                }
-                foundAtLeastOneSelected = true;
-                builder.append(i);
+        for (String entry : entries) {
+            if (entry.equalsIgnoreCase(preAppendedText)) {
+                return;
             }
         }
-        return builder.toString();
+
+        this.preAppendedText = preAppendedText;
+        textView.setText(buildSelectedItemString());
     }
 
     public void setSelection(String selectionString) {
@@ -64,14 +54,22 @@ public class MultiSelectionViewHelper implements DialogInterface.OnMultiChoiceCl
         Arrays.fill(selection, false);
 
         StringBuilder preAppendedBuilder = new StringBuilder();
+        boolean atLeastTwoPreAppended = false;
 
         for (String comment : splitComments) {
+            boolean selectionMatch = false;
             for (int i = 0; i < entries.length; ++i) {
                 if (entries[i].equalsIgnoreCase(comment)) {
                     selection[i] = true;
-                } else {
-                    preAppendedBuilder.append(comment);
+                    selectionMatch = true;
                 }
+            }
+            if (!selectionMatch) {
+                preAppendedBuilder.append(comment);
+                if (atLeastTwoPreAppended) {
+                    preAppendedBuilder.append(", ");
+                }
+                atLeastTwoPreAppended = true;
             }
         }
         preAppendedText = preAppendedBuilder.toString();
