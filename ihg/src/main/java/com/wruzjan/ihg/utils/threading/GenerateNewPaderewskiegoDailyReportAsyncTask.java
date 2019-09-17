@@ -77,7 +77,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
             }
 
             writer = new BufferedWriter(new FileWriter(file));
-            CSVWriter csvWriter = new CSVWriter(writer, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+            CSVWriter csvWriter = new CSVWriter(writer);
 
             csvWriter.writeNext(new String[]{
                     "lokatorID",
