@@ -166,8 +166,7 @@
                 android:id="@+id/inputSearch"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="znajdź adres"
-                android:inputType="textVisiblePassword"/>
+                android:hint="znajdź adres"/>
 
             <LinearLayout android:id="@+id/list_wrapper"
                           xmlns:android="http://schemas.android.com/apk/res/android"
