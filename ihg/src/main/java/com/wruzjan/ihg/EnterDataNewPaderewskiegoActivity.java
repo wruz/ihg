@@ -444,12 +444,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     TextView kitchenGridRoundTextView = (TextView) findViewById(R.id.kitchen_grid_dimension_round);
                     kitchenGridRoundTextView.setText(Double.toString(protocolEdited.get_kitchen_grid_dimension_round()));
                 }
-                if(Float.compare(protocolEdited.get_kitchen_airflow_windows_closed(), 0.0f)!=0){
-                    AdapterUtils.setItemToSpinner(kitchenClosedSpinner, kitchenClosedSpinnerAdapter, protocolEdited.get_kitchen_airflow_windows_closed());
-                }
-                if(Float.compare(protocolEdited.get_kitchen_airflow_microventilation(), 0.0f)!=0){
-                    AdapterUtils.setItemToSpinner(kitchenMicroventSpinner, kitchenMicroventSpinnerAdapter, protocolEdited.get_kitchen_airflow_microventilation());
-                }
+                AdapterUtils.setItemToSpinner(kitchenClosedSpinner, kitchenClosedSpinnerAdapter, protocolEdited.get_kitchen_airflow_windows_closed());
+                AdapterUtils.setItemToSpinner(kitchenMicroventSpinner, kitchenMicroventSpinnerAdapter, protocolEdited.get_kitchen_airflow_microventilation());
                 Switch kitchenClean = (Switch) findViewById(R.id.kitchen_clean);
                 if("tak".equals(protocolEdited.get_kitchen_clean())){
                     kitchenClean.setChecked(true);
@@ -473,12 +469,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     TextView toiletGridRoundTextView = (TextView) findViewById(R.id.toilet_grid_dimension_round);
                     toiletGridRoundTextView.setText(Double.toString(protocolEdited.get_toilet_grid_dimension_round()));
                 }
-                if(Float.compare(protocolEdited.get_toilet_airflow_windows_closed(), 0.0f)!=0){
-                    AdapterUtils.setItemToSpinner(toiletClosedSpinner, toiletClosedSpinnerAdapter, protocolEdited.get_toilet_airflow_windows_closed());
-                }
-                if(Float.compare(protocolEdited.get_toilet_airflow_microventilation(), 0.0f)!=0){
-                    AdapterUtils.setItemToSpinner(toiletMicroventSpinner, toiletMicroventSpinnerAdapter, protocolEdited.get_toilet_airflow_microventilation());
-                }
+                AdapterUtils.setItemToSpinner(toiletClosedSpinner, toiletClosedSpinnerAdapter, protocolEdited.get_toilet_airflow_windows_closed());
+                AdapterUtils.setItemToSpinner(toiletMicroventSpinner, toiletMicroventSpinnerAdapter, protocolEdited.get_toilet_airflow_microventilation());
                 Switch toiletClean = (Switch) findViewById(R.id.toilet_clean);
                 if("tak".equals(protocolEdited.get_toilet_clean())){
                     toiletClean.setChecked(true);
@@ -501,12 +493,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     TextView bathGridRoundTextView = (TextView) findViewById(R.id.bathroom_grid_dimension_round);
                     bathGridRoundTextView.setText(Double.toString(protocolEdited.get_bathroom_grid_dimension_round()));
                 }
-                if(Float.compare(protocolEdited.get_bathroom_airflow_windows_closed(), 0.0f)!=0){
-                    AdapterUtils.setItemToSpinner(bathroomClosedSpinner, bathroomClosedSpinnerAdapter, protocolEdited.get_bathroom_airflow_windows_closed());
-                }
-                if(Float.compare(protocolEdited.get_bathroom_airflow_microventilation(), 0.0f)!=0){
-                    AdapterUtils.setItemToSpinner(bathroomMicroventSpinner, bathroomMicroventSpinnerAdapter, protocolEdited.get_bathroom_airflow_microventilation());
-                }
+                AdapterUtils.setItemToSpinner(bathroomClosedSpinner, bathroomClosedSpinnerAdapter, protocolEdited.get_bathroom_airflow_windows_closed());
+                AdapterUtils.setItemToSpinner(bathroomMicroventSpinner, bathroomMicroventSpinnerAdapter, protocolEdited.get_bathroom_airflow_microventilation());
                 Switch bathClean = (Switch) findViewById(R.id.bath_clean);
                 if("tak".equals(protocolEdited.get_bath_clean())){
                     bathClean.setChecked(true);
@@ -517,12 +505,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
                 //flue
                 flueAvailableSwitch.setChecked(protocolEdited.is_flue_enabled());
-                if(Float.compare(protocolEdited.get_flue_airflow_windows_closed(), 0.0f)!=0){
-                    AdapterUtils.setItemToSpinner(flueClosedSpinner, flueClosedSpinnerAdapter, protocolEdited.get_flue_airflow_windows_closed());
-                }
-                if(Float.compare(protocolEdited.get_flue_airflow_microventilation(), 0.0f)!=0){
-                    AdapterUtils.setItemToSpinner(flueMicroventSpinner, flueMicroventSpinnerAdapter, protocolEdited.get_flue_airflow_microventilation());
-                }
+                AdapterUtils.setItemToSpinner(flueClosedSpinner, flueClosedSpinnerAdapter, protocolEdited.get_flue_airflow_windows_closed());
+                AdapterUtils.setItemToSpinner(flueMicroventSpinner, flueMicroventSpinnerAdapter, protocolEdited.get_flue_airflow_microventilation());
                 flueComments.setText(protocolEdited.get_flue_comments());
 
                 //others
