@@ -743,6 +743,7 @@ public class EnterDataActivity extends Activity {
         protocol.set_gas_cooker_working(gasCookerChecked);
         protocol.set_bathroom_bake_present(bathroomBakePresent);
         protocol.set_bathroom_bake_working(bathroomBakeChecked);
+        protocol.set_equipment_comments(getString(R.string.equipment_comment));
         protocol.set_comments_for_user(userComments);
         protocol.set_comments_for_manager(managerComments);
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -1074,6 +1075,7 @@ public class EnterDataActivity extends Activity {
         protocol.set_gas_cooker_working(gasCookerChecked);
         protocol.set_bathroom_bake_present(bathroomBakePresent);
         protocol.set_bathroom_bake_working(bathroomBakeChecked);
+        protocol.set_equipment_comments(getString(R.string.equipment_comment));
         protocol.set_comments_for_user(userComments);
         protocol.set_comments_for_manager(managerComments);
 

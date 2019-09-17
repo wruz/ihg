@@ -1,9 +1,5 @@
 package com.wruzjan.ihg.utils.model;
 
-import android.content.res.Resources;
-
-import com.wruzjan.ihg.R;
-
 public class Protocol {
 
     private int _id;
@@ -55,7 +51,7 @@ public class Protocol {
     private boolean _gas_cooker_working;
     private boolean _bathroom_bake_working;
     private String _gas_fittings_comments;
-    private String _equipment_comments = Resources.getSystem().getString(R.string.equipment_comment);
+    private String _equipment_comments;
     private String _comments_for_user;
     private String _comments_for_manager;
 
@@ -467,6 +463,10 @@ public class Protocol {
 
     public String get_equipment_comments() {
         return _equipment_comments;
+    }
+
+    public void set_equipment_comments(String _equipment_comments) {
+        this._equipment_comments = _equipment_comments;
     }
 
     public String get_comments_for_user() {

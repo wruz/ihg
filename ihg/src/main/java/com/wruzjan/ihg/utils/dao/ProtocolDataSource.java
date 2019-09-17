@@ -327,6 +327,7 @@ public class ProtocolDataSource {
         } else {
             protocol.set_bathroom_bake_present(false);
         }
+        protocol.set_equipment_comments(cursor.getString(37));
         protocol.set_comments_for_user(cursor.getString(38));
         protocol.set_comments_for_manager(cursor.getString(39));
         protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));

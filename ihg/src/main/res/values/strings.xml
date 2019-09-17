@@ -137,5 +137,5 @@
     <string name="comments_for_user">zalecenia lub uwagi dla użytkownika lokalu</string>
     <string name="pad_comments_for_user">zalecenia</string>
     <string name="comments_for_manager">zalecenia lub uwagi dla zarządcy budynku</string>
-    <string name="equipment_comment">Zobowiązuje się użytkowanika mieszkania do zapewnienia właściwego napływu powietrza do mieszkania</string>
+    <string name="equipment_comment">Zobowiązuje się użytkownika mieszkania do zapewnienia właściwego napływu powietrza do mieszkania</string>
 </resources>
