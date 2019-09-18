@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wruzjan.ihg.R;
-import com.wruzjan.ihg.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
