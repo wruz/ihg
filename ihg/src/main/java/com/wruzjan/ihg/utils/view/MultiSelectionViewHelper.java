@@ -3,16 +3,23 @@ package com.wruzjan.ihg.utils.view;
 import android.content.DialogInterface;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.wruzjan.ihg.R;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class MultiSelectionViewHelper implements DialogInterface.OnMultiChoiceClickListener {
+public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Listener {
 
     @NonNull
     private final TextView textView;
@@ -77,7 +84,7 @@ public class MultiSelectionViewHelper implements DialogInterface.OnMultiChoiceCl
     }
 
     @Override
-    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+    public void onClick(int which, boolean isChecked) {
         if (which < selection.length) {
             selection[which] = isChecked;
             textView.setText(buildSelectedItemString());
@@ -95,12 +102,28 @@ public class MultiSelectionViewHelper implements DialogInterface.OnMultiChoiceCl
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(textView.getContext())
-                        .setMultiChoiceItems(entries, selection, MultiSelectionViewHelper.this)
+                View rootView = LayoutInflater.from(textView.getContext()).inflate(R.layout.dialog_multichoice, null, false);
+
+                AlertDialog dialog = new AlertDialog.Builder(textView.getContext())
+                        .setView(rootView)
+                        .setCancelable(false)
                         .setPositiveButton(android.R.string.ok, null)
-                        .show();
+                        .create();
+                RecyclerView recyclerView = rootView.findViewById(R.id.multichoice_recycler);
+                recyclerView.setLayoutManager(new LinearLayoutManager(textView.getContext()));
+                recyclerView.setAdapter(new MultiSelectionViewAdapter(createItemList(), MultiSelectionViewHelper.this));
+
+                dialog.show();
             }
         });
+    }
+
+    private List<MultiSelectionViewAdapter.Item> createItemList() {
+        ArrayList<MultiSelectionViewAdapter.Item> items = new ArrayList<>(selection.length);
+        for (int i = 0; i < selection.length; i++) {
+            items.add(new MultiSelectionViewAdapter.Item(selection[i], entries[i]));
+        }
+        return items;
     }
 
     private String buildSelectedItemString() {
