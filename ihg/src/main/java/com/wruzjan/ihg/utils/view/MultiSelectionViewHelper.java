@@ -1,6 +1,5 @@
 package com.wruzjan.ihg.utils.view;
 
-import android.content.DialogInterface;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wruzjan.ihg.R;
+import com.wruzjan.ihg.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +27,8 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
     private final String[] entries;
     @NonNull
     private final boolean[] selection;
+    @NonNull
+    private final boolean[] enabledOptions;
 
     @Nullable
     private String preAppendedText;
@@ -35,6 +37,8 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
         this.textView = textView;
         this.entries = entries;
         this.selection = new boolean[entries.length];
+        this.enabledOptions = new boolean[entries.length];
+        Arrays.fill(enabledOptions, true);
 
         configureEditText();
     }
@@ -42,6 +46,15 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
     @Nullable
     public String getPreAppendedText() {
         return preAppendedText;
+    }
+
+    public int indexOfEntries(@NonNull String textToFind) {
+        for (int i = 0; i < entries.length; ++i) {
+            if (entries[i].equalsIgnoreCase(textToFind)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void setPreAppendedText(@Nullable String preAppendedText) {
@@ -53,6 +66,15 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
 
         this.preAppendedText = preAppendedText;
         textView.setText(buildSelectedItemString());
+    }
+
+    public void setSelectedOption(int position, boolean selected) {
+        selection[position] = selected;
+        textView.setText(buildSelectedItemString());
+    }
+
+    public void setEnabledOption(int position, boolean enabled) {
+        enabledOptions[position] = enabled;
     }
 
     public void setSelection(String selectionString) {
@@ -121,7 +143,7 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
     private List<MultiSelectionViewAdapter.Item> createItemList() {
         ArrayList<MultiSelectionViewAdapter.Item> items = new ArrayList<>(selection.length);
         for (int i = 0; i < selection.length; i++) {
-            items.add(new MultiSelectionViewAdapter.Item(selection[i], entries[i]));
+            items.add(new MultiSelectionViewAdapter.Item(enabledOptions[i], selection[i], entries[i]));
         }
         return items;
     }

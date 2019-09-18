@@ -50,12 +50,14 @@ public class MultiSelectionViewAdapter extends RecyclerView.Adapter<MultiSelecti
         }
 
         void bind(@NonNull final Item item, final int position, @Nullable final Listener listener) {
+            checkedTextView.setEnabled(item.enabled);
             checkedTextView.setChecked(item.selected);
             checkedTextView.setText(item.content);
             if (listener != null) {
                 checkedTextView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        item.setSelected(isChecked);
                         listener.onClick(position, isChecked);
                     }
                 });
@@ -64,12 +66,18 @@ public class MultiSelectionViewAdapter extends RecyclerView.Adapter<MultiSelecti
     }
 
     public static final class Item {
-        private final boolean selected;
+        private final boolean enabled;
         @NonNull private final String content;
+        private boolean selected;
 
-        public Item(boolean selected, @NonNull String content) {
+        public Item(boolean enabled, boolean selected, @NonNull String content) {
+            this.enabled = enabled;
             this.selected = selected;
             this.content = content;
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected = selected;
         }
     }
 
