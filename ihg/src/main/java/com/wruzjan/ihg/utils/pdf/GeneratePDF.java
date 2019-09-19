@@ -265,7 +265,11 @@ public class GeneratePDF {
         form.setField("measured_3", Double.toString(round(sum_closed_more+sum_closed_less, 2)));
         form.setField("measured_4", Double.toString(round(sum_micro_more+sum_micro_less, 2)));
 
-        form.setField("co", Double.toString(round(protocol.get_co2(), 2)));
+        if (Float.compare(protocol.get_co2(), 0.0f) == 0) {
+            form.setField("co", "-");
+        } else {
+            form.setField("co", Double.toString(round(protocol.get_co2(), 2)));
+        }
 
         form.setField("comments_1", protocol.get_gas_fittings_comments());
         form.setField("comments_2", protocol.get_equipment_comments());
