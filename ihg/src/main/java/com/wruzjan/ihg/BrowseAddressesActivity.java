@@ -180,8 +180,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         Address address = (Address) addressesList.getItemAtPosition(selectedPosition);
 //        delete address
         datasource.deleteAddress(address);
-        //TODO delete corresponding protocols also, but ask user about it first
-//        protocolDataSource.deleteProtocols(address);
+        protocolDataSource.deleteProtocols(address);
 //        refresh list
         this.recreate();
 //        display confirmation
@@ -315,6 +314,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
                     public void onClick(DialogInterface dialog, int id) {
                         // delete all protocols
                         try {
+                            protocolDataSource.deleteAllProtocols();
                             datasource.deleteAllAddresses();
                             Context context = getApplicationContext();
                             CharSequence text = "Adresy zostały poprawnie usunięte";
