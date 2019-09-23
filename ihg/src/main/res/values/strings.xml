@@ -138,4 +138,7 @@
     <string name="pad_comments_for_user">zalecenia</string>
     <string name="comments_for_manager">zalecenia lub uwagi dla zarządcy budynku</string>
     <string name="equipment_comment">Zobowiązuje się użytkownika mieszkania do zapewnienia właściwego napływu powietrza do mieszkania</string>
+    <string name="delete_all_addresses_warning">Zostaną usunięte wszystkie pomiary zapisane na urządzeniu. Protokoły na urządzeniu nie będą usunięte. Czy chcesz kontynuować?</string>
+    <string name="delete_address_warning">Wszystkie pomiary powiązane z adresem zostaną usunięte, protokoły na urządzeniu nie zostaną usunięte. Czy chcesz kontynuować?</string>
+    <string name="toast_empty_adress_list_to_delete_message">Brak adresów na liście do usunięcia</string>
 </resources>
