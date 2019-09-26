@@ -464,6 +464,9 @@ public class EnterDataActivity extends Activity {
         toiletCommentsTextView.setAdapter(adapter);
         flueCommentsTextView.setAdapter(adapter);
 
+        TextView equipmentCommentsTextView = (TextView) findViewById(R.id.equipment_comments);
+        equipmentCommentsTextView.setText(AlertUtils.USER_COMMENTS_TEMPLATE);
+
         //get edit info
         Intent intent = getIntent();
         if (intent.hasExtra(Utils.EDIT_FLAG)) {
@@ -551,6 +554,7 @@ public class EnterDataActivity extends Activity {
                 bathroomBakeCheck.setChecked(protocolEdited.is_bathroom_bake_present());
                 Switch bathroomBakeSwitch = (Switch) findViewById(R.id.bathroom_bake);
                 bathroomBakeSwitch.setChecked(protocolEdited.is_bathroom_bake_working());
+                equipmentCommentsTextView.setText(protocolEdited.get_equipment_comments());
                 if (Float.compare(protocolEdited.get_co2(), 0.0f) != 0) {
                     co2TextView.setText(Integer.toString((int) (Math.round(protocolEdited.get_co2()))));
                 }
@@ -664,6 +668,8 @@ public class EnterDataActivity extends Activity {
         boolean bathroomBakePresent = bathroomBakeCheck.isChecked();
         Switch bathroomBakeSwitch = (Switch) findViewById(R.id.bathroom_bake);
         boolean bathroomBakeChecked = bathroomBakeSwitch.isChecked();
+        TextView equipmentCommentsTextView = (TextView) findViewById(R.id.equipment_comments);
+        String equipmentComments = equipmentCommentsTextView.getText().toString();
         TextView co2TextView = (TextView) findViewById(R.id.co2);
         String co2 = co2TextView.getText().toString();
 
@@ -775,7 +781,7 @@ public class EnterDataActivity extends Activity {
         protocol.set_gas_cooker_working(gasCookerChecked);
         protocol.set_bathroom_bake_present(bathroomBakePresent);
         protocol.set_bathroom_bake_working(bathroomBakeChecked);
-        protocol.set_equipment_comments(getString(R.string.equipment_comment));
+        protocol.set_equipment_comments(equipmentComments);
         protocol.set_comments_for_user(userCommentsTextView.getText().toString());
         protocol.set_comments_for_manager(managerCommentsTextView.getText().toString());
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -998,6 +1004,8 @@ public class EnterDataActivity extends Activity {
         boolean bathroomBakePresent = bathroomBakeCheck.isChecked();
         Switch bathroomBakeSwitch = (Switch) findViewById(R.id.bathroom_bake);
         boolean bathroomBakeChecked = bathroomBakeSwitch.isChecked();
+        TextView equipmentCommentsTextView = (TextView) findViewById(R.id.equipment_comments);
+        String equipmentComments = equipmentCommentsTextView.getText().toString();
         TextView co2TextView = (TextView) findViewById(R.id.co2);
         String co2 = co2TextView.getText().toString();
 
@@ -1108,7 +1116,7 @@ public class EnterDataActivity extends Activity {
         protocol.set_gas_cooker_working(gasCookerChecked);
         protocol.set_bathroom_bake_present(bathroomBakePresent);
         protocol.set_bathroom_bake_working(bathroomBakeChecked);
-        protocol.set_equipment_comments(getString(R.string.equipment_comment));
+        protocol.set_equipment_comments(equipmentComments);
         protocol.set_comments_for_user(userCommentsTextView.getText().toString());
         protocol.set_comments_for_manager(managerCommentsTextView.getText().toString());
 
