@@ -40,16 +40,6 @@
             android:layout_marginTop="15dp"
             android:orientation="horizontal" >
 
-            <!--usuń-->
-            <Button
-                android:id="@+id/detele_protocols_button"
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/delete_protocols_button"
-                android:onClick="deleteProtocols"
-                android:layout_gravity="right" />
-
             <!--zamknij-->
             <Button
                 android:layout_height="fill_parent"

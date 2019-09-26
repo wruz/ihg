@@ -10,8 +10,6 @@
     <string name="dropbox_button">dropbox</string>
     <string name="open_button">otwórz</string>
     <string name="close_button">zamknij</string>
-    <string name="delete_protocols_button">usuń protokoły</string>
-    <string name="delete_all_protocols_button">usuń wszystkie protokoły</string>
     <string name="delete_all_addresses_button">wyczyść listę</string>
     <string name="print_button">drukuj</string>
     <string name="get_signature_button">podpis</string>
@@ -64,9 +62,6 @@
 
     <!-- lista mieszkańców -->
     <string name="title_activity_browse_addresses">Lista zapisanych adresów</string>
-    <string name="add_form_to_address">dodaj protokół (Siemianowice)</string>
-    <string name="add_form2_to_address">dodaj protokół (Paderewskiego)</string>
-    <string name="add_form3_to_address">dodaj protokół (Nowy Paderewskiego)</string>
     <string name="show_old_protocols">przeglądaj protokoły</string>
     <string name="add_new_address">dodaj nowy adres</string>
     <string name="delete_address">usuń adres</string>
