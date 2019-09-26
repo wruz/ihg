@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class ProtocolNewPaderewskiegoDataSource {
 
@@ -181,6 +182,27 @@ public class ProtocolNewPaderewskiegoDataSource {
         ProtocolNewPaderewskiego newProtocol = cursorToProtocolShort(cursor);
         cursor.close();
         return newProtocol;
+    }
+
+    @Nullable
+    public ProtocolNewPaderewskiego getProtocolBefore(int latestProtocolId) {
+        Cursor cursor = null;
+        try {
+            cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
+                    allColumns, ApplicationOpenHelper.COLUMN_ID + " < " + latestProtocolId, null,  null, null,
+                    ApplicationOpenHelper.COLUMN_ID + " DESC LIMIT 1");
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                return cursorToProtocolShort(cursor);
+            } else {
+                return null;
+            }
+        } finally {
+            // Make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     public List<ProtocolNewPaderewskiego> getNewPaderewskiegoProtocolsByCreationDate(@NonNull String date) {

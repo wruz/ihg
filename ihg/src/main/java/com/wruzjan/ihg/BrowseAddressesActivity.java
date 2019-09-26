@@ -1,7 +1,6 @@
 package com.wruzjan.ihg;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,6 +36,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -174,27 +174,46 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
      * delete address button
      */
     public void deleteAddress(View view) {
-//        get selected address
-        Address address = (Address) addressesList.getItemAtPosition(selectedPosition);
-//        delete address
-        datasource.deleteAddress(address);
-        //TODO delete corresponding protocols also, but ask user about it first
-//        protocolDataSource.deleteProtocols(address);
-//        refresh list
-        this.recreate();
-//        display confirmation
-        Context context = getApplicationContext();
-        CharSequence text = AlertUtils.ADDRESS_DELETED;
-        int duration = Toast.LENGTH_SHORT;
+        if (addressesList.getCount() == 0) {
+            Toast.makeText(this, R.string.toast_empty_adress_list_to_delete_message, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setMessage(R.string.delete_address_warning)
+                .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton("Usuń", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // get selected address
+                        Address address = (Address) addressesList.getItemAtPosition(selectedPosition);
+                        // delete address
+                        protocolDataSource.deleteProtocols(address);
+                        datasource.deleteAddress(address);
+                        // refresh list
+                        BrowseAddressesActivity.this.recreate();
+                        // display confirmation
+                        Context context = getApplicationContext();
+                        CharSequence text = AlertUtils.ADDRESS_DELETED;
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
+                })
+                .show();
     }
 
     public void deleteAllAddresses(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 BrowseAddressesActivity.this);
-        alertDialogBuilder.setTitle("zostaną usunięte wszystkie adresy i protokoły zapisane w urządzeniu");
+        alertDialogBuilder.setTitle(R.string.delete_all_addresses_warning);
 
         alertDialogBuilder
                 .setCancelable(false)
@@ -211,7 +230,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
                             protocolDataSource.deleteAllProtocols();
                             datasource.deleteAllAddresses();
                             Context context = getApplicationContext();
-                            CharSequence text = "Protokoły zostały poprawnie usunięte";
+                            CharSequence text = "Adresy zostały poprawnie usunięte";
                             int duration = Toast.LENGTH_LONG;
 
                             Toast toast = Toast.makeText(context, text, duration);
@@ -224,7 +243,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
                         } catch (Exception e) {
                             Context context = getApplicationContext();
                             e.printStackTrace();
-                            CharSequence text = String.format("Usunięcie plików się nie udało: %s", e.getMessage());
+                            CharSequence text = String.format("Usunięcie adresów się nie udało: %s", e.getMessage());
                             int duration = Toast.LENGTH_LONG;
 
                             Toast toast = Toast.makeText(context, text, duration);

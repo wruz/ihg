@@ -1649,6 +1649,7 @@ public class EnterData2Activity extends Activity {
 
             Button dropboxButton =(Button)findViewById(R.id.dropbox_button);
             dropboxButton.setEnabled(true);
+            openDropboxApp();
         } catch (Exception e) {
             Context context = getApplicationContext();
             e.printStackTrace();
@@ -1688,6 +1689,10 @@ public class EnterData2Activity extends Activity {
     }
 
     public void dropbox(View view) {
+        openDropboxApp();
+    }
+
+    private void openDropboxApp() {
         Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(pdfFilePath));
 
         Intent intent = new Intent(Intent.ACTION_SEND);

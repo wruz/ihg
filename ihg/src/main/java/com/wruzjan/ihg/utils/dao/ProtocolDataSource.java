@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class ProtocolDataSource {
 
@@ -189,6 +190,27 @@ public class ProtocolDataSource {
         Protocol newProtocol = cursorToProtocolShort(cursor);
         cursor.close();
         return newProtocol;
+    }
+
+    @Nullable
+    public Protocol getProtocolBefore(int latestProtocolId) {
+        Cursor cursor = null;
+        try {
+            cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
+                    allColumns, ApplicationOpenHelper.COLUMN_ID + " < " + latestProtocolId, null,  null, null,
+                    ApplicationOpenHelper.COLUMN_ID + " DESC LIMIT 1");
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                return cursorToProtocolShort(cursor);
+            } else {
+                return null;
+            }
+        } finally {
+            // Make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     public List<Protocol> getSiemanowiceProtocolsByCreationDate(@NonNull String date) {

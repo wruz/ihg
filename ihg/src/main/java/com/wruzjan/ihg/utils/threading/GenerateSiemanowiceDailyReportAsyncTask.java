@@ -17,9 +17,12 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static com.wruzjan.ihg.utils.DateUtils.DATABASE_DATE_FORMAT;
 import static com.wruzjan.ihg.utils.ProtocolUtils.*;
@@ -43,7 +46,15 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
         Date creationDate = dates[0];
 
         List<Protocol> protocols = protocolDataSource.getSiemanowiceProtocolsByCreationDate(DATABASE_DATE_FORMAT.format(creationDate));
-        if (protocols.isEmpty()) {
+        Map<Integer, Address> addresses = new HashMap<>();
+        for (Protocol protocol : protocols) {
+            Address address = addressDataSource.getAddressById(protocol.get_address_id());
+            if (address != null && !addresses.containsKey(protocol.get_address_id())) {
+                addresses.put(protocol.get_address_id(), address);
+            }
+        }
+
+        if (protocols.isEmpty() || addresses.isEmpty()) {
             return "";
         }
 
@@ -65,7 +76,7 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
             }
 
             writer = new BufferedWriter(new FileWriter(file));
-            CSVWriter csvWriter = new CSVWriter(writer, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+            CSVWriter csvWriter = new CSVWriter(writer);
 
             csvWriter.writeNext(new String[]{
                     "lokatorID",
@@ -95,40 +106,41 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
                     "uwagi SM"
             });
 
+            Protocol previousProtocol = protocolDataSource.getProtocolBefore(protocols.get(0).get_id());
+
             for (int i = 0; i < protocols.size(); i++) {
                 Protocol protocol = protocols.get(i);
-                Protocol previousProtocol = (i > 0) ? protocols.get(i - 1) : null;
+                Address address = addresses.get(protocol.get_address_id());
+                if (address != null) {
+                    DailyReport bean = mapToDailyReport(protocol, (i > 0) ? protocols.get(i - 1) : previousProtocol, address);
 
-                Address address = addressDataSource.getAddressById(protocol.get_address_id());
-
-                DailyReport bean = mapToDailyReport(protocol, previousProtocol, address);
-
-                csvWriter.writeNext(new String[]{
-                        bean.getLocatorId(),
-                        bean.getStreet(),
-                        bean.getHouseNumber(),
-                        bean.getFlatNumber(),
-                        bean.getCity(),
-                        bean.getInspectionDate(),
-                        bean.getPreviousInspectionDate(),
-                        bean.getKitchenWindowsClosed(),
-                        bean.getKitchenMicrovent(),
-                        bean.getKitchenComments(),
-                        bean.getBathroomWindowsClosed(),
-                        bean.getBathroomMicrovent(),
-                        bean.getBathroomComments(),
-                        bean.getToiletWindowsClosed(),
-                        bean.getToiletMicrovent(),
-                        bean.getToiletComments(),
-                        bean.getFlueWindowsClosed(),
-                        bean.getFlueMicrovent(),
-                        bean.getFlueComments(),
-                        bean.getGas(),
-                        bean.getGasComments(),
-                        bean.getCo2(),
-                        bean.getCommentsForUser(),
-                        bean.getCommentsForManager()
-                });
+                    csvWriter.writeNext(new String[]{
+                            bean.getLocatorId(),
+                            bean.getStreet(),
+                            bean.getHouseNumber(),
+                            bean.getFlatNumber(),
+                            bean.getCity(),
+                            bean.getInspectionDate(),
+                            bean.getPreviousInspectionDate(),
+                            bean.getKitchenWindowsClosed(),
+                            bean.getKitchenMicrovent(),
+                            bean.getKitchenComments(),
+                            bean.getBathroomWindowsClosed(),
+                            bean.getBathroomMicrovent(),
+                            bean.getBathroomComments(),
+                            bean.getToiletWindowsClosed(),
+                            bean.getToiletMicrovent(),
+                            bean.getToiletComments(),
+                            bean.getFlueWindowsClosed(),
+                            bean.getFlueMicrovent(),
+                            bean.getFlueComments(),
+                            bean.getGas(),
+                            bean.getGasComments(),
+                            bean.getCo2(),
+                            bean.getCommentsForUser(),
+                            bean.getCommentsForManager()
+                    });
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -145,7 +157,7 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
         return reportFilePath;
     }
 
-    private DailyReport mapToDailyReport(Protocol protocol, Protocol previousProtocol, Address address) {
+    private DailyReport mapToDailyReport(@NonNull Protocol protocol, @Nullable Protocol previousProtocol, @NonNull Address address) {
         return DailyReport.newBuilder()
                 .withStreet(address.getStreet())
                 .withHouseNumber(address.getBuilding())
