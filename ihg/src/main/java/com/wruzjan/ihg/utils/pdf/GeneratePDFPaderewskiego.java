@@ -386,11 +386,19 @@ public class GeneratePDFPaderewskiego {
         PdfReader reader;
         PdfStamper stamper;
 
-        if(protocol.get_worker_name().equals("Szymon Mączyński")){
-            reader = new PdfReader(Utils.PADEREWSKIEGO_PDF_SZYMON);
-        } else {
-            reader = new PdfReader(Utils.PADEREWSKIEGO_PDF_MACIEJ);
+        switch (protocol.get_worker_name()) {
+            case "Szymon Mączyński":
+                reader = new PdfReader(Utils.PADEREWSKIEGO_PDF_SZYMON);
+                break;
+            case "Maciej Kowalski":
+                reader = new PdfReader(Utils.PADEREWSKIEGO_PDF_MACIEJ);
+                break;
+            default:
+            case "Rafał Niegot":
+                reader = new PdfReader(Utils.PADEREWSKIEGO_PDF_RAFAL);
+                break;
         }
+
         stamper = new PdfStamper(reader,
                 new FileOutputStream(str_path));
 

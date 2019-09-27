@@ -57,6 +57,15 @@ public class Utils {
     public static final String NEW_PADEREWSKIEGO_PDF_SZYMON
             = Environment.getExternalStorageDirectory().toString() + "/IHG/templates/form3_szymon.pdf";
 
+    public static final String SIEMIANOWICE_PDF_RAFAL
+            = Environment.getExternalStorageDirectory().toString() + "/IHG/templates/form1_rafal.pdf";
+
+    public static final String PADEREWSKIEGO_PDF_RAFAL
+            = Environment.getExternalStorageDirectory().toString() + "/IHG/templates/form2_rafal.pdf";
+
+    public static final String NEW_PADEREWSKIEGO_PDF_RAFAL
+            = Environment.getExternalStorageDirectory().toString() + "/IHG/templates/form3_rafal.pdf";
+
     public static final int USER_COMMENTS_LENGTH = 512;
 
 //    moja "00:22:58:02:29:0C"
