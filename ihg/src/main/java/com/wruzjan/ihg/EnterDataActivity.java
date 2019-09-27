@@ -475,6 +475,8 @@ public class EnterDataActivity extends Activity {
                 //fill data from previous protocol
                 Protocol protocolEdited = protocolDataSource.getSiemianowiceProtocolsById(protocolId);
 
+                companyAddressTextView.setText(protocolEdited.getCompanyAddress());
+
                 //kitchen
                 kitchenAvailableSwitch.setChecked(protocolEdited.is_kitchen_enabled());
                 if (Float.compare(protocolEdited.get_kitchen_grid_dimension_x(), 0.0f) != 0) {

@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.wruzjan.ihg.utils.db.ApplicationOpenHelper;
-import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
 
 import java.util.ArrayList;
@@ -66,7 +65,8 @@ public class ProtocolNewPaderewskiegoDataSource {
             ApplicationOpenHelper.COLUMN_BATH_CLEANED,
             ApplicationOpenHelper.COLUMN_TOILET_CLEANED,
             ApplicationOpenHelper.COLUMN_FLUE_CLEANED,
-            ApplicationOpenHelper.COLUMN_CREATED};
+            ApplicationOpenHelper.COLUMN_CREATED,
+            ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS};
 
     public ProtocolNewPaderewskiegoDataSource(Context context) {
         applicationHelper = new ApplicationOpenHelper(context);
@@ -170,6 +170,7 @@ public class ProtocolNewPaderewskiegoDataSource {
         values.put(applicationHelper.COLUMN_COMMENTS_FOR_USER, protocol.get_comments_for_user());
         values.put(applicationHelper.COLUMN_COMMENTS_FOR_MANAGER, protocol.get_comments_for_manager());
         values.put(applicationHelper.COLUMN_CREATED, protocol.get_created());
+        values.put(ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS, protocol.getCompanyAddress());
 
         long insertId = database.insert(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO, null,
                 values);
@@ -351,6 +352,7 @@ public class ProtocolNewPaderewskiegoDataSource {
         protocol.set_bath_clean(cursor.getString(43));
         protocol.set_toilet_clean(cursor.getString(44));
         protocol.set_flue_clean(cursor.getString(45));
+        protocol.setCompanyAddress(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS)));
         //end ofnew paderewskiego specific fields
         return protocol;
     }

@@ -66,6 +66,8 @@ public class ProtocolNewPaderewskiego {
     private String _comments_for_user;
     private String _comments_for_manager;
 
+    private String companyAddress;
+
     public ProtocolNewPaderewskiego(){
     }
 
@@ -564,6 +566,14 @@ public class ProtocolNewPaderewskiego {
 
     public void set_flue_clean(String _flue_clean) {
         this._flue_clean = _flue_clean;
+    }
+
+    public String getCompanyAddress() {
+        return companyAddress;
+    }
+
+    public void setCompanyAddress(String companyAddress) {
+        this.companyAddress = companyAddress;
     }
 
     //    Prepare record for listView

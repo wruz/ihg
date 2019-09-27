@@ -394,7 +394,9 @@ public class GeneratePDFPaderewskiego {
         stamper = new PdfStamper(reader,
                 new FileOutputStream(str_path));
 
-        fill(stamper.getAcroFields(), address, protocol);
+        AcroFields form = stamper.getAcroFields();
+        form.setGenerateAppearances(true);
+        fill(form, address, protocol);
         stamper.setFormFlattening(true);
 
         PdfContentByte content = stamper.getOverContent(reader.getNumberOfPages());
