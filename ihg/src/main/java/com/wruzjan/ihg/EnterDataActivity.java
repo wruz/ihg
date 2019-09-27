@@ -53,7 +53,7 @@ import androidx.core.content.FileProvider;
 
 public class EnterDataActivity extends Activity {
 
-    public static final String PREF_SIEMANOWICE_COMPANY_ADDRESS = "PREF_SIEMANOWICE_COMPANY_ADDRESS";
+    private static final String PREF_SIEMANOWICE_COMPANY_ADDRESS = "PREF_SIEMANOWICE_COMPANY_ADDRESS";
     private static ArrayList<String> PRINTER_MACS = new ArrayList<String>();
 
     private AddressDataSource addressDataSource;
