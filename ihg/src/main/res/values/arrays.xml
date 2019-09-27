@@ -5,4 +5,12 @@
         <item>Usunąć wentylator w łazience</item>
         <item>Umożliwić dostęp do przewodu spalinowego</item>
     </string-array>
+
+    <string-array name="siemanowice_company_addresses">
+        <item>Siemianowickiej Spółdzielni Mieszkaniowej</item>
+    </string-array>
+
+    <string-array name="new_paderewskiego_protocol_headers">
+        <item>Spółdzielni Mieszkaniowej im. I.J. Paderewskiego</item>
+    </string-array>
 </resources>

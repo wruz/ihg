@@ -28,6 +28,7 @@ public class GeneratePDF {
         BaseFont bf = BaseFont.createFont(Environment.getExternalStorageDirectory().toString()+"/IHG/fonts/arial_unicode.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         form.addSubstitutionFont(bf);
 
+        form.setField("company_address", protocol.getCompanyAddress());
         form.setField("name", address.getName());
         form.setField("address", address.getStreet()+" "+address.getBuilding()+"/"+address.getFlat());
 //        +", "+address.getCity());
