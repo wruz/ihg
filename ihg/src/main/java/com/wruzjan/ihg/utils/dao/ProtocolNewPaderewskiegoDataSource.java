@@ -186,6 +186,27 @@ public class ProtocolNewPaderewskiegoDataSource {
     }
 
     @Nullable
+    public ProtocolNewPaderewskiego getLatestProtocol() {
+        Cursor cursor = null;
+        try {
+            cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
+                    allColumns, null, null,  null, null,
+                    ApplicationOpenHelper.COLUMN_ID + " DESC LIMIT 1");
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                return cursorToProtocol(cursor);
+            } else {
+                return null;
+            }
+        } finally {
+            // Make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    @Nullable
     public ProtocolNewPaderewskiego getProtocolBefore(int latestProtocolId) {
         Cursor cursor = null;
         try {

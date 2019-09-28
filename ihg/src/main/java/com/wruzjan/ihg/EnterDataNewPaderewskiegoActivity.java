@@ -468,8 +468,13 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         toiletCommentsTextView.setAdapter(adapter);
         flueCommentsTextView.setAdapter(adapter);
 
-        TextView equipmentCommentsTextView = (TextView) findViewById(R.id.equipment_comments);
-        equipmentCommentsTextView.setText(AlertUtils.USER_COMMENTS_TEMPLATE);
+        ProtocolNewPaderewskiego latestProtocol = protocolNewPaderewskiegoDataSource.getLatestProtocol();
+        TextView equipmentCommentsTextView = findViewById(R.id.equipment_comments);
+        if (latestProtocol != null) {
+            equipmentCommentsTextView.setText(latestProtocol.get_equipment_comments());
+        } else {
+            equipmentCommentsTextView.setText(AlertUtils.USER_COMMENTS_TEMPLATE);
+        }
 
         //get edit info
         Intent intent = getIntent();
