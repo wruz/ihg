@@ -195,6 +195,27 @@ public class ProtocolDataSource {
     }
 
     @Nullable
+    public Protocol getLatestProtocol() {
+        Cursor cursor = null;
+        try {
+            cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
+                    allColumns, null, null,  null, null,
+                    ApplicationOpenHelper.COLUMN_ID + " DESC LIMIT 1");
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                return cursorToProtocol(cursor);
+            } else {
+                return null;
+            }
+        } finally {
+            // Make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    @Nullable
     public Protocol getProtocolBefore(int latestProtocolId) {
         Cursor cursor = null;
         try {
