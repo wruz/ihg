@@ -55,6 +55,8 @@ public class Protocol {
     private String _comments_for_user;
     private String _comments_for_manager;
 
+    private String companyAddress;
+
     public Protocol(){
     }
 
@@ -483,6 +485,14 @@ public class Protocol {
 
     public void set_comments_for_manager(String _comments_for_manager) {
         this._comments_for_manager = _comments_for_manager;
+    }
+
+    public String getCompanyAddress() {
+        return companyAddress;
+    }
+
+    public void setCompanyAddress(String companyAddress) {
+        this.companyAddress = companyAddress;
     }
 
     //    Prepare record for listView

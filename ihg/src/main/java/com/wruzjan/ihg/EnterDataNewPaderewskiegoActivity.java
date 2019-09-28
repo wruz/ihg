@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -51,6 +52,7 @@ import androidx.core.content.FileProvider;
 
 public class EnterDataNewPaderewskiegoActivity extends Activity {
 
+    private static final String PREF_NEW_PADEREWSKIEGO_COMPANY_ADDRESS = "PREF_NEW_PADEREWSKIEGO_COMPANY_ADDRESS";
     private static ArrayList<String> PRINTER_MACS = new ArrayList<String>();
 
     private AddressDataSource addressDataSource;
@@ -90,6 +92,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     private TextView userCommentsTextView;
     private MultiSelectionViewHelper userCommentsMultiSelectionViewHelper;
 
+    private AutoCompleteTextView companyAddressTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -445,6 +448,13 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             }
         });
 
+        companyAddressTextView = findViewById(R.id.company_address_text_view);
+        companyAddressTextView.setThreshold(0);
+
+        String[] newPaderewskiegoCompanyAddresses = getResources().getStringArray(R.array.new_paderewskiego_protocol_headers);
+        companyAddressTextView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, newPaderewskiegoCompanyAddresses));
+        companyAddressTextView.setText(PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_NEW_PADEREWSKIEGO_COMPANY_ADDRESS, newPaderewskiegoCompanyAddresses[0]));
+
         //comments autocomplete
         AutoCompleteTextView kitchenCommentsTextView = (AutoCompleteTextView) findViewById(R.id.kitchen_comments);
         AutoCompleteTextView bathCommentsTextView = (AutoCompleteTextView) findViewById(R.id.bathroom_comments);
@@ -468,6 +478,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
                 //fill data from previous protocol
                 ProtocolNewPaderewskiego protocolEdited = protocolNewPaderewskiegoDataSource.getNewPaderewskiegoProtocolsById(protocolId);
+
+                companyAddressTextView.setText(protocolEdited.getCompanyAddress());
 
                 //kitchen
                 kitchenAvailableSwitch.setChecked(protocolEdited.is_kitchen_enabled());
@@ -602,6 +614,10 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
         Intent intent = getIntent();
         ProtocolNewPaderewskiego protocol = new ProtocolNewPaderewskiego();
+
+        String companyAddress = companyAddressTextView.getText().toString();
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PREF_NEW_PADEREWSKIEGO_COMPANY_ADDRESS, companyAddress).apply();
+        protocol.setCompanyAddress(companyAddress);
 
         //get worker
         if(intent.hasExtra(Utils.WORKER_NAME)){

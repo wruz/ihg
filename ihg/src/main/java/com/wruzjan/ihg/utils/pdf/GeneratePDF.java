@@ -28,6 +28,7 @@ public class GeneratePDF {
         BaseFont bf = BaseFont.createFont(Environment.getExternalStorageDirectory().toString()+"/IHG/fonts/arial_unicode.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         form.addSubstitutionFont(bf);
 
+        form.setField("company_address", protocol.getCompanyAddress());
         form.setField("name", address.getName());
         form.setField("address", address.getStreet()+" "+address.getBuilding()+"/"+address.getFlat());
 //        +", "+address.getCity());
@@ -333,15 +334,25 @@ public class GeneratePDF {
 
         PdfReader reader;
         PdfStamper stamper;
-        if (protocol.get_worker_name().equals("Szymon Mączyński")) {
-            reader = new PdfReader(Utils.SIEMIANOWICE_PDF_SZYMON);
-        } else {
-            reader = new PdfReader(Utils.SIEMIANOWICE_PDF_MACIEJ);
+
+        switch (protocol.get_worker_name()) {
+            case "Szymon Mączyński":
+                reader = new PdfReader(Utils.SIEMIANOWICE_PDF_SZYMON);
+                break;
+            case "Maciej Kowalski":
+                reader = new PdfReader(Utils.SIEMIANOWICE_PDF_MACIEJ);
+                break;
+            default:
+            case "Rafał Niegot":
+                reader = new PdfReader(Utils.SIEMIANOWICE_PDF_RAFAL);
+                break;
         }
+
         stamper = new PdfStamper(reader,
                 new FileOutputStream(str_path));
-
-        fill(stamper.getAcroFields(), address, protocol);
+        AcroFields form = stamper.getAcroFields();
+        form.setGenerateAppearances(true);
+        fill(form, address, protocol);
         stamper.setFormFlattening(true);
 
         PdfContentByte content = stamper.getOverContent(reader.getNumberOfPages());
