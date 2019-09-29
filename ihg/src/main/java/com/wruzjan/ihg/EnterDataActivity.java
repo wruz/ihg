@@ -1254,7 +1254,6 @@ public class EnterDataActivity extends Activity {
         }
     }
 
-
     private void setTextOnOffLabelChangeListener(final SwitchCompat switchCompat, final TextView switchText) {
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

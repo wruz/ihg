@@ -64,14 +64,29 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/roomAvailability" />
-            <Switch
-                android:id="@+id/kitchen_availability"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:textOn="@string/measurementPossible"
-                android:textOff="@string/measurementImpossible"
-                android:layout_marginBottom="20dip" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/kitchen_availability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:textOn="@string/measurementPossible"
+                    android:textOff="@string/measurementImpossible"
+                    android:layout_marginBottom="20dip" />
+
+                <TextView
+                    android:id="@+id/kitchen_availability_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/measurementPossible" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -202,13 +217,26 @@
                 android:gravity="left"
                 android:text="@string/cleaning" />
 
-            <Switch
-                android:id="@+id/kitchen_clean"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:textOff="@string/no"
-                android:textOn="@string/yes" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/kitchen_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:textOff="@string/no"
+                    android:textOn="@string/yes" />
+
+                <TextView
+                    android:id="@+id/kitchen_clean_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -249,14 +277,28 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/roomAvailability" />
-            <Switch
-                android:id="@+id/bathroom_availability"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:textOn="@string/measurementPossible"
-                android:textOff="@string/measurementImpossible"
-                android:layout_marginBottom="20dip" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/bathroom_availability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:textOn="@string/measurementPossible"
+                    android:textOff="@string/measurementImpossible"
+                    android:layout_marginBottom="20dip" />
+
+                <TextView
+                    android:id="@+id/bathroom_availability_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/measurementPossible" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -387,13 +429,26 @@
                 android:gravity="left"
                 android:text="@string/cleaning" />
 
-            <Switch
-                android:id="@+id/bath_clean"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:textOff="@string/no"
-                android:textOn="@string/yes" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/bath_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:textOff="@string/no"
+                    android:textOn="@string/yes" />
+
+                <TextView
+                    android:id="@+id/bath_clean_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -434,14 +489,29 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/roomAvailability" />
-            <Switch
-                android:id="@+id/toilet_availability"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:textOn="@string/measurementPossible"
-                android:textOff="@string/measurementImpossible"
-                android:layout_marginBottom="20dip" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/toilet_availability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dip"
+                    android:checked="true"
+                    android:textOff="@string/measurementImpossible"
+                    android:textOn="@string/measurementPossible" />
+
+                <TextView
+                    android:id="@+id/toilet_availability_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/measurementPossible" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -572,13 +642,26 @@
                 android:gravity="left"
                 android:text="@string/cleaning" />
 
-            <Switch
-                android:id="@+id/toilet_clean"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:textOff="@string/no"
-                android:textOn="@string/yes" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/toilet_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:textOff="@string/no"
+                    android:textOn="@string/yes" />
+
+                <TextView
+                    android:id="@+id/toilet_clean_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -619,14 +702,29 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/roomAvailability" />
-            <Switch
-                android:id="@+id/flue_availability"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:textOn="@string/measurementPossible"
-                android:textOff="@string/measurementImpossible"
-                android:layout_marginBottom="20dip" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/flue_availability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:textOn="@string/measurementPossible"
+                    android:textOff="@string/measurementImpossible"
+                    android:layout_marginBottom="20dip" />
+
+                <TextView
+                    android:id="@+id/flue_availability_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/measurementPossible" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -689,13 +787,27 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="@string/cleaning" />
-            <Switch
-                android:id="@+id/flue_clean"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:textOn="@string/yes"
-                android:textOff="@string/no" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/flue_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:textOff="@string/no"
+                    android:textOn="@string/yes" />
+
+                <TextView
+                    android:id="@+id/flue_clean_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -740,14 +852,27 @@
                 android:checked="true"
                 android:text="@string/gas_fittings" />
 
-            <Switch
-                android:id="@+id/gas_fittings"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dip"
-                android:checked="true"
-                android:textOff="@string/not_working_z"
-                android:textOn="@string/working_z" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/gas_fittings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dip"
+                    android:checked="true"
+                    android:textOff="@string/not_working_z"
+                    android:textOn="@string/working_z" />
+
+                <TextView
+                    android:id="@+id/gas_fittings_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/working_z" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -781,14 +906,27 @@
                 android:layout_height="wrap_content"
                 android:text="@string/gas_cooker"/>
 
-            <Switch
-                android:id="@+id/gas_cooker"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dip"
-                android:checked="true"
-                android:textOff="@string/leaky_z"
-                android:textOn="@string/tight_z" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/gas_cooker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dip"
+                    android:checked="true"
+                    android:textOff="@string/leaky_z"
+                    android:textOn="@string/tight_z" />
+
+                <TextView
+                    android:id="@+id/gas_cooker_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tight_z" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -802,14 +940,27 @@
                 android:layout_height="wrap_content"
                 android:text="@string/bathroom_bake"/>
 
-            <Switch
-                android:id="@+id/bathroom_bake"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dip"
-                android:checked="true"
-                android:textOff="@string/leaky_m"
-                android:textOn="@string/tight_m" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/bathroom_bake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dip"
+                    android:checked="true"
+                    android:textOff="@string/leaky_m"
+                    android:textOn="@string/tight_m" />
+
+                <TextView
+                    android:id="@+id/bathroom_bake_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tight_m" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
