@@ -23,7 +23,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.FileProvider;
 
 public class EnterDataActivity extends Activity {
@@ -99,6 +99,16 @@ public class EnterDataActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_data);
+
+        SwitchCompat gasFittingsSwitch = findViewById(R.id.gas_fittings);
+        TextView gasFittingsSwitchText = findViewById(R.id.gas_fittings_text);
+        setTextOnOffLabelChangeListener(gasFittingsSwitch, gasFittingsSwitchText);
+        SwitchCompat gasCookerSwitch = findViewById(R.id.gas_cooker);
+        TextView gasCookerSwitchText = findViewById(R.id.gas_cooker_text);
+        setTextOnOffLabelChangeListener(gasCookerSwitch, gasCookerSwitchText);
+        SwitchCompat bathroomBakeSwitch = findViewById(R.id.bathroom_bake);
+        TextView bathroomBakeSwitchText = findViewById(R.id.bathroom_bake_text);
+        setTextOnOffLabelChangeListener(bathroomBakeSwitch, bathroomBakeSwitchText);
 
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
@@ -154,35 +164,42 @@ public class EnterDataActivity extends Activity {
         flueMicroventSpinner = findViewById(R.id.flue_airflow_microventilation);
         flueMicroventSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(flueMicroventSpinner, "1.0");
 
-        Switch kitchenAvailableSwitch = (Switch) findViewById(R.id.kitchen_availability);
+        final SwitchCompat kitchenAvailableSwitch = findViewById(R.id.kitchen_availability);
+        final TextView kitchenAvailableSwitchText = findViewById(R.id.kitchen_availability_text);
         kitchenAvailableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     EditText kitchenComments = (EditText) findViewById(R.id.kitchen_comments);
                     kitchenComments.setHint(null);
+                    kitchenAvailableSwitchText.setText(kitchenAvailableSwitch.getTextOn());
                 } else {
                     EditText kitchenComments = (EditText) findViewById(R.id.kitchen_comments);
                     kitchenComments.setHint("pole wymagane");
                     kitchenComments.requestFocus();
+                    kitchenAvailableSwitchText.setText(kitchenAvailableSwitch.getTextOff());
                 }
             }
         });
 
-        Switch bathroomAvailableSwitch = (Switch) findViewById(R.id.bathroom_availability);
+        final SwitchCompat bathroomAvailableSwitch = findViewById(R.id.bathroom_availability);
+        final TextView bathroomAvailableSwitchText = findViewById(R.id.bathroom_availabilityy_text);
         bathroomAvailableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     EditText bathComments = (EditText) findViewById(R.id.bathroom_comments);
                     bathComments.setHint(null);
+                    bathroomAvailableSwitchText.setText(bathroomAvailableSwitch.getTextOn());
                 } else {
                     EditText bathComments = (EditText) findViewById(R.id.bathroom_comments);
                     bathComments.setHint("pole wymagane");
                     bathComments.requestFocus();
+                    bathroomAvailableSwitchText.setText(bathroomAvailableSwitch.getTextOff());
                 }
             }
         });
 
-        Switch toiletAvailableSwitch = (Switch) findViewById(R.id.toilet_availability);
+        final SwitchCompat toiletAvailableSwitch = findViewById(R.id.toilet_availability);
+        final TextView toiletAvailableSwitchText = findViewById(R.id.toilet_availability_text);
         toiletAvailableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -194,6 +211,7 @@ public class EnterDataActivity extends Activity {
 //                    toiletDimY.setHint("pole wymagane");
                     EditText toiletComments = (EditText) findViewById(R.id.toilet_comments);
                     toiletComments.setText(AlertUtils.BLANK);
+                    toiletAvailableSwitchText.setText(toiletAvailableSwitch.getTextOn());
                 } else {
                     // The toggle is disabled
                     EditText toiletDimX = (EditText) findViewById(R.id.toilet_grid_dimension_1);
@@ -204,10 +222,12 @@ public class EnterDataActivity extends Activity {
                     EditText toiletComments = (EditText) findViewById(R.id.toilet_comments);
                     toiletComments.setText(AlertUtils.LACK);
                     toiletComments.requestFocus();
+                    toiletAvailableSwitchText.setText(toiletAvailableSwitch.getTextOff());
                 }
             }
         });
-        Switch flueAvailableSwitch = (Switch) findViewById(R.id.flue_availability);
+        final SwitchCompat flueAvailableSwitch = findViewById(R.id.flue_availability);
+        final TextView flueAvailableSwitchText = findViewById(R.id.flue_availability_text);
         flueAvailableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -215,12 +235,14 @@ public class EnterDataActivity extends Activity {
                     flueClosedSpinner.requestFocus();
                     EditText flueComments = (EditText) findViewById(R.id.flue_comments);
                     flueComments.setHint(null);
+                    flueAvailableSwitchText.setText(flueAvailableSwitch.getTextOn());
                 } else {
                     // The toggle is disabled
                     flueMicroventSpinner.requestFocus();
                     EditText flueComments = (EditText) findViewById(R.id.flue_comments);
                     flueComments.setHint("pole wymagane");
                     flueComments.requestFocus();
+                    flueAvailableSwitchText.setText(flueAvailableSwitch.getTextOff());
                 }
             }
         });
@@ -547,17 +569,14 @@ public class EnterDataActivity extends Activity {
 
                 //others
                 gasFittingsCheck.setChecked(protocolEdited.is_gas_fittings_present());
-                Switch gasFittingsSwitch = (Switch) findViewById(R.id.gas_fittings);
                 gasFittingsSwitch.setChecked(protocolEdited.is_gas_fittings_working());
                 TextView gasFittingsCommentsTextView = (TextView) findViewById(R.id.gas_fittings_comments);
                 gasFittingsCommentsTextView.setText(protocolEdited.get_gas_fittings_comments());
                 CheckBox gasCookerCheck = (CheckBox) findViewById(R.id.is_gas_cooker);
                 gasCookerCheck.setChecked(protocolEdited.is_gas_cooker_present());
-                Switch gasCookerSwitch = (Switch) findViewById(R.id.gas_cooker);
                 gasCookerSwitch.setChecked(protocolEdited.is_gas_cooker_working());
                 CheckBox bathroomBakeCheck = (CheckBox) findViewById(R.id.is_bathroom_bake);
                 bathroomBakeCheck.setChecked(protocolEdited.is_bathroom_bake_present());
-                Switch bathroomBakeSwitch = (Switch) findViewById(R.id.bathroom_bake);
                 bathroomBakeSwitch.setChecked(protocolEdited.is_bathroom_bake_working());
                 equipmentCommentsTextView.setText(protocolEdited.get_equipment_comments());
                 if (Float.compare(protocolEdited.get_co2(), 0.0f) != 0) {
@@ -613,7 +632,7 @@ public class EnterDataActivity extends Activity {
         }
 
 //        get fields from form
-        Switch kitchenAvailableSwitch = (Switch) findViewById(R.id.kitchen_availability);
+        SwitchCompat kitchenAvailableSwitch = findViewById(R.id.kitchen_availability);
         boolean kitchenChecked = kitchenAvailableSwitch.isChecked();
         TextView kitchenGridXTextView = (TextView) findViewById(R.id.kitchen_grid_dimension_1);
         String kitchenGridX = kitchenGridXTextView.getText().toString();
@@ -626,7 +645,7 @@ public class EnterDataActivity extends Activity {
         TextView kitchenCommentsTextView = (TextView) findViewById(R.id.kitchen_comments);
         String kitchenComments = kitchenCommentsTextView.getText().toString();
 
-        Switch bathAvailableSwitch = (Switch) findViewById(R.id.bathroom_availability);
+        SwitchCompat bathAvailableSwitch = findViewById(R.id.bathroom_availability);
         boolean bathChecked = bathAvailableSwitch.isChecked();
         TextView bathGridXTextView = (TextView) findViewById(R.id.bathroom_grid_dimension_1);
         String bathGridX = bathGridXTextView.getText().toString();
@@ -639,7 +658,7 @@ public class EnterDataActivity extends Activity {
         TextView bathroomCommentsTextView = (TextView) findViewById(R.id.bathroom_comments);
         String bathroomComments = bathroomCommentsTextView.getText().toString();
 
-        Switch toiletAvailableSwitch = (Switch) findViewById(R.id.toilet_availability);
+        SwitchCompat toiletAvailableSwitch = findViewById(R.id.toilet_availability);
         boolean toiletChecked = toiletAvailableSwitch.isChecked();
         TextView toiletGridXTextView = (TextView) findViewById(R.id.toilet_grid_dimension_1);
         String toiletGridX = toiletGridXTextView.getText().toString();
@@ -652,7 +671,7 @@ public class EnterDataActivity extends Activity {
         TextView toiletCommentsTextView = (TextView) findViewById(R.id.toilet_comments);
         String toiletComments = toiletCommentsTextView.getText().toString();
 
-        Switch flueAvailableSwitch = (Switch) findViewById(R.id.flue_availability);
+        SwitchCompat flueAvailableSwitch = findViewById(R.id.flue_availability);
         boolean flueChecked = flueAvailableSwitch.isChecked();
         String flueAirflowClosed = flueClosedSpinner.getSelectedItem().toString();
         String flueAirflowMicro = flueMicroventSpinner.getSelectedItem().toString();
@@ -661,17 +680,17 @@ public class EnterDataActivity extends Activity {
 
         CheckBox gasFittingsCheck = (CheckBox) findViewById(R.id.is_gas_fittings);
         boolean gasFittingsPresent = gasFittingsCheck.isChecked();
-        Switch gasFittingsSwitch = (Switch) findViewById(R.id.gas_fittings);
+        SwitchCompat gasFittingsSwitch = findViewById(R.id.gas_fittings);
         boolean gasFittingsChecked = gasFittingsSwitch.isChecked();
         TextView gasFittingsCommentsTextView = (TextView) findViewById(R.id.gas_fittings_comments);
         String gasFittingsComments = gasFittingsCommentsTextView.getText().toString();
         CheckBox gasCookerCheck = (CheckBox) findViewById(R.id.is_gas_cooker);
         boolean gasCookerPresent = gasCookerCheck.isChecked();
-        Switch gasCookerSwitch = (Switch) findViewById(R.id.gas_cooker);
+        SwitchCompat gasCookerSwitch = findViewById(R.id.gas_cooker);
         boolean gasCookerChecked = gasCookerSwitch.isChecked();
         CheckBox bathroomBakeCheck = (CheckBox) findViewById(R.id.is_bathroom_bake);
         boolean bathroomBakePresent = bathroomBakeCheck.isChecked();
-        Switch bathroomBakeSwitch = (Switch) findViewById(R.id.bathroom_bake);
+        SwitchCompat bathroomBakeSwitch = findViewById(R.id.bathroom_bake);
         boolean bathroomBakeChecked = bathroomBakeSwitch.isChecked();
         TextView equipmentCommentsTextView = (TextView) findViewById(R.id.equipment_comments);
         String equipmentComments = equipmentCommentsTextView.getText().toString();
@@ -949,7 +968,7 @@ public class EnterDataActivity extends Activity {
         }
 
 //        get fields from form
-        Switch kitchenAvailableSwitch = (Switch) findViewById(R.id.kitchen_availability);
+        SwitchCompat kitchenAvailableSwitch = findViewById(R.id.kitchen_availability);
         boolean kitchenChecked = kitchenAvailableSwitch.isChecked();
         TextView kitchenGridXTextView = (TextView) findViewById(R.id.kitchen_grid_dimension_1);
         String kitchenGridX = kitchenGridXTextView.getText().toString();
@@ -962,7 +981,7 @@ public class EnterDataActivity extends Activity {
         TextView kitchenCommentsTextView = (TextView) findViewById(R.id.kitchen_comments);
         String kitchenComments = kitchenCommentsTextView.getText().toString();
 
-        Switch bathAvailableSwitch = (Switch) findViewById(R.id.bathroom_availability);
+        SwitchCompat bathAvailableSwitch = findViewById(R.id.bathroom_availability);
         boolean bathChecked = bathAvailableSwitch.isChecked();
         TextView bathGridXTextView = (TextView) findViewById(R.id.bathroom_grid_dimension_1);
         String bathGridX = bathGridXTextView.getText().toString();
@@ -975,7 +994,7 @@ public class EnterDataActivity extends Activity {
         TextView bathroomCommentsTextView = (TextView) findViewById(R.id.bathroom_comments);
         String bathroomComments = bathroomCommentsTextView.getText().toString();
 
-        Switch toiletAvailableSwitch = (Switch) findViewById(R.id.toilet_availability);
+        SwitchCompat toiletAvailableSwitch = findViewById(R.id.toilet_availability);
         boolean toiletChecked = toiletAvailableSwitch.isChecked();
         TextView toiletGridXTextView = (TextView) findViewById(R.id.toilet_grid_dimension_1);
         String toiletGridX = toiletGridXTextView.getText().toString();
@@ -988,7 +1007,7 @@ public class EnterDataActivity extends Activity {
         TextView toiletCommentsTextView = (TextView) findViewById(R.id.toilet_comments);
         String toiletComments = toiletCommentsTextView.getText().toString();
 
-        Switch flueAvailableSwitch = (Switch) findViewById(R.id.flue_availability);
+        SwitchCompat flueAvailableSwitch = findViewById(R.id.flue_availability);
         boolean flueChecked = flueAvailableSwitch.isChecked();
         String flueAirflowClosed = flueClosedSpinner.getSelectedItem().toString();
         String flueAirflowMicro = flueMicroventSpinner.getSelectedItem().toString();
@@ -997,17 +1016,17 @@ public class EnterDataActivity extends Activity {
 
         CheckBox gasFittingsCheck = (CheckBox) findViewById(R.id.is_gas_fittings);
         boolean gasFittingsPresent = gasFittingsCheck.isChecked();
-        Switch gasFittingsSwitch = (Switch) findViewById(R.id.gas_fittings);
+        SwitchCompat gasFittingsSwitch = findViewById(R.id.gas_fittings);
         boolean gasFittingsChecked = gasFittingsSwitch.isChecked();
         TextView gasFittingsCommentsTextView = (TextView) findViewById(R.id.gas_fittings_comments);
         String gasFittingsComments = gasFittingsCommentsTextView.getText().toString();
         CheckBox gasCookerCheck = (CheckBox) findViewById(R.id.is_gas_cooker);
         boolean gasCookerPresent = gasCookerCheck.isChecked();
-        Switch gasCookerSwitch = (Switch) findViewById(R.id.gas_cooker);
+        SwitchCompat gasCookerSwitch = findViewById(R.id.gas_cooker);
         boolean gasCookerChecked = gasCookerSwitch.isChecked();
         CheckBox bathroomBakeCheck = (CheckBox) findViewById(R.id.is_bathroom_bake);
         boolean bathroomBakePresent = bathroomBakeCheck.isChecked();
-        Switch bathroomBakeSwitch = (Switch) findViewById(R.id.bathroom_bake);
+        SwitchCompat bathroomBakeSwitch = findViewById(R.id.bathroom_bake);
         boolean bathroomBakeChecked = bathroomBakeSwitch.isChecked();
         TextView equipmentCommentsTextView = (TextView) findViewById(R.id.equipment_comments);
         String equipmentComments = equipmentCommentsTextView.getText().toString();
@@ -1234,5 +1253,18 @@ public class EnterDataActivity extends Activity {
             userCommentsMultiSelectionViewHelper.setEnabledOption(index, enabled);
             userCommentsMultiSelectionViewHelper.setSelectedOption(index, !enabled);
         }
+    }
+
+    private void setTextOnOffLabelChangeListener(final SwitchCompat switchCompat, final TextView switchText) {
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    switchText.setText(switchCompat.getTextOn());
+                } else {
+                    switchText.setText(switchCompat.getTextOff());
+                }
+            }
+        });
     }
 }
