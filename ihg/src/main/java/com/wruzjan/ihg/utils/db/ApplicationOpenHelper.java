@@ -267,6 +267,7 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_COMMENTS_FOR_USER + " TEXT," +
                 COLUMN_COMMENTS_FOR_MANAGER + " TEXT," +
                 COLUMN_CREATED + " DATE default CURRENT_DATE," +
+                COLUMN_COMPANY_ADDRESS + " TEXT," +
                 "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
 
         String CREATE_PROTOCOL_NEW_PADEREWSKIEGO_TABLE = "CREATE TABLE " +
@@ -317,6 +318,7 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_BATH_CLEANED + " TEXT," +
                 COLUMN_TOILET_CLEANED + " TEXT," +
                 COLUMN_FLUE_CLEANED + " TEXT," +
+                COLUMN_COMPANY_ADDRESS + " TEXT," +
                 "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
 
         sqLiteDatabase.execSQL(CREATE_ADDRESSES_TABLE);
@@ -325,16 +327,16 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_PROTOCOL_SIEMIANOWICE_TABLE);
     }
 
-
-
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         Log.d("IHG_DEBUG",
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion);
 
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PROTOCOL_NEW_PADEREWSKIEGO);
-        onUpgradeTo5(sqLiteDatabase);
+        if (newVersion == 5) {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PROTOCOL_NEW_PADEREWSKIEGO);
+            onUpgradeTo5(sqLiteDatabase);
+        }
         if (oldVersion == 5 && newVersion == 6) {
             onUpgradeTo6(sqLiteDatabase);
         }

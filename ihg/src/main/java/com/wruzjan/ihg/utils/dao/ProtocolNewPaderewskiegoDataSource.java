@@ -279,7 +279,7 @@ public class ProtocolNewPaderewskiegoDataSource {
     private ProtocolNewPaderewskiego cursorToProtocolShort(Cursor cursor) {
         ProtocolNewPaderewskiego protocol = new ProtocolNewPaderewskiego();
         protocol.set_id(cursor.getInt(0));
-        protocol.set_address_id(Integer.parseInt(cursor.getString(1)));
+        protocol.set_address_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_ADDRESS_ID))));
         protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));
         return protocol;
     }
@@ -287,7 +287,7 @@ public class ProtocolNewPaderewskiegoDataSource {
     private ProtocolNewPaderewskiego cursorToProtocol(Cursor cursor) {
         ProtocolNewPaderewskiego protocol = new ProtocolNewPaderewskiego();
         protocol.set_id(cursor.getInt(0));
-        protocol.set_address_id(Integer.parseInt(cursor.getString(1)));
+        protocol.set_address_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_ADDRESS_ID))));
         protocol.set_worker_name(cursor.getString(2));
         protocol.set_temp_outside(Float.parseFloat(cursor.getString(3)));
         protocol.set_temp_inside(Float.parseFloat(cursor.getString(4)));

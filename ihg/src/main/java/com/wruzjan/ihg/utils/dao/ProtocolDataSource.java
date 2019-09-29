@@ -288,7 +288,7 @@ public class ProtocolDataSource {
     private Protocol cursorToProtocolShort(Cursor cursor) {
         Protocol protocol = new Protocol();
         protocol.set_id(cursor.getInt(0));
-        protocol.set_address_id(Integer.parseInt(cursor.getString(1)));
+        protocol.set_address_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_ADDRESS_ID))));
         protocol.set_created(cursor.getString(40));
         return protocol;
     }
@@ -296,7 +296,7 @@ public class ProtocolDataSource {
     private Protocol cursorToProtocol(Cursor cursor) {
         Protocol protocol = new Protocol();
         protocol.set_id(cursor.getInt(0));
-        protocol.set_address_id(Integer.parseInt(cursor.getString(1)));
+        protocol.set_address_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_ADDRESS_ID))));
         protocol.set_worker_name(cursor.getString(2));
         protocol.set_temp_outside(Float.parseFloat(cursor.getString(3)));
         protocol.set_temp_inside(Float.parseFloat(cursor.getString(4)));

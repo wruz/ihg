@@ -413,7 +413,7 @@ public class ProtocolPaderewskiegoDataSource {
     private ProtocolPaderewskiego cursorToProtocolShort(Cursor cursor) {
         ProtocolPaderewskiego protocol = new ProtocolPaderewskiego();
         protocol.set_id(cursor.getInt(0));
-        protocol.set_address_id(Integer.parseInt(cursor.getString(1)));
+        protocol.set_address_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_ADDRESS_ID))));
         protocol.set_created(cursor.getString(83));
         return protocol;
     }
@@ -421,7 +421,7 @@ public class ProtocolPaderewskiegoDataSource {
     private ProtocolPaderewskiego cursorToProtocol(Cursor cursor) {
         ProtocolPaderewskiego protocol = new ProtocolPaderewskiego();
         protocol.set_id(cursor.getInt(0));
-        protocol.set_address_id(Integer.parseInt(cursor.getString(1)));
+        protocol.set_address_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_ADDRESS_ID))));
         protocol.set_worker_name(cursor.getString(2));
         protocol.set_telephone(cursor.getString(3));
         protocol.set_temp_outside(Double.parseDouble(cursor.getString(4)));
