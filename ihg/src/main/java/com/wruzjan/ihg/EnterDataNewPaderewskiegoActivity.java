@@ -99,6 +99,28 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_new_paderewskiego_data);
 
+        SwitchCompat gasFittingsSwitch = findViewById(R.id.gas_fittings);
+        TextView gasFittingsSwitchText = findViewById(R.id.gas_fittings_text);
+        setTextOnOffLabelChangeListener(gasFittingsSwitch, gasFittingsSwitchText);
+        SwitchCompat gasCookerSwitch = findViewById(R.id.gas_cooker);
+        TextView gasCookerSwitchText = findViewById(R.id.gas_cooker_text);
+        setTextOnOffLabelChangeListener(gasCookerSwitch, gasCookerSwitchText);
+        SwitchCompat bathroomBakeSwitch = findViewById(R.id.bathroom_bake);
+        TextView bathroomBakeSwitchText = findViewById(R.id.bathroom_bake_text);
+        setTextOnOffLabelChangeListener(bathroomBakeSwitch, bathroomBakeSwitchText);
+        SwitchCompat kitchenClean = findViewById(R.id.kitchen_clean);
+        TextView kitchenCleanText = findViewById(R.id.kitchen_clean_text);
+        setTextOnOffLabelChangeListener(kitchenClean, kitchenCleanText);
+        SwitchCompat toiletClean = findViewById(R.id.toilet_clean);
+        TextView toiletCleanText = findViewById(R.id.toilet_clean_text);
+        setTextOnOffLabelChangeListener(toiletClean, toiletCleanText);
+        SwitchCompat bathClean = findViewById(R.id.bath_clean);
+        TextView bathCleanText = findViewById(R.id.bath_clean_text);
+        setTextOnOffLabelChangeListener(bathClean, bathCleanText);
+        SwitchCompat flueCleanSwitch = findViewById(R.id.flue_clean);
+        TextView flueCleanSwitchText = findViewById(R.id.flue_clean_text);
+        setTextOnOffLabelChangeListener(flueCleanSwitch, flueCleanSwitchText);
+
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
 
@@ -517,9 +539,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 }
                 AdapterUtils.setItemToSpinner(kitchenClosedSpinner, kitchenClosedSpinnerAdapter, protocolEdited.get_kitchen_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(kitchenMicroventSpinner, kitchenMicroventSpinnerAdapter, protocolEdited.get_kitchen_airflow_microventilation());
-                SwitchCompat kitchenClean = findViewById(R.id.kitchen_clean);
-                TextView kitchenCleanText = findViewById(R.id.kitchen_clean_text);
-                setTextOnOffLabelChangeListener(kitchenClean, kitchenCleanText);
                 if("tak".equals(protocolEdited.get_kitchen_clean())){
                     kitchenClean.setChecked(true);
                 } else {
@@ -544,9 +563,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 }
                 AdapterUtils.setItemToSpinner(toiletClosedSpinner, toiletClosedSpinnerAdapter, protocolEdited.get_toilet_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(toiletMicroventSpinner, toiletMicroventSpinnerAdapter, protocolEdited.get_toilet_airflow_microventilation());
-                SwitchCompat toiletClean = findViewById(R.id.toilet_clean);
-                TextView toiletCleanText = findViewById(R.id.toilet_clean_text);
-                setTextOnOffLabelChangeListener(toiletClean, toiletCleanText);
                 if("tak".equals(protocolEdited.get_toilet_clean())){
                     toiletClean.setChecked(true);
                 } else {
@@ -570,9 +586,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 }
                 AdapterUtils.setItemToSpinner(bathroomClosedSpinner, bathroomClosedSpinnerAdapter, protocolEdited.get_bathroom_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(bathroomMicroventSpinner, bathroomMicroventSpinnerAdapter, protocolEdited.get_bathroom_airflow_microventilation());
-                SwitchCompat bathClean = findViewById(R.id.bath_clean);
-                TextView bathCleanText = findViewById(R.id.bath_clean_text);
-                setTextOnOffLabelChangeListener(bathClean, bathCleanText);
                 if("tak".equals(protocolEdited.get_bath_clean())){
                     bathClean.setChecked(true);
                 } else {
@@ -590,23 +603,14 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 TextView telephoneTextView = (TextView) findViewById(R.id.telephone);
                 telephoneTextView.setText(protocolEdited.get_telephone());
                 gasFittingsCheck.setChecked(protocolEdited.is_gas_fittings_present());
-                SwitchCompat gasFittingsSwitch = findViewById(R.id.gas_fittings);
-                TextView gasFittingsSwitchText = findViewById(R.id.gas_fittings_text);
-                setTextOnOffLabelChangeListener(gasFittingsSwitch, gasFittingsSwitchText);
                 gasFittingsSwitch.setChecked(protocolEdited.is_gas_fittings_working());
                 TextView gasFittingsCommentsTextView = (TextView) findViewById(R.id.gas_fittings_comments);
                 gasFittingsCommentsTextView.setText(protocolEdited.get_gas_fittings_comments());
                 CheckBox gasCookerCheck = (CheckBox) findViewById(R.id.is_gas_cooker);
                 gasCookerCheck.setChecked(protocolEdited.is_gas_cooker_present());
-                SwitchCompat gasCookerSwitch = findViewById(R.id.gas_cooker);
-                TextView gasCookerSwitchText = findViewById(R.id.gas_cooker_text);
-                setTextOnOffLabelChangeListener(gasFittingsSwitch, gasCookerSwitchText);
                 gasCookerSwitch.setChecked(protocolEdited.is_gas_cooker_working());
                 CheckBox bathroomBakeCheck = (CheckBox) findViewById(R.id.is_bathroom_bake);
                 bathroomBakeCheck.setChecked(protocolEdited.is_bathroom_bake_present());
-                SwitchCompat bathroomBakeSwitch = findViewById(R.id.bathroom_bake);
-                TextView bathroomBakeSwitchText = findViewById(R.id.bathroom_bake_text);
-                setTextOnOffLabelChangeListener(bathroomBakeSwitch, bathroomBakeSwitchText);
                 bathroomBakeSwitch.setChecked(protocolEdited.is_bathroom_bake_working());
                 equipmentCommentsTextView.setText(protocolEdited.get_equipment_comments());
                 if(Float.compare(protocolEdited.get_co2(), 0.0f)!=0){

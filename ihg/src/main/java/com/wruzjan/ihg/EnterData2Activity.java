@@ -65,6 +65,23 @@ public class EnterData2Activity extends Activity {
 
         Intent intent = getIntent();
 
+        SwitchCompat gasMeterSwitchCompat = findViewById(R.id.eq_gas_meter_value);
+        TextView gasMeterSwitchCompatText = findViewById(R.id.eq_gas_meter_value_text);
+        setTextOnOffLabelChangeListener(gasMeterSwitchCompat, gasMeterSwitchCompatText);
+
+        SwitchCompat stoveSwitchCompat = findViewById(R.id.eq_stove_value);
+        TextView stoveSwitchCompatText = findViewById(R.id.eq_stove_value_text);
+        setTextOnOffLabelChangeListener(stoveSwitchCompat, stoveSwitchCompatText);
+        SwitchCompat bakeSwitchCompat = findViewById(R.id.eq_bake_value);
+        TextView bakeSwitchCompatText = findViewById(R.id.eq_bake_value_text);
+        setTextOnOffLabelChangeListener(bakeSwitchCompat, bakeSwitchCompatText);
+        SwitchCompat combiOvenSwitchCompat = findViewById(R.id.eq_combi_oven_value);
+        TextView combiOvenSwitchCompatText = findViewById(R.id.eq_combi_oven_value_text);
+        setTextOnOffLabelChangeListener(combiOvenSwitchCompat, combiOvenSwitchCompatText);
+        SwitchCompat kitchenTermSwitchCompat = findViewById(R.id.eq_kitchen_term_value);
+        TextView kitchenTermSwitchCompatText = findViewById(R.id.eq_kitchen_term_value_text);
+        setTextOnOffLabelChangeListener(kitchenTermSwitchCompat, kitchenTermSwitchCompatText);
+
         if(intent.hasExtra(Utils.WINDOWS_NO_MICRO)){
             if(!intent.getStringExtra(Utils.WINDOWS_NO_MICRO).equals(AlertUtils.BLANK))
                 windows_no_micro = Integer.parseInt(intent.getStringExtra(Utils.WINDOWS_NO_MICRO));
@@ -603,45 +620,30 @@ public class EnterData2Activity extends Activity {
                 CheckBox gasMeterCheck = (CheckBox) findViewById(R.id.eq_gas_meter);
                 gasMeterCheck.setChecked(protocolEdited.is_eq_ch_gas_meter_working());
                 if(protocolEdited.is_eq_ch_gas_meter_working()){
-                    SwitchCompat gasMeterSwitchCompat = findViewById(R.id.eq_gas_meter_value);
-                    TextView gasMeterSwitchCompatText = findViewById(R.id.eq_gas_meter_value_text);
-                    setTextOnOffLabelChangeListener(gasMeterSwitchCompat, gasMeterSwitchCompatText);
                     gasMeterSwitchCompat.setChecked(protocolEdited.is_eq_gas_meter_working());
                 }
 
                 CheckBox stoveCheck = (CheckBox) findViewById(R.id.eq_stove);
                 stoveCheck.setChecked(protocolEdited.is_eq_ch_stove_working());
                 if(protocolEdited.is_eq_ch_stove_working()){
-                    SwitchCompat stoveSwitchCompat = findViewById(R.id.eq_stove_value);
-                    TextView stoveSwitchCompatText = findViewById(R.id.eq_stove_value_text);
-                    setTextOnOffLabelChangeListener(stoveSwitchCompat, stoveSwitchCompatText);
                     stoveSwitchCompat.setChecked(protocolEdited.is_eq_stove_working());
                 }
 
                 CheckBox bakeCheck = (CheckBox) findViewById(R.id.eq_bake);
                 bakeCheck.setChecked(protocolEdited.is_eq_ch_bake_working());
                 if(protocolEdited.is_eq_ch_bake_working()){
-                    SwitchCompat bakeSwitchCompat = findViewById(R.id.eq_bake_value);
-                    TextView bakeSwitchCompatText = findViewById(R.id.eq_bake_value_text);
-                    setTextOnOffLabelChangeListener(bakeSwitchCompat, bakeSwitchCompatText);
                     bakeSwitchCompat.setChecked(protocolEdited.is_eq_bake_working());
                 }
 
                 CheckBox combiOvenCheck = (CheckBox) findViewById(R.id.eq_combi_oven);
                 combiOvenCheck.setChecked(protocolEdited.is_eq_ch_combi_oven_working());
                 if(protocolEdited.is_eq_ch_combi_oven_working()){
-                    SwitchCompat combiOvenSwitchCompat = findViewById(R.id.eq_combi_oven_value);
-                    TextView combiOvenSwitchCompatText = findViewById(R.id.eq_combi_oven_value_text);
-                    setTextOnOffLabelChangeListener(combiOvenSwitchCompat, combiOvenSwitchCompatText);
                     combiOvenSwitchCompat.setChecked(protocolEdited.is_eq_combi_oven_working());
                 }
 
                 CheckBox kitchenTermCheck = (CheckBox) findViewById(R.id.eq_kitchen_term);
                 kitchenTermCheck.setChecked(protocolEdited.is_eq_ch_kitchen_term_working());
                 if(protocolEdited.is_eq_ch_kitchen_term_working()){
-                    SwitchCompat kitchenTermSwitchCompat = findViewById(R.id.eq_kitchen_term_value);
-                    TextView kitchenTermSwitchCompatText = findViewById(R.id.eq_kitchen_term_value_text);
-                    setTextOnOffLabelChangeListener(kitchenAvailableSwitchCompat, kitchenTermSwitchCompatText);
                     kitchenTermSwitchCompat.setChecked(protocolEdited.is_eq_kitchen_term_working());
                 }
 

@@ -100,6 +100,16 @@ public class EnterDataActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_data);
 
+        SwitchCompat gasFittingsSwitch = findViewById(R.id.gas_fittings);
+        TextView gasFittingsSwitchText = findViewById(R.id.gas_fittings_text);
+        setTextOnOffLabelChangeListener(gasFittingsSwitch, gasFittingsSwitchText);
+        SwitchCompat gasCookerSwitch = findViewById(R.id.gas_cooker);
+        TextView gasCookerSwitchText = findViewById(R.id.gas_cooker_text);
+        setTextOnOffLabelChangeListener(gasCookerSwitch, gasCookerSwitchText);
+        SwitchCompat bathroomBakeSwitch = findViewById(R.id.bathroom_bake);
+        TextView bathroomBakeSwitchText = findViewById(R.id.bathroom_bake_text);
+        setTextOnOffLabelChangeListener(bathroomBakeSwitch, bathroomBakeSwitchText);
+
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
 
@@ -559,23 +569,14 @@ public class EnterDataActivity extends Activity {
 
                 //others
                 gasFittingsCheck.setChecked(protocolEdited.is_gas_fittings_present());
-                SwitchCompat gasFittingsSwitch = findViewById(R.id.gas_fittings);
-                TextView gasFittingsSwitchText = findViewById(R.id.gas_fittings_text);
-                setTextOnOffLabelChangeListener(gasFittingsSwitch, gasFittingsSwitchText);
                 gasFittingsSwitch.setChecked(protocolEdited.is_gas_fittings_working());
                 TextView gasFittingsCommentsTextView = (TextView) findViewById(R.id.gas_fittings_comments);
                 gasFittingsCommentsTextView.setText(protocolEdited.get_gas_fittings_comments());
                 CheckBox gasCookerCheck = (CheckBox) findViewById(R.id.is_gas_cooker);
                 gasCookerCheck.setChecked(protocolEdited.is_gas_cooker_present());
-                SwitchCompat gasCookerSwitch = findViewById(R.id.gas_cooker);
-                TextView gasCookerSwitchText = findViewById(R.id.gas_cooker_text);
-                setTextOnOffLabelChangeListener(gasCookerSwitch, gasCookerSwitchText);
                 gasCookerSwitch.setChecked(protocolEdited.is_gas_cooker_working());
                 CheckBox bathroomBakeCheck = (CheckBox) findViewById(R.id.is_bathroom_bake);
                 bathroomBakeCheck.setChecked(protocolEdited.is_bathroom_bake_present());
-                SwitchCompat bathroomBakeSwitch = findViewById(R.id.bathroom_bake);
-                TextView bathroomBakeSwitchText = findViewById(R.id.bathroom_bake_text);
-                setTextOnOffLabelChangeListener(bathroomBakeSwitch, bathroomBakeSwitchText);
                 bathroomBakeSwitch.setChecked(protocolEdited.is_bathroom_bake_working());
                 equipmentCommentsTextView.setText(protocolEdited.get_equipment_comments());
                 if (Float.compare(protocolEdited.get_co2(), 0.0f) != 0) {

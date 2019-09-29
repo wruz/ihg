@@ -333,9 +333,9 @@ public class ProtocolNewPaderewskiegoDataSource {
             protocol.set_flue_enabled(false);
         }
         protocol.set_flue_comments(cursor.getString(30));
-        if(cursor.getInt(31) == 1){
+        if(cursor.getInt(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_GAS_FITTINGS_PRESENT)) == 1){
             protocol.set_gas_fittings_present(true);
-            if(cursor.getInt(32) == 1){
+            if(cursor.getInt(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_GAS_FITTINGS_WORKING)) == 1){
                 protocol.set_gas_fittings_working(true);
             } else {
                 protocol.set_gas_fittings_working(false);
@@ -343,9 +343,9 @@ public class ProtocolNewPaderewskiegoDataSource {
         } else {
             protocol.set_gas_fittings_present(false);
         }
-        if(cursor.getInt(33) == 1){
+        if(cursor.getInt(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_GAS_COOKER_PRESENT)) == 1){
             protocol.set_gas_cooker_present(true);
-            if(cursor.getInt(34) == 1){
+            if(cursor.getInt(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_GAS_COOKER_WORKING)) == 1){
                 protocol.set_gas_cooker_working(true);
             } else {
                 protocol.set_gas_cooker_working(false);
@@ -353,9 +353,9 @@ public class ProtocolNewPaderewskiegoDataSource {
         } else {
             protocol.set_gas_cooker_present(false);
         }
-        if(cursor.getInt(35) == 1){
+        if(cursor.getInt(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_BATHROOM_BAKE_PRESENT)) == 1){
             protocol.set_bathroom_bake_present(true);
-            if(cursor.getInt(36) == 1){
+            if(cursor.getInt(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_BATHROOM_BAKE_WORKING)) == 1){
                 protocol.set_bathroom_bake_working(true);
             } else {
                 protocol.set_bathroom_bake_working(false);
@@ -369,10 +369,10 @@ public class ProtocolNewPaderewskiegoDataSource {
         protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));
         //new paderewskiego specific fields
         protocol.set_telephone(cursor.getString(41));
-        protocol.set_kitchen_clean(cursor.getString(42));
-        protocol.set_bath_clean(cursor.getString(43));
-        protocol.set_toilet_clean(cursor.getString(44));
-        protocol.set_flue_clean(cursor.getString(45));
+        protocol.set_kitchen_clean(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_KITCHEN_CLEANED)));
+        protocol.set_bath_clean(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_BATH_CLEANED)));
+        protocol.set_toilet_clean(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_TOILET_CLEANED)));
+        protocol.set_flue_clean(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_FLUE_CLEANED)));
         protocol.setCompanyAddress(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS)));
         //end ofnew paderewskiego specific fields
         return protocol;
