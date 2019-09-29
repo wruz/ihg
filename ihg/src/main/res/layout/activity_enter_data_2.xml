@@ -41,14 +41,29 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="@string/roomAvailability" />
-                <Switch
-                    android:id="@+id/kitchen_availability"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:textOn="@string/measurementPossible"
-                    android:textOff="@string/measurementImpossible"
-                    android:layout_marginBottom="20dip" />
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/kitchen_availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:textOn="@string/measurementPossible"
+                        android:textOff="@string/measurementImpossible"
+                        android:layout_marginBottom="20dip" />
+
+                    <TextView
+                        android:id="@+id/kitchen_availability_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/measurementPossible" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -260,14 +275,28 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="@string/roomAvailability" />
-                <Switch
-                    android:id="@+id/toilet_availability"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:textOn="@string/measurementPossible"
-                    android:textOff="@string/measurementImpossible"
-                    android:layout_marginBottom="20dip" />
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/toilet_availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:textOn="@string/measurementPossible"
+                        android:textOff="@string/measurementImpossible"
+                        android:layout_marginBottom="20dip" />
+
+                    <TextView
+                        android:id="@+id/toilet_availability_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/measurementPossible" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -475,14 +504,29 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="@string/roomAvailability" />
-                <Switch
-                    android:id="@+id/bath_availability"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:textOn="@string/measurementPossible"
-                    android:textOff="@string/measurementImpossible"
-                    android:layout_marginBottom="20dip" />
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/bath_availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:textOn="@string/measurementPossible"
+                        android:textOff="@string/measurementImpossible"
+                        android:layout_marginBottom="20dip" />
+
+                    <TextView
+                        android:id="@+id/bath_availability_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/measurementPossible" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -690,14 +734,28 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="@string/roomAvailability" />
-                <Switch
-                    android:id="@+id/flue_availability"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:textOn="@string/measurementPossible"
-                    android:textOff="@string/measurementImpossible"
-                    android:layout_marginBottom="20dip" />
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/flue_availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dip"
+                        android:checked="true"
+                        android:textOff="@string/measurementImpossible"
+                        android:textOn="@string/measurementPossible" />
+
+                    <TextView
+                        android:id="@+id/flue_availability_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/measurementPossible" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -928,14 +986,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/check_gas_meter"/>
-                    <Switch
-                        android:id="@+id/eq_gas_meter_value"
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:textOn="@string/working_m"
-                        android:textOff="@string/not_working_m"
-                        android:layout_marginBottom="20dip" />
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/eq_gas_meter_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dip"
+                            android:checked="true"
+                            android:textOff="@string/not_working_m"
+                            android:textOn="@string/working_m" />
+
+                        <TextView
+                            android:id="@+id/eq_gas_meter_value_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/working_m" />
+
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/linearLayout1"
@@ -946,14 +1018,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/check_stove"/>
-                    <Switch
-                        android:id="@+id/eq_stove_value"
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:textOn="@string/working_m"
-                        android:textOff="@string/not_working_m"
-                        android:layout_marginBottom="20dip" />
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/eq_stove_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:textOn="@string/working_m"
+                            android:textOff="@string/not_working_m"
+                            android:layout_marginBottom="20dip" />
+
+                        <TextView
+                            android:id="@+id/eq_stove_value_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/working_m" />
+
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/linearLayout1"
@@ -964,14 +1050,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/check_bake"/>
-                    <Switch
-                        android:id="@+id/eq_bake_value"
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:textOn="@string/working_m"
-                        android:textOff="@string/not_working_m"
-                        android:layout_marginBottom="20dip" />
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/eq_bake_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dip"
+                            android:checked="true"
+                            android:textOff="@string/not_working_m"
+                            android:textOn="@string/working_m" />
+
+                        <TextView
+                            android:id="@+id/eq_bake_value_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/working_m" />
+
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/linearLayout1"
@@ -982,14 +1082,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/check_combi_oven"/>
-                    <Switch
-                        android:id="@+id/eq_combi_oven_value"
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:textOn="@string/working_m"
-                        android:textOff="@string/not_working_m"
-                        android:layout_marginBottom="20dip" />
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/eq_combi_oven_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:textOn="@string/working_m"
+                            android:textOff="@string/not_working_m"
+                            android:layout_marginBottom="20dip" />
+
+                        <TextView
+                            android:id="@+id/eq_combi_oven_value_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/working_m" />
+
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/linearLayout1"
@@ -1000,14 +1114,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/check_kitchen_term"/>
-                    <Switch
-                        android:id="@+id/eq_kitchen_term_value"
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:textOn="@string/working_m"
-                        android:textOff="@string/not_working_m"
-                        android:layout_marginBottom="20dip" />
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/eq_kitchen_term_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:textOn="@string/working_m"
+                            android:textOff="@string/not_working_m"
+                            android:layout_marginBottom="20dip" />
+
+                        <TextView
+                            android:id="@+id/eq_kitchen_term_value_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/working_m" />
+
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/linearLayout1"
