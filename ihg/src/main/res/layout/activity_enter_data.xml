@@ -748,7 +748,6 @@
             <EditText
                 android:id="@+id/gas_fittings_comments"
                 android:inputType="textMultiLine"
-                android:text="@string/no_gas"
                 android:layout_width="300dp"
                 android:maxLength="105"
                 android:layout_height="wrap_content" >
