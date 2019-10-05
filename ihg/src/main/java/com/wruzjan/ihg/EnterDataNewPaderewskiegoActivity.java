@@ -908,8 +908,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             Button sendButton =(Button)findViewById(R.id.send_button);
             sendButton.setEnabled(true);
 
-            Button dropboxButton =(Button)findViewById(R.id.dropbox_button);
-            dropboxButton.setEnabled(true);
             openDropboxApp();
         } catch (Exception e) {
             Context context = getApplicationContext();
@@ -948,10 +946,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             Toast.makeText(EnterDataNewPaderewskiegoActivity.this, "Brak klienta email na urządzeniu.", Toast.LENGTH_SHORT).show();
         }
 
-    }
-
-    public void dropbox(View view) {
-        openDropboxApp();
     }
 
     private void openDropboxApp() {

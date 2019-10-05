@@ -844,8 +844,6 @@ public class EnterDataActivity extends Activity {
             Button sendButton = (Button) findViewById(R.id.send_button);
             sendButton.setEnabled(true);
 
-            Button dropboxButton = (Button) findViewById(R.id.dropbox_button);
-            dropboxButton.setEnabled(true);
             openDrobpoxApp();
         } catch (Exception e) {
             Context context = getApplicationContext();
@@ -884,10 +882,6 @@ public class EnterDataActivity extends Activity {
             Toast.makeText(EnterDataActivity.this, "Brak klienta email na urządzeniu.", Toast.LENGTH_SHORT).show();
         }
 
-    }
-
-    public void dropbox(View view) {
-        openDrobpoxApp();
     }
 
     private void openDrobpoxApp() {
