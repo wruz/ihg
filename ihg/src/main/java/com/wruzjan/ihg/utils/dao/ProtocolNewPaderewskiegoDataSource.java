@@ -368,7 +368,7 @@ public class ProtocolNewPaderewskiegoDataSource {
         protocol.set_comments_for_manager(cursor.getString(39));
         protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));
         //new paderewskiego specific fields
-        protocol.set_telephone(cursor.getString(41));
+        protocol.set_telephone(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_PHONE_NR)));
         protocol.set_kitchen_clean(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_KITCHEN_CLEANED)));
         protocol.set_bath_clean(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_BATH_CLEANED)));
         protocol.set_toilet_clean(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_TOILET_CLEANED)));

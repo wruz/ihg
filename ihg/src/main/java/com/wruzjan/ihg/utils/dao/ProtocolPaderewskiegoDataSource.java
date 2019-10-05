@@ -423,7 +423,7 @@ public class ProtocolPaderewskiegoDataSource {
         protocol.set_id(cursor.getInt(0));
         protocol.set_address_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_ADDRESS_ID))));
         protocol.set_worker_name(cursor.getString(2));
-        protocol.set_telephone(cursor.getString(3));
+        protocol.set_telephone(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_PHONE_NR)));
         protocol.set_temp_outside(Double.parseDouble(cursor.getString(4)));
         protocol.set_temp_inside(Double.parseDouble(cursor.getString(5)));
         protocol.set_wind_speed(Double.parseDouble(cursor.getString(6)));
