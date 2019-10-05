@@ -7,7 +7,6 @@
     <string name="required">pole wymagane</string>
     <string name="save_button">zapisz</string>
     <string name="send_button">email</string>
-    <string name="dropbox_button">dropbox</string>
     <string name="open_button">otwórz</string>
     <string name="close_button">zamknij</string>
     <string name="delete_all_addresses_button">wyczyść listę</string>

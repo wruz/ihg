@@ -948,17 +948,6 @@
                 android:onClick="sendMail"
                 android:layout_gravity="right" />
 
-            <!--dropbox-->
-            <Button
-                android:id="@+id/dropbox_button"
-                android:enabled="false"
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/dropbox_button"
-                android:onClick="dropbox"
-                android:layout_gravity="right" />
-
             <!--zamnij-->
             <Button
                 android:layout_height="fill_parent"
