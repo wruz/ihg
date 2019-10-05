@@ -287,9 +287,9 @@ public class GeneratePDFNewPaderewskiego {
 
         if(protocol.is_gas_fittings_present()){
             if(protocol.is_gas_fittings_working()){
-                form.setField("gas_fittings_working", "szczelna");
+                form.setField("gas_fittings_working", "sprawny");
             } else {
-                form.setField("gas_fittings_working", "nieszczelna");
+                form.setField("gas_fittings_working", "niesprawny");
             }
         } else {
             form.setField("gas_fittings_working", "brak");
