@@ -25,7 +25,7 @@ public class PrinterSettingActivity extends Activity {
 
         //get data from last entry and fill form
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
-        spinner.setSelection(settings.getInt("printerPosition", 0));
+        spinner.setSelection(settings.getInt(Utils.PRINTER_POSITION, 0));
     }
 
     public void selectPrinter(View view) {
@@ -35,8 +35,8 @@ public class PrinterSettingActivity extends Activity {
 
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString("printerMac", printer);
-        editor.putInt("printerPosition", printersSpinner.getSelectedItemPosition());
+        editor.putString(Utils.PRINTER_MAC, printer);
+        editor.putInt(Utils.PRINTER_POSITION, printersSpinner.getSelectedItemPosition());
         editor.commit();
         finish();
     }

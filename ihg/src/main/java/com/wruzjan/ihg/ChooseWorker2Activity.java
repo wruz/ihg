@@ -57,16 +57,16 @@ public class ChooseWorker2Activity extends Activity {
 
         //get data from last entry and fill form
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
-        spinner.setSelection(settings.getInt("workerPosition", 0));
+        spinner.setSelection(settings.getInt(Utils.WORKER_POSITION, 0));
 
         EditText tempInsideField = (EditText) findViewById(R.id.temp_inside);
-        tempInsideField.setText(settings.getString("tempInside", null), TextView.BufferType.EDITABLE);
+        tempInsideField.setText(settings.getString(Utils.INSIDE_TEMPERATURE_PADEREWSKIEGO, null), TextView.BufferType.EDITABLE);
 
         EditText tempOutsideField = (EditText) findViewById(R.id.temp_outside);
-        tempOutsideField.setText(settings.getString("tempOutside", null), TextView.BufferType.EDITABLE);
+        tempOutsideField.setText(settings.getString(Utils.OUTSIDE_TEMPERATURE_PADEREWSKIEGO, null), TextView.BufferType.EDITABLE);
 
         EditText windSpeedField = (EditText) findViewById(R.id.wind_speed);
-        windSpeedField.setText(settings.getString("windSpeed", null), TextView.BufferType.EDITABLE);
+        windSpeedField.setText(settings.getString(Utils.WIND_SPEED_PADEREWSKIEGO, null), TextView.BufferType.EDITABLE);
 
 
         Spinner windDirectionSpinner = (Spinner) findViewById(R.id.wind_direction_spinner);
@@ -74,10 +74,10 @@ public class ChooseWorker2Activity extends Activity {
                 R.array.wind_directions, android.R.layout.simple_spinner_item);
         windDirectionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         windDirectionSpinner.setAdapter(windDirectionAdapter);
-        windDirectionSpinner.setSelection(settings.getInt("windDirectionPosition", 0));
+        windDirectionSpinner.setSelection(settings.getInt(Utils.WIND_DIRECTION_PADEREWSKIEGO, 0));
 
         EditText pressureField = (EditText) findViewById(R.id.pressure);
-        pressureField.setText(settings.getString("pressure", null), TextView.BufferType.EDITABLE);
+        pressureField.setText(settings.getString(Utils.PREASURE_PADEREWSKIEGO, null), TextView.BufferType.EDITABLE);
 
 
         Intent intent = getIntent();
@@ -195,12 +195,12 @@ public class ChooseWorker2Activity extends Activity {
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("workerPosition", workersSpinner.getSelectedItemPosition());
-            editor.putInt("windDirectionPosition", windDirectionSpinner.getSelectedItemPosition());
-            editor.putString("tempInside", tempInside);
-            editor.putString("tempOutside", tempOutside);
-            editor.putString("windSpeed", windSpeed);
-            editor.putString("pressure", pressure);
+            editor.putInt(Utils.WORKER_POSITION, workersSpinner.getSelectedItemPosition());
+            editor.putInt(Utils.WIND_DIRECTION_PADEREWSKIEGO, windDirectionSpinner.getSelectedItemPosition());
+            editor.putString(Utils.INSIDE_TEMPERATURE_PADEREWSKIEGO, tempInside);
+            editor.putString(Utils.OUTSIDE_TEMPERATURE_PADEREWSKIEGO, tempOutside);
+            editor.putString(Utils.WIND_SPEED_PADEREWSKIEGO, windSpeed);
+            editor.putString(Utils.PREASURE_PADEREWSKIEGO, pressure);
             editor.commit();
 
             Intent intent = new Intent(this, EnterData2Activity.class);

@@ -73,8 +73,8 @@ public class ChooseWorkerActivity extends Activity {
 
         //get data from last entry and fill form
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
-        tempOutsideTextView.setText(settings.getString("tempOutside", ""));
-        spinner.setSelection(settings.getInt("workerPosition", 0));
+        tempOutsideTextView.setText(settings.getString(Utils.OUTSIDE_TEMPERATURE_SIEMIANOWICE, ""));
+        spinner.setSelection(settings.getInt(Utils.WORKER_POSITION, 0));
 
         Intent intent = getIntent();
 
@@ -152,8 +152,8 @@ public class ChooseWorkerActivity extends Activity {
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putString("tempOutside", tempOutside);
-            editor.putInt("workerPosition", workersSpinner.getSelectedItemPosition());
+            editor.putString(Utils.OUTSIDE_TEMPERATURE_SIEMIANOWICE, tempOutside);
+            editor.putInt(Utils.WORKER_POSITION, workersSpinner.getSelectedItemPosition());
             editor.commit();
 
             Intent intent = new Intent(this, EnterDataActivity.class);
