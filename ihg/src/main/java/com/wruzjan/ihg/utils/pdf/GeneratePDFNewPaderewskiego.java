@@ -297,9 +297,9 @@ public class GeneratePDFNewPaderewskiego {
 
         if(protocol.is_gas_cooker_present()){
             if(protocol.is_gas_cooker_working()){
-                form.setField("gas_cooker_working", "sprawna");
+                form.setField("gas_cooker_working", "szczelna");
             } else {
-                form.setField("gas_cooker_working", "niesprawna");
+                form.setField("gas_cooker_working", "nieszczelna");
             }
         } else {
             form.setField("gas_cooker_working", "brak");
@@ -307,9 +307,9 @@ public class GeneratePDFNewPaderewskiego {
 
         if(protocol.is_bathroom_bake_present()){
             if(protocol.is_bathroom_bake_working()){
-                form.setField("bath_bake_working", "sprawny");
+                form.setField("bath_bake_working", "szczelny");
             } else {
-                form.setField("bath_bake_working", "niesprawny");
+                form.setField("bath_bake_working", "nieszczelny");
             }
         } else {
             form.setField("bath_bake_working", "brak");

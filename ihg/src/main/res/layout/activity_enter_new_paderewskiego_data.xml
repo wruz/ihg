@@ -863,14 +863,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dip"
                     android:checked="true"
-                    android:textOff="@string/not_working_z"
-                    android:textOn="@string/working_z" />
+                    android:textOff="@string/leaky_z"
+                    android:textOn="@string/tight_z" />
 
                 <TextView
                     android:id="@+id/gas_fittings_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/working_z" />
+                    android:text="@string/tight_z" />
 
             </LinearLayout>
 
