@@ -14,8 +14,7 @@
                     android:paddingTop="@dimen/activity_vertical_margin"
                     tools:context=".AddNewFormActivity">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_alignParentBottom="false"
@@ -24,9 +23,24 @@
                       android:layout_alignParentTop="false"
                       android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/company_address_header" />
+
+                <com.wruzjan.ihg.utils.view.InstantAutoCompleteTextView
+                    android:id="@+id/company_address_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
             <LinearLayout android:id="@+id/linearLayout"
-                          xmlns:android="http://schemas.android.com/apk/res/android"
-                          xmlns:tools="http://schemas.android.com/tools"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:orientation="horizontal">

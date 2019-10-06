@@ -95,6 +95,8 @@ public class Utils {
 
     public static final String PRINTER_POSITION = "printerPosition";
 
+    public static final String PREF_SIEMANOWICE_COMPANY_ADDRESS = "PREF_SIEMANOWICE_COMPANY_ADDRESS";
+
 //    moja "00:22:58:02:29:0C"
 //    szymon "00:22:58:02:2C:D9"
 //    public static final String PRINTER_MAC_ADDRESS = "00:22:58:02:2C:D9";
