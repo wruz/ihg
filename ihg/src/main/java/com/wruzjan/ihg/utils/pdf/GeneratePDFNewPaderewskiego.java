@@ -31,6 +31,7 @@ public class GeneratePDFNewPaderewskiego {
 
         form.setField("name", address.getName());
         form.setField("company_address", protocol.getCompanyAddress());
+        form.setField("protocol_type", protocol.getProtocolType());
         form.setField("address", address.getStreet()+" "+address.getBuilding()+"/"+address.getFlat());
 //        +", "+address.getCity());
         form.setField("date", new SimpleDateFormat("yyyy MMM dd").format(Calendar.getInstance().getTime()));

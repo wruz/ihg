@@ -56,6 +56,7 @@ public class Protocol {
     private String _comments_for_manager;
 
     private String companyAddress;
+    private String protocolType;
 
     public Protocol(){
     }
@@ -493,6 +494,14 @@ public class Protocol {
 
     public void setCompanyAddress(String companyAddress) {
         this.companyAddress = companyAddress;
+    }
+
+    public String getProtocolType() {
+        return protocolType;
+    }
+
+    public void setProtocolType(String protocolType) {
+        this.protocolType = protocolType;
     }
 
     //    Prepare record for listView

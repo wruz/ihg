@@ -54,6 +54,7 @@ import androidx.core.content.FileProvider;
 public class EnterDataActivity extends Activity {
 
     public static final String EXTRA_COMPANY_ADDRESS = "EXTRA_COMPANY_ADDRESS";
+    public static final String EXTRA_PROTOCOL_TYPE = "EXTRA_PROTOCOL_TYPE";
 
     private static ArrayList<String> PRINTER_MACS = new ArrayList<String>();
 
@@ -608,6 +609,10 @@ public class EnterDataActivity extends Activity {
         String companyAddress = getIntent().getStringExtra(EXTRA_COMPANY_ADDRESS);
         PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Utils.PREF_SIEMANOWICE_COMPANY_ADDRESS, companyAddress).apply();
         protocol.setCompanyAddress(companyAddress);
+
+        String protocolType = getIntent().getStringExtra(EXTRA_PROTOCOL_TYPE);
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Utils.PREF_SIEMANOWICE_PROTOCOL_TYPE, protocolType).apply();
+        protocol.setProtocolType(protocolType);
 
         //get worker
         if (intent.hasExtra(Utils.WORKER_NAME)) {

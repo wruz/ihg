@@ -50,6 +50,7 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
     private TextView tempOutsideTextView;
     private ProgressLayout progressLayout;
     private InstantAutoCompleteTextView companyAddressTextView;
+    private InstantAutoCompleteTextView protocolTypeTextView;
 
     private GetNewPaderewskiegoProtocolsByIdAsyncTask getNewPaderewskiegoProtocolsByIdAsyncTask;
 
@@ -74,9 +75,16 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
         companyAddressTextView = findViewById(R.id.company_address_text_view);
         companyAddressTextView.setThreshold(0);
 
-        String[] newPaderewskiegoCompanyAddresses = getResources().getStringArray(R.array.new_paderewskiego_protocol_headers);
+        String[] newPaderewskiegoCompanyAddresses = getResources().getStringArray(R.array.new_paderewskiego_company_headers);
         companyAddressTextView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, newPaderewskiegoCompanyAddresses));
         companyAddressTextView.setText(PreferenceManager.getDefaultSharedPreferences(this).getString(Utils.PREF_NEW_PADEREWSKIEGO_COMPANY_ADDRESS, newPaderewskiegoCompanyAddresses[0]));
+
+        protocolTypeTextView = findViewById(R.id.protocol_type_text_view);
+        protocolTypeTextView.setThreshold(0);
+
+        String[] newPaderewskiegoProtocolType = getResources().getStringArray(R.array.new_paderewskiego_protocol_type);
+        protocolTypeTextView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, newPaderewskiegoProtocolType));
+        protocolTypeTextView.setText(PreferenceManager.getDefaultSharedPreferences(this).getString(Utils.PREF_NEW_PADEREWSKIEGO_PROTOCOL_TYPE, newPaderewskiegoProtocolType[0]));
 
         // workers dropdown list
         Spinner spinner = (Spinner) findViewById(R.id.workers_spinner);
@@ -196,6 +204,7 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
                 intent.putExtra(Utils.ADDRESS_ID, address.getId());
                 intent.putExtra(Utils.EDIT_FLAG, false);
                 intent.putExtra(EnterDataActivity.EXTRA_COMPANY_ADDRESS, companyAddressTextView.getText().toString());
+                intent.putExtra(EnterDataActivity.EXTRA_PROTOCOL_TYPE, protocolTypeTextView.getText().toString());
             }
             intent.putExtra(Utils.WORKER_NAME, worker);
             intent.putExtra(Utils.TEMP_INSIDE, tempInside);
@@ -212,6 +221,7 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
                 tempInsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_inside()));
                 tempOutsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_outside()));
                 companyAddressTextView.setText(protocol.getCompanyAddress());
+                protocolTypeTextView.setText(protocol.getProtocolType());
             }
         };
     }

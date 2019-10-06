@@ -40,6 +40,23 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/protocol_type_header" />
+
+                <com.wruzjan.ihg.utils.view.InstantAutoCompleteTextView
+                    android:id="@+id/protocol_type_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
             <LinearLayout android:id="@+id/linearLayout"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"

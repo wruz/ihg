@@ -29,6 +29,7 @@ public class GeneratePDF {
         form.addSubstitutionFont(bf);
 
         form.setField("company_address", protocol.getCompanyAddress());
+        form.setField("protocol_type", protocol.getProtocolType());
         form.setField("name", address.getName());
         form.setField("address", address.getStreet()+" "+address.getBuilding()+"/"+address.getFlat());
 //        +", "+address.getCity());
