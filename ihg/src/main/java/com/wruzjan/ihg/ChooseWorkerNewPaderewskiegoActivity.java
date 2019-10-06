@@ -77,7 +77,8 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
 
         //get worker data from last entry and fill form
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
-        spinner.setSelection(settings.getInt("workerPosition", 0));
+        tempOutsideTextView.setText(settings.getString(Utils.OUTSIDE_TEMPERATURE_NOWY_PADEREWSKIEGO, ""));
+        spinner.setSelection(settings.getInt(Utils.WORKER_POSITION, 0));
 
         Intent intent = getIntent();
 
@@ -172,7 +173,8 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("workerPosition", workersSpinner.getSelectedItemPosition());
+            editor.putString(Utils.OUTSIDE_TEMPERATURE_NOWY_PADEREWSKIEGO, tempOutside);
+            editor.putInt(Utils.WORKER_POSITION, workersSpinner.getSelectedItemPosition());
             editor.commit();
 
             Intent intent = new Intent(this, EnterDataNewPaderewskiegoActivity.class);

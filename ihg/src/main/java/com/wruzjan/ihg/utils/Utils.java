@@ -68,6 +68,33 @@ public class Utils {
 
     public static final int USER_COMMENTS_LENGTH = 512;
 
+//  shared preferences keys
+    public static final String OUTSIDE_TEMPERATURE_SIEMIANOWICE = "tempOutsideSiemianowice";
+
+    public static final String INSIDE_TEMPERATURE_PADEREWSKIEGO = "tempInside";
+
+    public static final String OUTSIDE_TEMPERATURE_PADEREWSKIEGO = "tempOutside";
+
+    public static final String WIND_SPEED_PADEREWSKIEGO = "windSpeed";
+
+    public static final String WIND_DIRECTION_PADEREWSKIEGO = "windDirectionPosition";
+
+    public static final String PREASURE_PADEREWSKIEGO = "pressure";
+
+    public static final String OUTSIDE_TEMPERATURE_NOWY_PADEREWSKIEGO = "tempOutsideNowyPaderewskiego";
+
+    public static final String WORKER_POSITION = "workerPosition";
+
+    public static final String STREET = "street";
+
+    public static final String CITY = "city";
+
+    public static final String DISTRICT = "district";
+
+    public static final String PRINTER_MAC = "printerMac";
+
+    public static final String PRINTER_POSITION = "printerPosition";
+
 //    moja "00:22:58:02:29:0C"
 //    szymon "00:22:58:02:2C:D9"
 //    public static final String PRINTER_MAC_ADDRESS = "00:22:58:02:2C:D9";

@@ -1167,7 +1167,7 @@ public class EnterData2Activity extends Activity {
             public void discoveryFinished() {
                 SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
                 BluetoothConnectionPaderewskiego bluetoothConnection = new BluetoothConnectionPaderewskiego();
-                bluetoothConnection.sendCpclOverBluetooth(settings.getString("printerMac", ""), address, PROTOCOL);
+                bluetoothConnection.sendCpclOverBluetooth(settings.getString(Utils.PRINTER_MAC, ""), address, PROTOCOL);
             }
 
             @Override

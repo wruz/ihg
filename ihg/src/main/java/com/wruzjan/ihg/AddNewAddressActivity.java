@@ -28,13 +28,13 @@ public class AddNewAddressActivity extends Activity {
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
 
         EditText streetField = (EditText) findViewById(R.id.street);
-        streetField.setText(settings.getString("street", null), TextView.BufferType.EDITABLE);
+        streetField.setText(settings.getString(Utils.STREET, null), TextView.BufferType.EDITABLE);
 
         EditText cityField = (EditText) findViewById(R.id.city);
-        cityField.setText(settings.getString("city", null), TextView.BufferType.EDITABLE);
+        cityField.setText(settings.getString(Utils.CITY, null), TextView.BufferType.EDITABLE);
 
         EditText districtField = (EditText) findViewById(R.id.district);
-        districtField.setText(settings.getString("district", null), TextView.BufferType.EDITABLE);
+        districtField.setText(settings.getString(Utils.DISTRICT, null), TextView.BufferType.EDITABLE);
 
         datasource = new AddressDataSource(this);
         datasource.open();
@@ -79,9 +79,9 @@ public class AddNewAddressActivity extends Activity {
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putString("street", address.getStreet());
-            editor.putString("city", address.getCity());
-            editor.putString("district", address.getDistrinct());
+            editor.putString(Utils.STREET, address.getStreet());
+            editor.putString(Utils.CITY, address.getCity());
+            editor.putString(Utils.DISTRICT, address.getDistrinct());
             editor.commit();
 
             Intent intent = new Intent(this, BrowseAddressesActivity.class);
@@ -129,9 +129,9 @@ public class AddNewAddressActivity extends Activity {
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putString("street", address.getStreet());
-            editor.putString("city", address.getCity());
-            editor.putString("district", address.getDistrinct());
+            editor.putString(Utils.STREET, address.getStreet());
+            editor.putString(Utils.CITY, address.getCity());
+            editor.putString(Utils.DISTRICT, address.getDistrinct());
             editor.commit();
 
             Intent intent = new Intent(this, ChooseWorkerActivity.class);
@@ -180,9 +180,9 @@ public class AddNewAddressActivity extends Activity {
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putString("street", address.getStreet());
-            editor.putString("city", address.getCity());
-            editor.putString("district", address.getDistrinct());
+            editor.putString(Utils.STREET, address.getStreet());
+            editor.putString(Utils.CITY, address.getCity());
+            editor.putString(Utils.DISTRICT, address.getDistrinct());
             editor.commit();
 
             Intent intent = new Intent(this, ChooseWorkerNewPaderewskiegoActivity.class);
@@ -231,9 +231,9 @@ public class AddNewAddressActivity extends Activity {
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putString("street", address.getStreet());
-            editor.putString("city", address.getCity());
-            editor.putString("district", address.getDistrinct());
+            editor.putString(Utils.STREET, address.getStreet());
+            editor.putString(Utils.CITY, address.getCity());
+            editor.putString(Utils.DISTRICT, address.getDistrinct());
             editor.commit();
 
             Intent intent = new Intent(this, ChooseWorker2Activity.class);
