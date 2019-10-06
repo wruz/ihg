@@ -182,9 +182,9 @@ public class ChooseWorkerActivity extends Activity {
             } else {
                 intent.putExtra(Utils.ADDRESS_ID, address.getId());
                 intent.putExtra(Utils.EDIT_FLAG, false);
-                intent.putExtra(EnterDataActivity.EXTRA_COMPANY_ADDRESS, companyAddressTextView.getText().toString());
-                intent.putExtra(EnterDataActivity.EXTRA_PROTOCOL_TYPE, protocolTypeTextView.getText().toString());
             }
+            intent.putExtra(EnterDataActivity.EXTRA_COMPANY_ADDRESS, companyAddressTextView.getText().toString());
+            intent.putExtra(EnterDataActivity.EXTRA_PROTOCOL_TYPE, protocolTypeTextView.getText().toString());
             intent.putExtra(Utils.WORKER_NAME, worker);
             intent.putExtra(Utils.TEMP_INSIDE, tempInside);
             intent.putExtra(Utils.TEMP_OUTSIDE, tempOutside);
