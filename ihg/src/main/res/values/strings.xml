@@ -135,4 +135,5 @@
     <string name="delete_address_warning">Wszystkie pomiary powiązane z adresem zostaną usunięte, protokoły na urządzeniu nie zostaną usunięte. Czy chcesz kontynuować?</string>
     <string name="toast_empty_adress_list_to_delete_message">Brak adresów na liście do usunięcia</string>
     <string name="company_address_header">Spółdzielnia mieszkaniowa</string>
+    <string name="protocol_type_header">Typ protokołu</string>
 </resources>

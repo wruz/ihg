@@ -66,7 +66,9 @@ public class ProtocolNewPaderewskiegoDataSource {
             ApplicationOpenHelper.COLUMN_TOILET_CLEANED,
             ApplicationOpenHelper.COLUMN_FLUE_CLEANED,
             ApplicationOpenHelper.COLUMN_CREATED,
-            ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS};
+            ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS,
+            ApplicationOpenHelper.COLUMN_PROTOCOL_TYPE
+    };
 
     public ProtocolNewPaderewskiegoDataSource(Context context) {
         applicationHelper = new ApplicationOpenHelper(context);
@@ -171,6 +173,7 @@ public class ProtocolNewPaderewskiegoDataSource {
         values.put(applicationHelper.COLUMN_COMMENTS_FOR_MANAGER, protocol.get_comments_for_manager());
         values.put(applicationHelper.COLUMN_CREATED, protocol.get_created());
         values.put(ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS, protocol.getCompanyAddress());
+        values.put(ApplicationOpenHelper.COLUMN_PROTOCOL_TYPE, protocol.getProtocolType());
 
         long insertId = database.insert(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO, null,
                 values);
@@ -374,6 +377,7 @@ public class ProtocolNewPaderewskiegoDataSource {
         protocol.set_toilet_clean(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_TOILET_CLEANED)));
         protocol.set_flue_clean(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_FLUE_CLEANED)));
         protocol.setCompanyAddress(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS)));
+        protocol.setProtocolType(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_PROTOCOL_TYPE)));
         //end ofnew paderewskiego specific fields
         return protocol;
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,6 +23,7 @@ import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.Protocol;
 import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
 import com.wruzjan.ihg.utils.threading.GetSiemanowiceByProtocolIdAsyncTask;
+import com.wruzjan.ihg.utils.view.InstantAutoCompleteTextView;
 import com.wruzjan.ihg.utils.view.ProgressLayout;
 
 import java.io.File;
@@ -44,6 +46,8 @@ public class ChooseWorkerActivity extends Activity {
     private TextView tempInsideTextView;
     private TextView tempOutsideTextView;
     private ProgressLayout progressLayout;
+    private InstantAutoCompleteTextView companyAddressTextView;
+    private InstantAutoCompleteTextView protocolTypeTextView;
 
     private GetSiemanowiceByProtocolIdAsyncTask getSiemanowiceByProtocolIdAsyncTask;
 
@@ -64,6 +68,20 @@ public class ChooseWorkerActivity extends Activity {
         tempInsideTextView = findViewById(R.id.temp_inside);
         tempOutsideTextView = findViewById(R.id.temp_outside);
         progressLayout = findViewById(R.id.progress);
+
+        companyAddressTextView = findViewById(R.id.company_address_text_view);
+        companyAddressTextView.setThreshold(0);
+
+        String[] siemanowiceCompanyAddresses = getResources().getStringArray(R.array.siemanowice_company_addresses);
+        companyAddressTextView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, siemanowiceCompanyAddresses));
+        companyAddressTextView.setText(PreferenceManager.getDefaultSharedPreferences(this).getString(Utils.PREF_SIEMANOWICE_COMPANY_ADDRESS, siemanowiceCompanyAddresses[0]));
+
+        protocolTypeTextView = findViewById(R.id.protocol_type_text_view);
+        protocolTypeTextView.setThreshold(0);
+
+        String[] siemanowiceProtocolType = getResources().getStringArray(R.array.siemanowice_protocol_type);
+        protocolTypeTextView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, siemanowiceProtocolType));
+        protocolTypeTextView.setText(PreferenceManager.getDefaultSharedPreferences(this).getString(Utils.PREF_SIEMANOWICE_PROTOCOL_TYPE, siemanowiceProtocolType[0]));
 
         Spinner spinner = (Spinner) findViewById(R.id.workers_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -164,6 +182,8 @@ public class ChooseWorkerActivity extends Activity {
             } else {
                 intent.putExtra(Utils.ADDRESS_ID, address.getId());
                 intent.putExtra(Utils.EDIT_FLAG, false);
+                intent.putExtra(EnterDataActivity.EXTRA_COMPANY_ADDRESS, companyAddressTextView.getText().toString());
+                intent.putExtra(EnterDataActivity.EXTRA_PROTOCOL_TYPE, protocolTypeTextView.getText().toString());
             }
             intent.putExtra(Utils.WORKER_NAME, worker);
             intent.putExtra(Utils.TEMP_INSIDE, tempInside);
@@ -195,6 +215,8 @@ public class ChooseWorkerActivity extends Activity {
                 progressLayout.setVisibility(View.GONE);
                 tempInsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_inside()));
                 tempOutsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_outside()));
+                companyAddressTextView.setText(protocol.getCompanyAddress());
+                protocolTypeTextView.setText(protocol.getProtocolType());
             }
         };
     }

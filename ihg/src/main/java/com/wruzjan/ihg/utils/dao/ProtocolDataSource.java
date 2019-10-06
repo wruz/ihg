@@ -62,7 +62,9 @@ public class ProtocolDataSource {
             ApplicationOpenHelper.COLUMN_COMMENTS_FOR_USER,
             ApplicationOpenHelper.COLUMN_COMMENTS_FOR_MANAGER,
             ApplicationOpenHelper.COLUMN_CREATED,
-            ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS};
+            ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS,
+            ApplicationOpenHelper.COLUMN_PROTOCOL_TYPE
+    };
 
     public ProtocolDataSource(Context context) {
         applicationHelper = new ApplicationOpenHelper(context);
@@ -180,6 +182,7 @@ public class ProtocolDataSource {
         values.put(applicationHelper.COLUMN_COMMENTS_FOR_MANAGER, protocol.get_comments_for_manager());
         values.put(applicationHelper.COLUMN_CREATED, protocol.get_created());
         values.put(ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS, protocol.getCompanyAddress());
+        values.put(ApplicationOpenHelper.COLUMN_PROTOCOL_TYPE, protocol.getProtocolType());
 
         long insertId = database.insert(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE, null,
                 values);
@@ -377,6 +380,7 @@ public class ProtocolDataSource {
         protocol.set_comments_for_manager(cursor.getString(39));
         protocol.set_created(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_CREATED)));
         protocol.setCompanyAddress(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_COMPANY_ADDRESS)));
+        protocol.setProtocolType(cursor.getString(cursor.getColumnIndex(ApplicationOpenHelper.COLUMN_PROTOCOL_TYPE)));
         return protocol;
     }
 }
