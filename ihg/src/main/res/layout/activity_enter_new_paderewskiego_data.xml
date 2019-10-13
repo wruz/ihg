@@ -167,7 +167,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="@string/airflow_microventilation" />
+                android:text="@string/airflow_windows_open" />
             <Spinner
                 android:id="@+id/kitchen_airflow_microventilation"
                 android:inputType="numberDecimal|numberSigned"
@@ -379,7 +379,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="@string/airflow_microventilation" />
+                android:text="@string/airflow_windows_open" />
             <Spinner
                 android:id="@+id/bathroom_airflow_microventilation"
                 android:inputType="numberDecimal|numberSigned"
@@ -592,7 +592,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="@string/airflow_microventilation" />
+                android:text="@string/airflow_windows_open" />
             <Spinner
                 android:id="@+id/toilet_airflow_microventilation"
                 android:inputType="numberDecimal|numberSigned"
@@ -738,7 +738,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="@string/airflow_microventilation" />
+                android:text="@string/airflow_windows_open" />
             <Spinner
                 android:id="@+id/flue_airflow_microventilation"
                 android:inputType="numberDecimal|numberSigned"
