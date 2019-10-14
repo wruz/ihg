@@ -78,6 +78,12 @@
                     android:onClick="deleteAllAddresses"
                     android:text="@string/delete_all_addresses_button"/>
 
+                <Button
+                    android:id="@+id/synchronize_all_protocols_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/synchronize_protocols" />
+
             </LinearLayout>
 
             <LinearLayout
