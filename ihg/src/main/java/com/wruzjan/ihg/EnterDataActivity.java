@@ -28,10 +28,13 @@ import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.AwaitingProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.model.Address;
+import com.wruzjan.ihg.utils.model.AwaitingProtocol;
 import com.wruzjan.ihg.utils.model.Protocol;
 import com.wruzjan.ihg.utils.pdf.GeneratePDF;
 import com.wruzjan.ihg.utils.printer.BluetoothConnection;
@@ -60,6 +63,9 @@ public class EnterDataActivity extends Activity {
 
     private AddressDataSource addressDataSource;
     private ProtocolDataSource protocolDataSource;
+    private AwaitingProtocolDataSource awaitingProtocolDataSource;
+    private NetworkStateChecker networkStateChecker;
+
     private Address address;
     private Protocol PROTOCOL;
     private String pdfFilePath;
@@ -110,11 +116,16 @@ public class EnterDataActivity extends Activity {
         TextView bathroomBakeSwitchText = findViewById(R.id.bathroom_bake_text);
         setTextOnOffLabelChangeListener(bathroomBakeSwitch, bathroomBakeSwitchText);
 
+        networkStateChecker = new NetworkStateChecker(getApplication());
+
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
 
         protocolDataSource = new ProtocolDataSource(this);
         protocolDataSource.open();
+
+        awaitingProtocolDataSource = new AwaitingProtocolDataSource(this);
+        awaitingProtocolDataSource.open();
 
         managerCommentsTextView = findViewById(R.id.comments_for_manager);
         managerCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
@@ -838,7 +849,12 @@ public class EnterDataActivity extends Activity {
             Button sendButton = (Button) findViewById(R.id.send_button);
             sendButton.setEnabled(true);
 
-            openDrobpoxApp();
+            if (networkStateChecker.isOnline()) {
+                openDrobpoxApp();
+            } else {
+                Toast.makeText(this, "Brak połączenia z internetem. Protokół został zapisany do późniejeszej synchronizacji", Toast.LENGTH_SHORT).show();
+                awaitingProtocolDataSource.addAwaitingProtocol(new AwaitingProtocol(pdfFilePath));
+            }
         } catch (Exception e) {
             Context context = getApplicationContext();
             e.printStackTrace();
@@ -1182,6 +1198,7 @@ public class EnterDataActivity extends Activity {
     protected void onResume() {
         addressDataSource.open();
         protocolDataSource.open();
+        awaitingProtocolDataSource.open();
         super.onResume();
     }
 
@@ -1189,8 +1206,8 @@ public class EnterDataActivity extends Activity {
     protected void onPause() {
         addressDataSource.close();
         protocolDataSource.close();
+        awaitingProtocolDataSource.close();
         super.onPause();
-
     }
 
     // max length 225 characters

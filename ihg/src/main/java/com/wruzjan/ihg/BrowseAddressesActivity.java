@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.DropBoxManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -14,17 +15,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.NavigationUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.AwaitingProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.model.Address;
+import com.wruzjan.ihg.utils.model.AwaitingProtocol;
 import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
 import com.wruzjan.ihg.utils.threading.GenerateNewPaderewskiegoDailyReportAsyncTask;
 import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
@@ -50,6 +55,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     private ProtocolDataSource protocolDataSource;
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
     private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
+    private AwaitingProtocolDataSource awaitingProtocolDataSource;
     private ListView addressesList;
 
     private int selectedPosition = 0;
@@ -59,6 +65,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     @Nullable private GenerateNewPaderewskiegoDailyReportAsyncTask generateNewPaderewskiegoDailyReportAsyncTask;
 
     private ProgressLayout progressLayout;
+    private Button synchronizeProtocolsButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +74,14 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         setContentView(R.layout.activity_browse_addresses);
 
         progressLayout = findViewById(R.id.progress);
+        synchronizeProtocolsButton = findViewById(R.id.synchronize_all_protocols_button);
+        synchronizeProtocolsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<AwaitingProtocol> awaitingProtocols = awaitingProtocolDataSource.getAwaitingProtocols();
+                NavigationUtils.openDropBoxApp(BrowseAddressesActivity.this, awaitingProtocols);
+            }
+        });
 
         datasource = new AddressDataSource(this);
         datasource.open();
@@ -74,6 +89,8 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         protocolDataSource = new ProtocolDataSource(this);
         protocolDataSource.open();
 
+        awaitingProtocolDataSource = new AwaitingProtocolDataSource(this);
+        awaitingProtocolDataSource.open();
         protocolPaderewskiegoDataSource = new ProtocolPaderewskiegoDataSource(this);
         protocolPaderewskiegoDataSource.open();
 
@@ -283,7 +300,18 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         protocolDataSource.open();
         protocolPaderewskiegoDataSource.open();
         protocolNewPaderewskiegoDataSource.open();
+        awaitingProtocolDataSource.open();
         addressesList.setItemChecked(0, true);
+
+        int awaitingProtocolCount = awaitingProtocolDataSource.getAwaitincProtocolCount();
+        if (awaitingProtocolCount > 0) {
+            synchronizeProtocolsButton.setEnabled(true);
+            synchronizeProtocolsButton.setText(getString(R.string.synchronize_protocols, awaitingProtocolCount));
+        } else {
+            synchronizeProtocolsButton.setEnabled(false);
+            synchronizeProtocolsButton.setText(getString(R.string.no_synchronization));
+        }
+
         super.onResume();
     }
 
@@ -303,6 +331,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         protocolDataSource.close();
         protocolPaderewskiegoDataSource.close();
         protocolNewPaderewskiegoDataSource.close();
+        awaitingProtocolDataSource.close();
         super.onPause();
     }
 

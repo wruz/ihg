@@ -43,6 +43,22 @@ public class AwaitingProtocolDataSource {
         database.insert(ApplicationOpenHelper.TABLE_AWAITING_PROTOCOL, null, values);
     }
 
+    public int getAwaitincProtocolCount() {
+        Cursor cursor = null;
+        try {
+            cursor = database.query(
+                    ApplicationOpenHelper.TABLE_AWAITING_PROTOCOL,
+                    ALL_COLUMNS,
+                    null, null, null, null, null);
+            return cursor.getCount();
+        } finally {
+            // Make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
     public List<AwaitingProtocol> getAwaitingProtocols() {
         Cursor cursor = null;
         try {
@@ -50,8 +66,7 @@ public class AwaitingProtocolDataSource {
             cursor = database.query(
                     ApplicationOpenHelper.TABLE_AWAITING_PROTOCOL,
                     ALL_COLUMNS,
-                    null, null, null, null,
-                    ApplicationOpenHelper.COLUMN_CREATED + " asc");
+                    null, null, null, null, null);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 AwaitingProtocol protocol = cursorToAwaitingProtocol(cursor);

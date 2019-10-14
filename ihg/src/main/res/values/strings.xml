@@ -137,4 +137,5 @@
     <string name="company_address_header">Spółdzielnia mieszkaniowa</string>
     <string name="protocol_type_header">Typ protokołu</string>
     <string name="synchronize_protocols">Synchronizuj (%1$d)</string>
+    <string name="no_synchronization">Brak synchronizacji</string>
 </resources>
