@@ -839,20 +839,19 @@ public class EnterDataActivity extends Activity {
             protocolDataSource.insertProtocolSiemianowice(protocol);
             protocolSaved = true;
 
-            Context context = getApplicationContext();
-            CharSequence text = String.format("Plik został poprawnie zapisany w pamięci urządzenia");
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-
-            Button sendButton = (Button) findViewById(R.id.send_button);
-            sendButton.setEnabled(true);
-
             if (networkStateChecker.isOnline()) {
+                Context context = getApplicationContext();
+                CharSequence text = "Plik został poprawnie zapisany w pamięci urządzenia";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                Button sendButton = (Button) findViewById(R.id.send_button);
+                sendButton.setEnabled(true);
                 openDrobpoxApp();
             } else {
-                Toast.makeText(this, "Brak połączenia z internetem. Protokół został zapisany do późniejeszej synchronizacji", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Brak połączenia z internetem. Protokół został zapisany do późniejszej synchronizacji", Toast.LENGTH_SHORT).show();
                 awaitingProtocolDataSource.addAwaitingProtocol(new AwaitingProtocol(pdfFilePath));
             }
         } catch (Exception e) {

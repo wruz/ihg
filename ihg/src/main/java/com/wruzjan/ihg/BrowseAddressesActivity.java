@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.NavigationUtils;
+import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.AwaitingProtocolDataSource;
@@ -67,19 +68,27 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     private ProgressLayout progressLayout;
     private Button synchronizeProtocolsButton;
 
+    private NetworkStateChecker networkStateChecker;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_browse_addresses);
 
+        networkStateChecker = new NetworkStateChecker(getApplication());
+
         progressLayout = findViewById(R.id.progress);
         synchronizeProtocolsButton = findViewById(R.id.synchronize_all_protocols_button);
         synchronizeProtocolsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<AwaitingProtocol> awaitingProtocols = awaitingProtocolDataSource.getAwaitingProtocols();
-                NavigationUtils.openDropBoxApp(BrowseAddressesActivity.this, awaitingProtocols);
+                if (networkStateChecker.isOnline()) {
+                    List<AwaitingProtocol> awaitingProtocols = awaitingProtocolDataSource.getAwaitingProtocols();
+                    NavigationUtils.openDropBoxApp(BrowseAddressesActivity.this, awaitingProtocols);
+                } else {
+                    Toast.makeText(BrowseAddressesActivity.this, "Brak połączenia z internetem do dokonania synchronizacji", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
