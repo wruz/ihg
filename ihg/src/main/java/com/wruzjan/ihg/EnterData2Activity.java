@@ -22,10 +22,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.AwaitingProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.model.Address;
+import com.wruzjan.ihg.utils.model.AwaitingProtocol;
 import com.wruzjan.ihg.utils.model.ProtocolPaderewskiego;
 import com.wruzjan.ihg.utils.pdf.GeneratePDFPaderewskiego;
 import com.wruzjan.ihg.utils.printer.BluetoothConnectionPaderewskiego;
@@ -45,6 +48,8 @@ public class EnterData2Activity extends Activity {
 
     private AddressDataSource addressDataSource;
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
+    private AwaitingProtocolDataSource awaitingProtocolDataSource;
+    private NetworkStateChecker networkStateChecker;
     private Address address;
     private ProtocolPaderewskiego PROTOCOL;
     private String pdfFilePath;
@@ -62,6 +67,9 @@ public class EnterData2Activity extends Activity {
 
         protocolPaderewskiegoDataSource = new ProtocolPaderewskiegoDataSource(this);
         protocolPaderewskiegoDataSource.open();
+
+        awaitingProtocolDataSource = new AwaitingProtocolDataSource(this);
+        awaitingProtocolDataSource.open();
 
         Intent intent = getIntent();
 
@@ -81,6 +89,8 @@ public class EnterData2Activity extends Activity {
         SwitchCompat kitchenTermSwitchCompat = findViewById(R.id.eq_kitchen_term_value);
         TextView kitchenTermSwitchCompatText = findViewById(R.id.eq_kitchen_term_value_text);
         setTextOnOffLabelChangeListener(kitchenTermSwitchCompat, kitchenTermSwitchCompatText);
+
+        networkStateChecker = new NetworkStateChecker(getApplication());
 
         if(intent.hasExtra(Utils.WINDOWS_NO_MICRO)){
             if(!intent.getStringExtra(Utils.WINDOWS_NO_MICRO).equals(AlertUtils.BLANK))
@@ -668,6 +678,7 @@ public class EnterData2Activity extends Activity {
     protected void onResume() {
         addressDataSource.open();
         protocolPaderewskiegoDataSource.open();
+        awaitingProtocolDataSource.open();
         super.onResume();
     }
 
@@ -675,6 +686,7 @@ public class EnterData2Activity extends Activity {
     protected void onPause() {
         addressDataSource.close();
         protocolPaderewskiegoDataSource.close();
+        awaitingProtocolDataSource.close();
         super.onPause();
 
     }
@@ -1658,20 +1670,23 @@ public class EnterData2Activity extends Activity {
 
             //      save in database
             protocolPaderewskiegoDataSource.insertProtocolPaderewskiego(protocol);
-
             protocolSaved = true;
 
-            Context context = getApplicationContext();
-            CharSequence text = String.format(AlertUtils.FILE_SAVE_SUCCESS);
-            int duration = Toast.LENGTH_SHORT;
+            if (networkStateChecker.isOnline()) {
+                Context context = getApplicationContext();
+                CharSequence text = "Plik został poprawnie zapisany w pamięci urządzenia";
+                int duration = Toast.LENGTH_SHORT;
 
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
 
-            Button sendButton =(Button)findViewById(R.id.send_button);
-            sendButton.setEnabled(true);
-
-            openDropboxApp();
+                Button sendButton = findViewById(R.id.send_button);
+                sendButton.setEnabled(true);
+                openDropboxApp();
+            } else {
+                Toast.makeText(this, "Brak połączenia z internetem. Protokół został zapisany do późniejszej synchronizacji", Toast.LENGTH_SHORT).show();
+                awaitingProtocolDataSource.addAwaitingProtocol(new AwaitingProtocol(pdfFilePath));
+            }
         } catch (Exception e) {
             Context context = getApplicationContext();
             e.printStackTrace();

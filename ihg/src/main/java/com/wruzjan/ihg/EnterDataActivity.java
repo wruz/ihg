@@ -847,7 +847,7 @@ public class EnterDataActivity extends Activity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
 
-                Button sendButton = (Button) findViewById(R.id.send_button);
+                Button sendButton = findViewById(R.id.send_button);
                 sendButton.setEnabled(true);
                 openDrobpoxApp();
             } else {

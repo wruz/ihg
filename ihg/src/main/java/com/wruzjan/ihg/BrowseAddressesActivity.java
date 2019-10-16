@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.DropBoxManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +37,7 @@ import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
 import com.wruzjan.ihg.utils.view.ProgressLayout;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -71,6 +72,30 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     private NetworkStateChecker networkStateChecker;
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == NavigationUtils.DROPBOX_SHARE_REQUEST_CODE) {
+            if(data != null && data.getComponent() != null && !TextUtils.isEmpty(data.getComponent().flattenToShortString()) ) {
+                awaitingProtocolDataSource.open();
+                List<AwaitingProtocol> awaitingProtocols = awaitingProtocolDataSource.getAwaitingProtocols();
+                ArrayList<Uri> uris = new ArrayList<>(awaitingProtocols.size());
+                for (AwaitingProtocol awaitingProtocol : awaitingProtocols) {
+                    Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(awaitingProtocol.getProtocolPdfUrl()));
+                    uris.add(uri);
+                }
+                data.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
+                // Start the selected activity
+                startActivity(data);
+                awaitingProtocolDataSource.deleteAllAwaitingProtocols();
+                synchronizeProtocolsButton.setEnabled(false);
+                synchronizeProtocolsButton.setText(getString(R.string.no_synchronization));
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -84,8 +109,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
             @Override
             public void onClick(View v) {
                 if (networkStateChecker.isOnline()) {
-                    List<AwaitingProtocol> awaitingProtocols = awaitingProtocolDataSource.getAwaitingProtocols();
-                    NavigationUtils.openDropBoxApp(BrowseAddressesActivity.this, awaitingProtocols);
+                    NavigationUtils.openDropBoxApp(BrowseAddressesActivity.this);
                 } else {
                     Toast.makeText(BrowseAddressesActivity.this, "Brak połączenia z internetem do dokonania synchronizacji", Toast.LENGTH_SHORT).show();
                 }

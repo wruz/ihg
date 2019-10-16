@@ -28,10 +28,13 @@ import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.AwaitingProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.model.Address;
+import com.wruzjan.ihg.utils.model.AwaitingProtocol;
 import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
 import com.wruzjan.ihg.utils.pdf.GeneratePDFNewPaderewskiego;
 import com.wruzjan.ihg.utils.printer.BluetoothConnectionNewPaderewskiego;
@@ -59,6 +62,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
     private AddressDataSource addressDataSource;
     private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
+    private AwaitingProtocolDataSource awaitingProtocolDataSource;
+    private NetworkStateChecker networkStateChecker;
     private Address address;
     private ProtocolNewPaderewskiego PROTOCOL;
     private String pdfFilePath;
@@ -126,6 +131,11 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
         protocolNewPaderewskiegoDataSource = new ProtocolNewPaderewskiegoDataSource(this);
         protocolNewPaderewskiegoDataSource.open();
+
+        awaitingProtocolDataSource = new AwaitingProtocolDataSource(this);
+        awaitingProtocolDataSource.open();
+
+        networkStateChecker = new NetworkStateChecker(getApplication());
 
         managerCommentsTextView = findViewById(R.id.comments_for_manager);
         managerCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
@@ -893,17 +903,21 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             protocolNewPaderewskiegoDataSource.insertProtocolNewPaderewskiego(protocol);
             protocolSaved = true;
 
-            Context context = getApplicationContext();
-            CharSequence text = String.format("Plik został poprawnie zapisany w pamięci urządzenia");
-            int duration = Toast.LENGTH_SHORT;
+            if (networkStateChecker.isOnline()) {
+                Context context = getApplicationContext();
+                CharSequence text = "Plik został poprawnie zapisany w pamięci urządzenia";
+                int duration = Toast.LENGTH_SHORT;
 
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
 
-            Button sendButton =(Button)findViewById(R.id.send_button);
-            sendButton.setEnabled(true);
-
-            openDropboxApp();
+                Button sendButton = findViewById(R.id.send_button);
+                sendButton.setEnabled(true);
+                openDropboxApp();
+            } else {
+                Toast.makeText(this, "Brak połączenia z internetem. Protokół został zapisany do późniejszej synchronizacji", Toast.LENGTH_SHORT).show();
+                awaitingProtocolDataSource.addAwaitingProtocol(new AwaitingProtocol(pdfFilePath));
+            }
         } catch (Exception e) {
             Context context = getApplicationContext();
             e.printStackTrace();
@@ -1248,6 +1262,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     protected void onResume() {
         addressDataSource.open();
         protocolNewPaderewskiegoDataSource.open();
+        awaitingProtocolDataSource.open();
         super.onResume();
     }
 
@@ -1255,6 +1270,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     protected void onPause() {
         addressDataSource.close();
         protocolNewPaderewskiegoDataSource.close();
+        awaitingProtocolDataSource.close();
         super.onPause();
 
     }

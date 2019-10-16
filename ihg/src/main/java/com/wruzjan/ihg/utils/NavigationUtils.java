@@ -1,36 +1,41 @@
 package com.wruzjan.ihg.utils;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.pm.ResolveInfo;
 import android.widget.Toast;
 
-import com.wruzjan.ihg.utils.model.AwaitingProtocol;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 
 public class NavigationUtils {
 
-    public static void openDropBoxApp(@NonNull Context context, @NonNull List<AwaitingProtocol> awaitingProtocols) {
-        ArrayList<Uri> uris = new ArrayList<>(awaitingProtocols.size());
-        for (AwaitingProtocol awaitingProtocol : awaitingProtocols) {
-            Uri uri = FileProvider.getUriForFile(context, "com.ihg.fileprovider", new File(awaitingProtocol.getProtocolPdfUrl()));
-            uris.add(uri);
-        }
+    public static final int DROPBOX_SHARE_REQUEST_CODE = 100;
 
-        Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-        intent.setType("text/plain");
-        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+    public static void openDropBoxApp(@NonNull Activity activity) {
+        Intent sendProtocolsIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+        sendProtocolsIntent.setType("text/plain");
 
-        try {
-            context.startActivity(Intent.createChooser(intent, "Wybierz aplikację Dropbox"));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(context, "Brak klienta Dropbox na urządzeniu.", Toast.LENGTH_SHORT).show();
+        List<ResolveInfo> resInfo = activity.getPackageManager().queryIntentActivities(sendProtocolsIntent, 0);
+        if (!resInfo.isEmpty()) {
+            ArrayList<Intent> targetedShareIntents = new ArrayList<>();
+
+            for (ResolveInfo info : resInfo) {
+                Intent targetedShare = new Intent(Intent.ACTION_SEND_MULTIPLE);
+                targetedShare.setType("text/plain");
+                targetedShare.setPackage(info.activityInfo.packageName.toLowerCase());
+                targetedShareIntents.add(targetedShare);
+            }
+
+            Intent intentPick = new Intent();
+            intentPick.setAction(Intent.ACTION_PICK_ACTIVITY);
+            intentPick.putExtra(Intent.EXTRA_INTENT, sendProtocolsIntent);
+            intentPick.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetedShareIntents.toArray());
+            activity.startActivityForResult(intentPick, DROPBOX_SHARE_REQUEST_CODE);
+        } else {
+            Toast.makeText(activity, "Brak klienta Dropbox na urządzeniu.", Toast.LENGTH_SHORT).show();
         }
     }
 }
