@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.StringUtils;
 import com.wruzjan.ihg.utils.Utils;
@@ -48,6 +49,7 @@ public class ChooseWorkerActivity extends Activity {
     private ProgressLayout progressLayout;
     private InstantAutoCompleteTextView companyAddressTextView;
     private InstantAutoCompleteTextView protocolTypeTextView;
+    private Spinner workersSpinner;
 
     private GetSiemanowiceByProtocolIdAsyncTask getSiemanowiceByProtocolIdAsyncTask;
 
@@ -83,16 +85,16 @@ public class ChooseWorkerActivity extends Activity {
         protocolTypeTextView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, siemanowiceProtocolType));
         protocolTypeTextView.setText(PreferenceManager.getDefaultSharedPreferences(this).getString(Utils.PREF_SIEMANOWICE_PROTOCOL_TYPE, siemanowiceProtocolType[0]));
 
-        Spinner spinner = (Spinner) findViewById(R.id.workers_spinner);
+        workersSpinner = findViewById(R.id.workers_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.workers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        workersSpinner.setAdapter(adapter);
 
         //get data from last entry and fill form
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
         tempOutsideTextView.setText(settings.getString(Utils.OUTSIDE_TEMPERATURE_SIEMIANOWICE, ""));
-        spinner.setSelection(settings.getInt(Utils.WORKER_POSITION, 0));
+        workersSpinner.setSelection(settings.getInt(Utils.WORKER_POSITION, 0));
 
         Intent intent = getIntent();
 
@@ -217,6 +219,7 @@ public class ChooseWorkerActivity extends Activity {
                 tempOutsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_outside()));
                 companyAddressTextView.setText(protocol.getCompanyAddress());
                 protocolTypeTextView.setText(protocol.getProtocolType());
+                AdapterUtils.setItemToSpinner(workersSpinner, protocol.get_worker_name());
             }
         };
     }

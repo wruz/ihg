@@ -27,6 +27,13 @@ public class AdapterUtils {
         return arrayAdapter;
     }
 
+    @SuppressWarnings("unchecked")
+    public static void setItemToSpinner(@NonNull Spinner spinner, String value) {
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
+        int position = adapter.getPosition(value);
+        spinner.setSelection(position);
+    }
+
     public static void setItemToSpinner(@NonNull Spinner spinner, @NonNull ArrayAdapter<String> adapter, float value) {
         int selectedItemIndex = adapter.getPosition(String.format(Locale.US, "%.1f", value));
         spinner.setSelection(selectedItemIndex);
