@@ -8,29 +8,36 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.NavigationUtils;
+import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.AwaitingProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.model.Address;
+import com.wruzjan.ihg.utils.model.AwaitingProtocol;
 import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
 import com.wruzjan.ihg.utils.threading.GenerateNewPaderewskiegoDailyReportAsyncTask;
 import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
 import com.wruzjan.ihg.utils.view.ProgressLayout;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +57,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     private ProtocolDataSource protocolDataSource;
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
     private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
+    private AwaitingProtocolDataSource awaitingProtocolDataSource;
     private ListView addressesList;
 
     private int selectedPosition = 0;
@@ -59,6 +67,33 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     @Nullable private GenerateNewPaderewskiegoDailyReportAsyncTask generateNewPaderewskiegoDailyReportAsyncTask;
 
     private ProgressLayout progressLayout;
+    private Button synchronizeProtocolsButton;
+
+    private NetworkStateChecker networkStateChecker;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == NavigationUtils.DROPBOX_SHARE_REQUEST_CODE) {
+            if(data != null && data.getComponent() != null && !TextUtils.isEmpty(data.getComponent().flattenToShortString()) ) {
+                awaitingProtocolDataSource.open();
+                List<AwaitingProtocol> awaitingProtocols = awaitingProtocolDataSource.getAwaitingProtocols();
+                ArrayList<Uri> uris = new ArrayList<>(awaitingProtocols.size());
+                for (AwaitingProtocol awaitingProtocol : awaitingProtocols) {
+                    Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(awaitingProtocol.getProtocolPdfUrl()));
+                    uris.add(uri);
+                }
+                data.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
+                // Start the selected activity
+                startActivity(data);
+                awaitingProtocolDataSource.deleteAllAwaitingProtocols();
+                synchronizeProtocolsButton.setEnabled(false);
+                synchronizeProtocolsButton.setText(getString(R.string.no_synchronization));
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +101,20 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
 
         setContentView(R.layout.activity_browse_addresses);
 
+        networkStateChecker = new NetworkStateChecker(getApplication());
+
         progressLayout = findViewById(R.id.progress);
+        synchronizeProtocolsButton = findViewById(R.id.synchronize_all_protocols_button);
+        synchronizeProtocolsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (networkStateChecker.isOnline()) {
+                    NavigationUtils.openDropBoxApp(BrowseAddressesActivity.this);
+                } else {
+                    Toast.makeText(BrowseAddressesActivity.this, "Brak połączenia z internetem do dokonania synchronizacji", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         datasource = new AddressDataSource(this);
         datasource.open();
@@ -74,6 +122,8 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         protocolDataSource = new ProtocolDataSource(this);
         protocolDataSource.open();
 
+        awaitingProtocolDataSource = new AwaitingProtocolDataSource(this);
+        awaitingProtocolDataSource.open();
         protocolPaderewskiegoDataSource = new ProtocolPaderewskiegoDataSource(this);
         protocolPaderewskiegoDataSource.open();
 
@@ -283,7 +333,18 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         protocolDataSource.open();
         protocolPaderewskiegoDataSource.open();
         protocolNewPaderewskiegoDataSource.open();
+        awaitingProtocolDataSource.open();
         addressesList.setItemChecked(0, true);
+
+        int awaitingProtocolCount = awaitingProtocolDataSource.getAwaitincProtocolCount();
+        if (awaitingProtocolCount > 0) {
+            synchronizeProtocolsButton.setEnabled(true);
+            synchronizeProtocolsButton.setText(getString(R.string.synchronize_protocols, awaitingProtocolCount));
+        } else {
+            synchronizeProtocolsButton.setEnabled(false);
+            synchronizeProtocolsButton.setText(getString(R.string.no_synchronization));
+        }
+
         super.onResume();
     }
 
@@ -303,6 +364,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         protocolDataSource.close();
         protocolPaderewskiegoDataSource.close();
         protocolNewPaderewskiegoDataSource.close();
+        awaitingProtocolDataSource.close();
         super.onPause();
     }
 

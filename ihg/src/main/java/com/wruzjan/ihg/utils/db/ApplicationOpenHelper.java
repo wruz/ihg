@@ -8,12 +8,13 @@ import android.util.Log;
 public class ApplicationOpenHelper extends SQLiteOpenHelper {
 
     //columns
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
     private static final String DATABASE_NAME = "ighDB.db";
     public static final String TABLE_ADDRESSES = "addresses";
     public static final String TABLE_PROTOCOL_PADEREWSKIEGO = "protocols_paderewskiego";
     public static final String TABLE_PROTOCOL_NEW_PADEREWSKIEGO = "protocols_new_paderewskiego";
     public static final String TABLE_PROTOCOL_SIEMIANOWICE = "protocols_siemianowice";
+    public static final String TABLE_AWAITING_PROTOCOL = "awaiting_protocol";
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_ADDRESS_ID = "address_id";
@@ -120,6 +121,8 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PROTOCOL_TYPE = "protocol_type";
 
     public static final String COLUMN_CREATED = "created";
+
+    public static final String COLUMN_PROTOCOL_PDF_URL = "protocol_pdf_url";
 
     public ApplicationOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -324,10 +327,16 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_PROTOCOL_TYPE + " TEXT," +
                 "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
 
+        String CREATE_AWAITING_PROTOCOL_TABLE = "CREATE TABLE " +
+                TABLE_AWAITING_PROTOCOL + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_PROTOCOL_PDF_URL + " TEXT NOT NULL)";
+
         sqLiteDatabase.execSQL(CREATE_ADDRESSES_TABLE);
         sqLiteDatabase.execSQL(CREATE_PROTOCOL_PADEREWSKIEGO_TABLE);
         sqLiteDatabase.execSQL(CREATE_PROTOCOL_NEW_PADEREWSKIEGO_TABLE);
         sqLiteDatabase.execSQL(CREATE_PROTOCOL_SIEMIANOWICE_TABLE);
+        sqLiteDatabase.execSQL(CREATE_AWAITING_PROTOCOL_TABLE);
     }
 
     @Override
@@ -345,6 +354,9 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 7) {
             onUpgradeTo7(sqLiteDatabase);
+        }
+        if (oldVersion < 8) {
+            onUpgradeTo8(sqLiteDatabase);
         }
     }
 
@@ -418,5 +430,14 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
 
         String addProtocolTypeColumnNewPaderewskiego = "ALTER TABLE " + TABLE_PROTOCOL_NEW_PADEREWSKIEGO + " ADD " + COLUMN_PROTOCOL_TYPE + " TEXT;";
         sqLiteDatabase.execSQL(addProtocolTypeColumnNewPaderewskiego);
+    }
+
+    private void onUpgradeTo8(SQLiteDatabase sqLiteDatabase) {
+        String CREATE_AWAITING_PROTOCOL_TABLE = "CREATE TABLE " +
+                TABLE_AWAITING_PROTOCOL + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_PROTOCOL_PDF_URL + " TEXT NOT NULL)";
+
+        sqLiteDatabase.execSQL(CREATE_AWAITING_PROTOCOL_TABLE);
     }
 }
