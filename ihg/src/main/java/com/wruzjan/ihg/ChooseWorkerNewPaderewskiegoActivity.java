@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.StringUtils;
 import com.wruzjan.ihg.utils.Utils;
@@ -222,6 +223,7 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
                 tempOutsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_outside()));
                 companyAddressTextView.setText(protocol.getCompanyAddress());
                 protocolTypeTextView.setText(protocol.getProtocolType());
+                AdapterUtils.setItemToSpinner((Spinner) findViewById(R.id.workers_spinner), protocol.get_worker_name());
             }
         };
     }
