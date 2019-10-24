@@ -138,4 +138,6 @@
     <string name="protocol_type_header">Typ protokołu</string>
     <string name="synchronize_protocols">Synchronizuj (%1$d)</string>
     <string name="no_synchronization">Brak synchronizacji</string>
+    <string name="no_inspector_chosen_item">(nie wybrano pracownika)</string>
+    <string name="no_inspector_chosen_message">Nie wybrano pracownika. Proszę wybrać pracownika.</string>
 </resources>

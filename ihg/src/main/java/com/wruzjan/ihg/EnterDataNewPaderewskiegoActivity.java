@@ -894,7 +894,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             toast.show();
         }
 //      generate files
-        GeneratePDFNewPaderewskiego pdfGenerator = new GeneratePDFNewPaderewskiego();
+        GeneratePDFNewPaderewskiego pdfGenerator = new GeneratePDFNewPaderewskiego(getResources());
         try {
             PROTOCOL = protocol;
             pdfFilePath = pdfGenerator.generatePdf(address, protocol);

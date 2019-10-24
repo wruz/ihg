@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
@@ -49,15 +50,13 @@ public class ChooseWorker2Activity extends Activity {
         protocolDataSource = new ProtocolPaderewskiegoDataSource(this);
         protocolDataSource.open();
 
-        Spinner spinner = (Spinner) findViewById(R.id.workers_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.workers, android.R.layout.simple_spinner_item);
+        Spinner workersSpinner = findViewById(R.id.workers_spinner);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        workersSpinner.setAdapter(adapter);
 
         //get data from last entry and fill form
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
-        spinner.setSelection(settings.getInt(Utils.WORKER_POSITION, 0));
 
         EditText tempInsideField = (EditText) findViewById(R.id.temp_inside);
         tempInsideField.setText(settings.getString(Utils.INSIDE_TEMPERATURE_PADEREWSKIEGO, null), TextView.BufferType.EDITABLE);
@@ -88,7 +87,34 @@ public class ChooseWorker2Activity extends Activity {
             address = datasource.getAddressById(addressId);
             protocolId = intent.getIntExtra(Utils.PROTOCOL_ID, -1);
             editFlag = intent.getBooleanExtra(Utils.EDIT_FLAG, false);
+
+            ProtocolPaderewskiego protocol = protocolDataSource.getPaderewskiegoProtocolsById(protocolId);
+
+            String[] workers = getResources().getStringArray(R.array.workers);
+
+            boolean workerExists = false;
+
+            for (String worker : workers) {
+                if (worker.equalsIgnoreCase(protocol.get_worker_name())) {
+                    workerExists = true;
+                    break;
+                }
+            }
+
+            ArrayAdapter<CharSequence> workersAdapter = (ArrayAdapter<CharSequence>) workersSpinner.getAdapter();
+
+            if (workerExists) {
+                workersAdapter.addAll(workers);
+                AdapterUtils.setItemToSpinner(workersSpinner, protocol.get_worker_name());
+            } else {
+                workersAdapter.add(getApplication().getString(R.string.no_inspector_chosen_item));
+                workersAdapter.addAll(workers);
+                workersSpinner.setSelection(0);
+            }
         } else {
+            adapter.addAll(getResources().getStringArray(R.array.workers));
+            workersSpinner.setSelection(settings.getInt(Utils.WORKER_POSITION, 0));
+
             editFlag = false;
             //get address
             if(intent.hasExtra(Utils.ADDRESS_ID)){
@@ -161,8 +187,14 @@ public class ChooseWorker2Activity extends Activity {
 
     public void save(View view) {
         //get selected worker
-        Spinner workersSpinner = (Spinner) findViewById(R.id.workers_spinner);
+        Spinner workersSpinner = findViewById(R.id.workers_spinner);
         String worker = (String) workersSpinner.getSelectedItem();
+
+        if (worker.equalsIgnoreCase(getApplication().getString(R.string.no_inspector_chosen_item))) {
+            Toast.makeText(this, getApplication().getString(R.string.no_inspector_chosen_message), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //get data from form
         TextView tempInsideTextView = (TextView) findViewById(R.id.temp_inside);
         String tempInside = tempInsideTextView.getText().toString();

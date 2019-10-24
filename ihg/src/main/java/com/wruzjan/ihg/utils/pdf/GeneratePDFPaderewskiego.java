@@ -1,5 +1,6 @@
 package com.wruzjan.ihg.utils.pdf;
 
+import android.content.res.Resources;
 import android.os.Environment;
 
 import com.itextpdf.text.DocumentException;
@@ -9,6 +10,8 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import com.wruzjan.ihg.R;
+import com.wruzjan.ihg.utils.ArrayUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.ProtocolPaderewskiego;
@@ -21,6 +24,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class GeneratePDFPaderewskiego {
+
+    private final String[] workers;
+    private final String[] templates;
+
+    public GeneratePDFPaderewskiego(Resources resources) {
+        workers = resources.getStringArray(R.array.workers);
+        templates = resources.getStringArray(R.array.form_template_paths);
+    }
 
     private static void fill(AcroFields form, Address address, ProtocolPaderewskiego protocol)
             throws IOException, DocumentException {
@@ -386,18 +397,8 @@ public class GeneratePDFPaderewskiego {
         PdfReader reader;
         PdfStamper stamper;
 
-        switch (protocol.get_worker_name()) {
-            case "Szymon Mączyński":
-                reader = new PdfReader(Utils.PADEREWSKIEGO_PDF_SZYMON);
-                break;
-            case "Maciej Kowalski":
-                reader = new PdfReader(Utils.PADEREWSKIEGO_PDF_MACIEJ);
-                break;
-            default:
-            case "Rafał Niegot":
-                reader = new PdfReader(Utils.PADEREWSKIEGO_PDF_RAFAL);
-                break;
-        }
+        int workerIndex = ArrayUtils.indexOf(workers, protocol.get_worker_name());
+        reader = new PdfReader(getPdfPath(templates[workerIndex]));
 
         stamper = new PdfStamper(reader,
                 new FileOutputStream(str_path));
@@ -418,8 +419,10 @@ public class GeneratePDFPaderewskiego {
         reader.close();
 
         return str_path;
+    }
 
-
+    private static String getPdfPath(String template) {
+        return Environment.getExternalStorageDirectory().toString() + template.replace("_number", String.valueOf(2));
     }
 
     private static double round(double value, int places) {
@@ -429,5 +432,4 @@ public class GeneratePDFPaderewskiego {
         bd = bd.setScale(places, BigDecimal.ROUND_HALF_UP);
         return bd.doubleValue();
     }
-
 }

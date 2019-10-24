@@ -41,7 +41,7 @@
 
                 <Spinner
                     android:id="@+id/workers_spinner"
-                    android:layout_width="200dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:drawSelectorOnTop="true"/>
             </LinearLayout>

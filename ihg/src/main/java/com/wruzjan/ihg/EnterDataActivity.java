@@ -830,7 +830,7 @@ public class EnterDataActivity extends Activity {
             toast.show();
         }
 //      generate files
-        GeneratePDF pdfGenerator = new GeneratePDF();
+        GeneratePDF pdfGenerator = new GeneratePDF(getResources());
         try {
             PROTOCOL = protocol;
             pdfFilePath = pdfGenerator.generatePdf(address, protocol);
