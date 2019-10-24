@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -94,10 +93,13 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     private ArrayAdapter<String> flueMicroventSpinnerAdapter;
 
     private TextView managerCommentsTextView;
-    private MultiSelectionViewHelper managerCommentsMultiSelectionViewHelper;
 
     private TextView userCommentsTextView;
-    private MultiSelectionViewHelper userCommentsMultiSelectionViewHelper;
+
+    private MultiSelectionViewHelper kitchenCommentsMultiSelectionViewHelper;
+    private MultiSelectionViewHelper bathroomCommentsMultiSelectionViewHelper;
+    private MultiSelectionViewHelper toiletCommentsMultiSelectionViewHelper;
+    private MultiSelectionViewHelper flueCommentsMultiSelectionViewHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,14 +140,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         networkStateChecker = new NetworkStateChecker(getApplication());
 
         managerCommentsTextView = findViewById(R.id.comments_for_manager);
-        managerCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
-                managerCommentsTextView,
-                getResources().getStringArray(R.array.general_comments));
-
         userCommentsTextView = findViewById(R.id.comments_for_user);
-        userCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
-                userCommentsTextView,
-                getResources().getStringArray(R.array.general_comments));
 
         kitchenClosedSpinner = findViewById(R.id.kitchen_airflow_windows_closed);
         kitchenClosedSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(kitchenClosedSpinner, "0.0");
@@ -170,6 +165,282 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
         flueMicroventSpinner = findViewById(R.id.flue_airflow_microventilation);
         flueMicroventSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(flueMicroventSpinner, "1.0");
+
+        kitchenCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
+                (EditText) findViewById(R.id.kitchen_comments),
+                getResources().getStringArray(R.array.kitchen_comments));
+
+        bathroomCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
+                (EditText) findViewById(R.id.bathroom_comments),
+                getResources().getStringArray(R.array.bathroom_comments));
+
+        toiletCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
+                (EditText) findViewById(R.id.toilet_comments),
+                getResources().getStringArray(R.array.toilet_comments));
+
+        flueCommentsMultiSelectionViewHelper = new MultiSelectionViewHelper(
+                (EditText) findViewById(R.id.flue_comments),
+                getResources().getStringArray(R.array.flue_comments));
+
+        kitchenCommentsMultiSelectionViewHelper.setOkClickListener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] kitchenComments = getResources().getStringArray(R.array.kitchen_comments);
+                if (kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[0])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. went. w kuchni", comments));
+                } else if (!kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[1])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. went. w kuchni", comments));
+                }
+                if (kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[1])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. went. w kuchni", comments));
+                } else if (!kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[0])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. went. w kuchni", comments));
+                }
+                if (kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[2])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Usunąć wyciąg mechaniczny w kuchni", comments));
+                } else if (!kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[3])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Usunąć wyciąg mechaniczny w kuchni", comments));
+                }
+                if (kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[3])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Usunąć wyciąg mechaniczny w kuchni", comments));
+                } else if (!kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[2])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Usunąć wyciąg mechaniczny w kuchni", comments));
+                }
+                if (kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[4])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Wyczyścić kratkę wentylacyjną w kuchni", comments));
+                } else {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Wyczyścić kratkę wentylacyjną w kuchni", comments));
+                }
+                if (kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[5])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Powiększyć otwór w drzwiach kuchennych do 220cm2", comments));
+                } else {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Powiększyć otwór w drzwiach kuchennych do 220cm2", comments));
+                }
+                if (kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[6])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Wyznaczyć przew. went w kuchni", comments));
+                } else {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Wyznaczyć przew. went w kuchni", comments));
+                }
+
+                if (kitchenCommentsMultiSelectionViewHelper.isEntrySelected(kitchenComments[7])) {
+                    String comments = managerCommentsTextView.getText().toString();
+                    managerCommentsTextView.setText(addCommentsForUser("Wyznaczyć przew. went w kuchni", comments));
+                } else {
+                    String comments = managerCommentsTextView.getText().toString();
+                    managerCommentsTextView.setText(removeCommentsForUser("Wyznaczyć przew. went w kuchni", comments));
+                }
+            }
+        });
+
+        bathroomCommentsMultiSelectionViewHelper.setOkClickListener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] bathroomComments = getResources().getStringArray(R.array.bathroom_comments);
+                if (bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[0])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. went. w łazience", comments));
+                } else if (!bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[1])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. went. w łazience", comments));
+                }
+
+                if (bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[1])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. went. w łazience", comments));
+                } else if (!bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[0])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. went. w łazience", comments));
+                }
+
+                if (bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[2])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Usunąć wyciąg mechaniczny w łazience", comments));
+                } else if (!bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[3])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Usunąć wyciąg mechaniczny w łazience", comments));
+                }
+
+                if (bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[3])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Usunąć wyciąg mechaniczny w łazience", comments));
+                } else if (!bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[2])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Usunąć wyciąg mechaniczny w łazience", comments));
+                }
+
+                if (bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[4])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Wyczyścić kratkę wentylacyjną w łazience", comments));
+                } else {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Wyczyścić kratkę wentylacyjną w łazience", comments));
+                }
+
+                if (bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[5])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Powiększyć otwór w drzwiach łazienkowych do 220cm2", comments));
+                } else {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Powiększyć otwór w drzwiach łazienkowych do 220cm2", comments));
+                }
+
+                if (bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[6])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Wyznaczyć przew. went w łazience", comments));
+                } else {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Wyznaczyć przew. went w łazience", comments));
+                }
+
+                if (bathroomCommentsMultiSelectionViewHelper.isEntrySelected(bathroomComments[7])) {
+                    String comments = managerCommentsTextView.getText().toString();
+                    managerCommentsTextView.setText(addCommentsForUser("Wyznaczyć przew. went w łazience", comments));
+                } else {
+                    String comments = managerCommentsTextView.getText().toString();
+                    managerCommentsTextView.setText(removeCommentsForUser("Wyznaczyć przew. went w łazience", comments));
+                }
+            }
+        });
+
+        toiletCommentsMultiSelectionViewHelper.setOkClickListener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] toiletComments = getResources().getStringArray(R.array.toilet_comments);
+                if (toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[0])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. went. w ubikacji", comments));
+                } else if (!toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[1])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. went. w ubikacji", comments));
+                }
+
+                if (toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[1])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. went. w ubikacji", comments));
+                } else if (!toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[0])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. went. w ubikacji", comments));
+                }
+
+                if (toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[2])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Usunąć wyciąg mechaniczny w ubikacji", comments));
+                } else if (!toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[3])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Usunąć wyciąg mechaniczny w ubikacji", comments));
+                }
+
+                if (toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[3])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Usunąć wyciąg mechaniczny w ubikacji", comments));
+                } else if (!toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[2])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Usunąć wyciąg mechaniczny w ubikacji", comments));
+                }
+
+                if (toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[4])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Wyczyścić kratkę wentylacyjną w ubikacji", comments));
+                } else {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Wyczyścić kratkę wentylacyjną w ubikacji", comments));
+                }
+
+                if (toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[5])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Powiększyć otwór w drzwiach do ubikacji do 220cm2", comments));
+                } else {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Powiększyć otwór w drzwiach do ubikacji do 220cm2", comments));
+                }
+
+                if (toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[6])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Wyznaczyć przew. went w ubikacji", comments));
+                } else {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Wyznaczyć przew. went w ubikacji", comments));
+                }
+
+                if (toiletCommentsMultiSelectionViewHelper.isEntrySelected(toiletComments[7])) {
+                    String comments = managerCommentsTextView.getText().toString();
+                    managerCommentsTextView.setText(addCommentsForUser("Wyznaczyć przew. went w ubikacji", comments));
+                } else {
+                    String comments = managerCommentsTextView.getText().toString();
+                    managerCommentsTextView.setText(removeCommentsForUser("Wyznaczyć przew. went w ubikacji", comments));
+                }
+            }
+        });
+
+        flueCommentsMultiSelectionViewHelper.setOkClickListener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] flueComments = getResources().getStringArray(R.array.flue_comments);
+
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[0])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. spalinowego", comments));
+                } else if (!flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[1])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. spalinowego", comments));
+                }
+
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[1])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. spalinowego", comments));
+                } else if (!flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[0])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. spalinowego", comments));
+                }
+
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[3])) {
+                    String comments = managerCommentsTextView.getText().toString();
+                    managerCommentsTextView.setText(addCommentsForUser("Lokator odmówił kontroli przewodu spalinowego", comments));
+                } else  {
+                    String comments = managerCommentsTextView.getText().toString();
+                    managerCommentsTextView.setText(removeCommentsForUser("Lokator odmówił kontroli przewodu spalinowego", comments));
+                }
+
+
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[4])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Uszczelnić odprowadzenie spalin", comments));
+                } else  {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Uszczelnić odprowadzenie spalin", comments));
+                }
+
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[5])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Odcinek pionowy rury spal. od piecyka ma mieć min. 22 cm", comments));
+                } else  {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Odcinek pionowy rury spal. od piecyka ma mieć min. 22 cm", comments));
+                }
+
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[6])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Zbyt mała kubatura pomieszczenia - zakaz używania pieca gazowego", comments));
+                } else  {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Zbyt mała kubatura pomieszczenia - zakaz używania pieca gazowego", comments));
+                }
+            }
+        });
 
         CheckBox gasFittingsCheck = (CheckBox) findViewById(R.id.is_gas_fittings);
         gasFittingsCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -283,25 +554,21 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("usunąć wyciąg mechaniczny z przewodu w kuchni", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("usunąć wyciąg mechaniczny z przewodu w kuchni", false);
                 }
                 if(!comment.contains("wentylator") && !comment.contains("okap elektryczny")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("usunąć wyciąg mechaniczny z przewodu w kuchni", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("usunąć wyciąg mechaniczny z przewodu w kuchni", true);
                 }
                 if(comment.contains("kratka stała") || comment.contains("zabudowa, brak dostępu") || comment.contains("sztywna rura")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("umożliwić dostęp do przewodu w kuchni", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("umożliwić dostęp do przewodu w kuchni", false);
                 }
                 if(!comment.contains("kratka stała") && !comment.contains("zabudowa, brak dostępu") && !comment.contains("sztywna rura")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("umożliwić dostęp do przewodu w kuchni", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("umożliwić dostęp do przewodu w kuchni", true);
                 }
             }
         });
@@ -323,37 +590,31 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("powiększyć otwór w drzwiach łazienkowych do 220cm2", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("powiększyć otwór w drzwiach łazienkowych do 220cm2", false);
                 }
                 if(!comment.contains("zbyt mały otwór w drzwiach")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("powiększyć otwór w drzwiach łazienkowych do 220cm2", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("powiększyć otwór w drzwiach łazienkowych do 220cm2", true);
                 }
                 if(comment.contains("wentylator") || comment.contains("okap elektryczny")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("usunąć wyciąg mechaniczny z przewodu w łazience", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("usunąć wyciąg mechaniczny z przewodu w łazience", false);
                 }
                 if(!comment.contains("wentylator") && !comment.contains("okap elektryczny")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("usunąć wyciąg mechaniczny z przewodu w łazience", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("usunąć wyciąg mechaniczny z przewodu w łazience", true);
                 }
                 if(comment.contains("kratka stała") || comment.contains("zabudowa, brak dostępu") || comment.contains("sztywna rura")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("umożliwić dostęp do przewodu w łazience", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("umożliwić dostęp do przewodu w łazience", false);
                 }
                 if(!comment.contains("kratka stała") && !comment.contains("zabudowa, brak dostępu") && !comment.contains("sztywna rura")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("umożliwić dostęp do przewodu w łazience", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("umożliwić dostęp do przewodu w łazience", true);
                 }
             }
         });
@@ -375,25 +636,21 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("usunąć wyciąg mechaniczny z przewodu w WC", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("usunąć wyciąg mechaniczny z przewodu w WC", false);
                 }
                 if(!comment.contains("wentylator") && !comment.contains("okap elektryczny")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("usunąć wyciąg mechaniczny z przewodu w WC", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("usunąć wyciąg mechaniczny z przewodu w WC", true);
                 }
                 if(comment.contains("kratka stała") || comment.contains("zabudowa, brak dostępu") || comment.contains("sztywna rura")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("umożliwić dostęp do przewodu w WC", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("umożliwić dostęp do przewodu w WC", false);
                 }
                 if(!comment.contains("kratka stała") && !comment.contains("zabudowa, brak dostępu") && !comment.contains("sztywna rura")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("umożliwić dostęp do przewodu w WC", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("umożliwić dostęp do przewodu w WC", true);
                 }
             }
         });
@@ -415,25 +672,21 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("usunąć wyciąg mechaniczny z przewodu spalinowego", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("usunąć wyciąg mechaniczny z przewodu spalinowego", false);
                 }
                 if(!comment.contains("wentylator") && !comment.contains("okap elektryczny")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("usunąć wyciąg mechaniczny z przewodu spalinowego", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("usunąć wyciąg mechaniczny z przewodu spalinowego", true);
                 }
                 if(comment.contains("kratka stała") || comment.contains("zabudowa, brak dostępu") || comment.contains("sztywna rura")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("umożliwić dostęp do przewodu spalinowego", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("umożliwić dostęp do przewodu spalinowego", false);
                 }
                 if(!comment.contains("kratka stała") && !comment.contains("zabudowa, brak dostępu") && !comment.contains("sztywna rura")){
                     TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("umożliwić dostęp do przewodu spalinowego", userComments));
-                    enableOptionIfPreAppendedTextDoesNotContainEntry("umożliwić dostęp do przewodu spalinowego", true);
                 }
             }
         });
@@ -457,10 +710,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     String userComments = userCommentsTextView.getText().toString();
                     if(number>=300 && number<500){
                         userCommentsTextView.setText(addCommentsForUser("zalecana konserwacja pieca gazowego", userComments));
-                        enableOptionIfPreAppendedTextDoesNotContainEntry("zalecana konserwacja pieca gazowego", false);
                     } else {
                         userCommentsTextView.setText(removeCommentsForUser("zalecana konserwacja pieca gazowego", userComments));
-                        enableOptionIfPreAppendedTextDoesNotContainEntry("zalecana konserwacja pieca gazowego", true);
                     }
                 }
             }
@@ -483,10 +734,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     String userComments = userCommentsTextView.getText().toString();
                     if (number>=500){
                         userCommentsTextView.setText(addCommentsForUser("konieczna konserwacja pieca gazowego", userComments));
-                        enableOptionIfPreAppendedTextDoesNotContainEntry("konieczna konserwacja pieca gazowego", false);
                     } else {
                         userCommentsTextView.setText(removeCommentsForUser("konieczna konserwacja pieca gazowego", userComments));
-                        enableOptionIfPreAppendedTextDoesNotContainEntry("konieczna konserwacja pieca gazowego", true);
                     }
                 }
             }
@@ -517,7 +766,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         Intent intent = getIntent();
         if(intent.hasExtra(Utils.EDIT_FLAG)){
             boolean editFlag = intent.getBooleanExtra(Utils.EDIT_FLAG, false);
-            if(editFlag){
+            if(editFlag) {
                 int addressId = intent.getIntExtra(Utils.ADDRESS_ID, -1);
                 int protocolId = intent.getIntExtra(Utils.PROTOCOL_ID, -1);
 
@@ -526,79 +775,79 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
                 //kitchen
                 kitchenAvailableSwitch.setChecked(protocolEdited.is_kitchen_enabled());
-                if(Float.compare(protocolEdited.get_kitchen_grid_dimension_x(), 0.0f)!=0){
+                if (Float.compare(protocolEdited.get_kitchen_grid_dimension_x(), 0.0f) != 0) {
                     TextView kitchenGridXTextView = (TextView) findViewById(R.id.kitchen_grid_dimension_1);
                     kitchenGridXTextView.setText(Float.toString(protocolEdited.get_kitchen_grid_dimension_x()));
                 }
-                if(Float.compare(protocolEdited.get_kitchen_grid_dimension_y(), 0.0f)!=0){
+                if (Float.compare(protocolEdited.get_kitchen_grid_dimension_y(), 0.0f) != 0) {
                     TextView kitchenGridYTextView = (TextView) findViewById(R.id.kitchen_grid_dimension_2);
                     kitchenGridYTextView.setText(Float.toString(protocolEdited.get_kitchen_grid_dimension_y()));
                 }
-                if(protocolEdited.get_kitchen_grid_dimension_round() != 0.0){
+                if (protocolEdited.get_kitchen_grid_dimension_round() != 0.0) {
                     TextView kitchenGridRoundTextView = (TextView) findViewById(R.id.kitchen_grid_dimension_round);
                     kitchenGridRoundTextView.setText(Double.toString(protocolEdited.get_kitchen_grid_dimension_round()));
                 }
                 AdapterUtils.setItemToSpinner(kitchenClosedSpinner, kitchenClosedSpinnerAdapter, protocolEdited.get_kitchen_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(kitchenMicroventSpinner, kitchenMicroventSpinnerAdapter, protocolEdited.get_kitchen_airflow_microventilation());
-                if("tak".equals(protocolEdited.get_kitchen_clean())){
+                if ("tak".equals(protocolEdited.get_kitchen_clean())) {
                     kitchenClean.setChecked(true);
                 } else {
                     kitchenClean.setChecked(false);
                 }
-                kitchenComments.setText(protocolEdited.get_kitchen_comments());
+                kitchenCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_kitchen_comments());
 
 
                 //toilet
                 toiletAvailableSwitch.setChecked(protocolEdited.is_toilet_enabled());
-                if(Float.compare(protocolEdited.get_toilet_grid_dimension_x(), 0.0f)!=0){
+                if (Float.compare(protocolEdited.get_toilet_grid_dimension_x(), 0.0f) != 0) {
                     TextView toiletGridXTextView = (TextView) findViewById(R.id.toilet_grid_dimension_1);
                     toiletGridXTextView.setText(Float.toString(protocolEdited.get_toilet_grid_dimension_x()));
                 }
-                if(Float.compare(protocolEdited.get_toilet_grid_dimension_y(), 0.0f)!=0){
+                if (Float.compare(protocolEdited.get_toilet_grid_dimension_y(), 0.0f) != 0) {
                     TextView toiletGridYTextView = (TextView) findViewById(R.id.toilet_grid_dimension_2);
                     toiletGridYTextView.setText(Float.toString(protocolEdited.get_toilet_grid_dimension_y()));
                 }
-                if(protocolEdited.get_toilet_grid_dimension_round() != 0.0){
+                if (protocolEdited.get_toilet_grid_dimension_round() != 0.0) {
                     TextView toiletGridRoundTextView = (TextView) findViewById(R.id.toilet_grid_dimension_round);
                     toiletGridRoundTextView.setText(Double.toString(protocolEdited.get_toilet_grid_dimension_round()));
                 }
                 AdapterUtils.setItemToSpinner(toiletClosedSpinner, toiletClosedSpinnerAdapter, protocolEdited.get_toilet_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(toiletMicroventSpinner, toiletMicroventSpinnerAdapter, protocolEdited.get_toilet_airflow_microventilation());
-                if("tak".equals(protocolEdited.get_toilet_clean())){
+                if ("tak".equals(protocolEdited.get_toilet_clean())) {
                     toiletClean.setChecked(true);
                 } else {
                     toiletClean.setChecked(false);
                 }
-                toiletComments.setText(protocolEdited.get_toilet_comments());
+                toiletCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_toilet_comments());
 
                 //bath
                 bathroomAvailableSwitch.setChecked(protocolEdited.is_bathroom_enabled());
-                if(Float.compare(protocolEdited.get_bathroom_grid_dimension_x(), 0.0f)!=0){
+                if (Float.compare(protocolEdited.get_bathroom_grid_dimension_x(), 0.0f) != 0) {
                     TextView bathGridXTextView = (TextView) findViewById(R.id.bathroom_grid_dimension_1);
                     bathGridXTextView.setText(Float.toString(protocolEdited.get_bathroom_grid_dimension_x()));
                 }
-                if(Float.compare(protocolEdited.get_bathroom_grid_dimension_y(), 0.0f)!=0){
+                if (Float.compare(protocolEdited.get_bathroom_grid_dimension_y(), 0.0f) != 0) {
                     TextView bathGridYTextView = (TextView) findViewById(R.id.bathroom_grid_dimension_2);
                     bathGridYTextView.setText(Float.toString(protocolEdited.get_bathroom_grid_dimension_y()));
                 }
-                if(protocolEdited.get_bathroom_grid_dimension_round() != 0.0){
+                if (protocolEdited.get_bathroom_grid_dimension_round() != 0.0) {
                     TextView bathGridRoundTextView = (TextView) findViewById(R.id.bathroom_grid_dimension_round);
                     bathGridRoundTextView.setText(Double.toString(protocolEdited.get_bathroom_grid_dimension_round()));
                 }
                 AdapterUtils.setItemToSpinner(bathroomClosedSpinner, bathroomClosedSpinnerAdapter, protocolEdited.get_bathroom_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(bathroomMicroventSpinner, bathroomMicroventSpinnerAdapter, protocolEdited.get_bathroom_airflow_microventilation());
-                if("tak".equals(protocolEdited.get_bath_clean())){
+                if ("tak".equals(protocolEdited.get_bath_clean())) {
                     bathClean.setChecked(true);
                 } else {
                     bathClean.setChecked(false);
                 }
-                bathComments.setText(protocolEdited.get_bathroom_comments());
+                bathroomCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_bathroom_comments());
 
                 //flue
                 flueAvailableSwitch.setChecked(protocolEdited.is_flue_enabled());
                 AdapterUtils.setItemToSpinner(flueClosedSpinner, flueClosedSpinnerAdapter, protocolEdited.get_flue_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(flueMicroventSpinner, flueMicroventSpinnerAdapter, protocolEdited.get_flue_airflow_microventilation());
-                flueComments.setText(protocolEdited.get_flue_comments());
+                flueCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_flue_comments());
 
                 //others
                 TextView telephoneTextView = (TextView) findViewById(R.id.telephone);
@@ -614,18 +863,13 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 bathroomBakeCheck.setChecked(protocolEdited.is_bathroom_bake_present());
                 bathroomBakeSwitch.setChecked(protocolEdited.is_bathroom_bake_working());
                 equipmentCommentsTextView.setText(protocolEdited.get_equipment_comments());
-                if(Float.compare(protocolEdited.get_co2(), 0.0f)!=0){
-                    co2TextView.setText(Integer.toString((int)(Math.round(protocolEdited.get_co2()))));
+                if (Float.compare(protocolEdited.get_co2(), 0.0f) != 0) {
+                    co2TextView.setText(Integer.toString((int) (Math.round(protocolEdited.get_co2()))));
                 }
-                TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
+                TextView userCommentsTextView = findViewById(R.id.comments_for_user);
                 userCommentsTextView.setText(protocolEdited.get_comments_for_user());
-                if (!TextUtils.isEmpty(protocolEdited.get_comments_for_user())) {
-                    userCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_comments_for_user());
-                }
-
-                if (!TextUtils.isEmpty(protocolEdited.get_comments_for_manager())) {
-                    managerCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_comments_for_manager());
-                }
+                TextView managerCommentsTextView = findViewById(R.id.comments_for_manager);
+                managerCommentsTextView.setText(protocolEdited.get_comments_for_manager());
             }
         }
     }
@@ -1302,14 +1546,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             userComments = userComments.replace(comment, "");
         }
         return userComments;
-    }
-
-    private void enableOptionIfPreAppendedTextDoesNotContainEntry(String preAppendedText, boolean enabled) {
-        int index = userCommentsMultiSelectionViewHelper.indexOfEntries(preAppendedText);
-        if (index != -1) {
-            userCommentsMultiSelectionViewHelper.setEnabledOption(index, enabled);
-            userCommentsMultiSelectionViewHelper.setSelectedOption(index, !enabled);
-        }
     }
 
     private void setTextOnOffLabelChangeListener(final SwitchCompat switchCompat, final TextView switchText) {
