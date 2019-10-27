@@ -86,15 +86,13 @@ public class ChooseWorkerActivity extends Activity {
         protocolTypeTextView.setText(PreferenceManager.getDefaultSharedPreferences(this).getString(Utils.PREF_SIEMANOWICE_PROTOCOL_TYPE, siemanowiceProtocolType[0]));
 
         workersSpinner = findViewById(R.id.workers_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.workers, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         workersSpinner.setAdapter(adapter);
 
         //get data from last entry and fill form
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
         tempOutsideTextView.setText(settings.getString(Utils.OUTSIDE_TEMPERATURE_SIEMIANOWICE, ""));
-        workersSpinner.setSelection(settings.getInt(Utils.WORKER_POSITION, 0));
 
         Intent intent = getIntent();
 
@@ -107,6 +105,9 @@ public class ChooseWorkerActivity extends Activity {
             progressLayout.setVisibility(View.VISIBLE);
             getSiemanowiceByProtocolIdAsyncTask.execute(protocolId);
         } else {
+            adapter.addAll(getResources().getStringArray(R.array.workers));
+            workersSpinner.setSelection(settings.getInt(Utils.WORKER_POSITION, 0));
+
             //get address
             if(intent.hasExtra(Utils.ADDRESS_ID)){
                 int addressId = intent.getIntExtra(Utils.ADDRESS_ID, -1);
@@ -154,8 +155,14 @@ public class ChooseWorkerActivity extends Activity {
      */
     public void selectWorker(View view) {
         //get selected worker
-        Spinner workersSpinner = (Spinner) findViewById(R.id.workers_spinner);
+        Spinner workersSpinner = findViewById(R.id.workers_spinner);
         String worker = (String) workersSpinner.getSelectedItem();
+
+        if (worker.equalsIgnoreCase(getApplication().getString(R.string.no_inspector_chosen_item))) {
+            Toast.makeText(this, getApplication().getString(R.string.no_inspector_chosen_message), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //get temperatures
         String tempInside = tempInsideTextView.getText().toString();
         String tempOutside = tempOutsideTextView.getText().toString();
@@ -219,7 +226,27 @@ public class ChooseWorkerActivity extends Activity {
                 tempOutsideTextView.setText(StringUtils.formatFloatOneDecimal(protocol.get_temp_outside()));
                 companyAddressTextView.setText(protocol.getCompanyAddress());
                 protocolTypeTextView.setText(protocol.getProtocolType());
-                AdapterUtils.setItemToSpinner(workersSpinner, protocol.get_worker_name());
+                String[] workers = getResources().getStringArray(R.array.workers);
+
+                boolean workerExists = false;
+
+                for (String worker : workers) {
+                    if (worker.equalsIgnoreCase(protocol.get_worker_name())) {
+                        workerExists = true;
+                        break;
+                    }
+                }
+
+                ArrayAdapter<CharSequence> workersAdapter = (ArrayAdapter<CharSequence>) workersSpinner.getAdapter();
+
+                if (workerExists) {
+                    workersAdapter.addAll(workers);
+                    AdapterUtils.setItemToSpinner(workersSpinner, protocol.get_worker_name());
+                } else {
+                    workersAdapter.add(getApplication().getString(R.string.no_inspector_chosen_item));
+                    workersAdapter.addAll(workers);
+                    workersSpinner.setSelection(0);
+                }
             }
         };
     }

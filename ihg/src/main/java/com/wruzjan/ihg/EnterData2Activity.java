@@ -1662,7 +1662,7 @@ public class EnterData2Activity extends Activity {
             protocol.set_eq_other(eqOthersWorking);
 
 //      generate files
-        GeneratePDFPaderewskiego pdfGenerator = new GeneratePDFPaderewskiego();
+        GeneratePDFPaderewskiego pdfGenerator = new GeneratePDFPaderewskiego(getResources());
 
         try {
             PROTOCOL = protocol;

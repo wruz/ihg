@@ -2,7 +2,14 @@
 <resources>
     <string-array name="workers">
         <item>Szymon Mączyński</item>
-        <item>Maciej Kowalski</item>
+        <item>Marzena Mączyńska</item>
         <item>Rafał Niegot</item>
     </string-array>
+
+    <string-array name="form_template_paths">
+        <item>/IHG/templates/form_number_szymon.pdf</item>
+        <item>/IHG/templates/form_number_marzena.pdf</item>
+        <item>/IHG/templates/form_number_rafal.pdf</item>
+    </string-array>
+
 </resources>
