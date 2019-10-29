@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="general_comments">
-        <item>Powiększyć otwór w drzwiach łazienkowych do 220cm2</item>
-        <item>Usunąć wentylator w łazience</item>
-        <item>Umożliwić dostęp do przewodu spalinowego</item>
-    </string-array>
-
     <string-array name="siemanowice_company_addresses">
         <item>Siemianowickiej Spółdzielni Mieszkaniowej</item>
     </string-array>

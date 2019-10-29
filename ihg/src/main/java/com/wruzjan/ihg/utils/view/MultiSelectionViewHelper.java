@@ -1,5 +1,6 @@
 package com.wruzjan.ihg.utils.view;
 
+import android.content.DialogInterface;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -32,6 +33,9 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
     @Nullable
     private String preAppendedText;
 
+    @Nullable
+    private DialogInterface.OnClickListener okClickListener;
+
     public MultiSelectionViewHelper(@NonNull TextView textView, @NonNull String[] entries) {
         this.textView = textView;
         this.entries = entries;
@@ -45,6 +49,15 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
     @Nullable
     public String getPreAppendedText() {
         return preAppendedText;
+    }
+
+    public boolean isEntrySelected(@NonNull String textToFind) {
+        for (int i = 0; i < entries.length; ++i) {
+            if (entries[i].equalsIgnoreCase(textToFind) && selection[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int indexOfEntries(@NonNull String textToFind) {
@@ -65,6 +78,10 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
 
         this.preAppendedText = preAppendedText;
         textView.setText(buildSelectedItemString());
+    }
+
+    public void setOkClickListener(@Nullable DialogInterface.OnClickListener okClickListener) {
+        this.okClickListener = okClickListener;
     }
 
     public void setSelectedOption(int position, boolean selected) {
@@ -128,7 +145,7 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
                 AlertDialog dialog = new AlertDialog.Builder(textView.getContext())
                         .setView(rootView)
                         .setCancelable(false)
-                        .setPositiveButton(android.R.string.ok, null)
+                        .setPositiveButton(android.R.string.ok, okClickListener)
                         .create();
                 RecyclerView recyclerView = rootView.findViewById(R.id.multichoice_recycler);
                 recyclerView.setLayoutManager(new LinearLayoutManager(textView.getContext()));
