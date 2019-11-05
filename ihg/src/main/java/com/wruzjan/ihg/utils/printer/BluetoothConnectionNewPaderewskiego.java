@@ -267,7 +267,7 @@ public class BluetoothConnectionNewPaderewskiego {
                             + "TEXT CALIBRI8.CPF 0 10 800" + protocol.get_worker_name() + "\r\n"
 
                             + "TEXT CALIBRI8.CPF 0 10 830 podpis mieszkańca:\r\n"
-                            + "TEXT CALIBRI8.CPF 0 10 950 .\r\n";
+                            + "TEXT CALIBRI8.CPF 0 10 900 .\r\n";
 
                             if(protocol.is_kitchen_enabled()){
                                 cpclData = cpclData + "TEXT CALIBRI8.CPF 0 230 230" + kitchenClosedMeas+kitchenClosed + "\r\n"
