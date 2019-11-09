@@ -1,7 +1,7 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:textColorHint">@android:color/darker_gray</item>
     </style>
 
 </resources>
