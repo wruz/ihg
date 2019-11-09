@@ -52,56 +52,6 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="@string/temperature_outside" />
-            <EditText
-                android:id="@+id/temp_outside"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/required"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/celcius_degrees" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/temperature_inside" />
-            <EditText
-                android:id="@+id/temp_inside"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/required"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/celcius_degrees" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
                 android:text="@string/wind_speed" />
             <EditText
                 android:id="@+id/wind_speed"
@@ -228,6 +178,56 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content" >
             </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/temperature_outside" />
+            <EditText
+                android:id="@+id/temp_outside"
+                android:inputType="numberDecimal|numberSigned"
+                android:hint="@string/required"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" >
+            </EditText>
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#ABABAB"
+                android:text="@string/celcius_degrees" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/temperature_inside" />
+            <EditText
+                android:id="@+id/temp_inside"
+                android:inputType="numberDecimal|numberSigned"
+                android:hint="@string/required"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" >
+            </EditText>
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#ABABAB"
+                android:text="@string/celcius_degrees" />
         </LinearLayout>
 
         <Space
