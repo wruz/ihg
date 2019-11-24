@@ -10,6 +10,9 @@
         <item>Zbyt mały otwór w drzwiach</item>
         <item>Brak wlotu(L)</item>
         <item>Brak wlotu(SM)</item>
+        <item>Alufol</item>
+        <item>Brak pomieszczenia</item>
+        <item>Przelot</item>
     </string-array>
 
     <string-array name="bathroom_comments">
@@ -21,6 +24,9 @@
         <item>Zbyt mały otwór w drzwiach</item>
         <item>Brak wlotu(L)</item>
         <item>Brak wlotu(SM)</item>
+        <item>Alufol</item>
+        <item>Brak pomieszczenia</item>
+        <item>Przelot</item>
     </string-array>
 
     <string-array name="toilet_comments">
@@ -32,6 +38,9 @@
         <item>Zbyt mały otwór w drzwiach</item>
         <item>Brak wlotu(L)</item>
         <item>Brak wlotu(SM)</item>
+        <item>Alufol</item>
+        <item>Brak pomieszczenia</item>
+        <item>Przelot</item>
     </string-array>
 
     <string-array name="flue_comments">
@@ -42,6 +51,9 @@
         <item>Nieszczelne odprowadzenie spalin</item>
         <item>Piec zbyt wysoko</item>
         <item>Pomieszczenie &lt; 8m3</item>
+        <item>Alufol</item>
+        <item>Brak pomieszczenia</item>
+        <item>Przelot</item>
     </string-array>
 
 </resources>
