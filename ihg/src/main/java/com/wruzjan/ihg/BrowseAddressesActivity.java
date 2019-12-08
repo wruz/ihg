@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.FileUtils;
 import com.wruzjan.ihg.utils.NavigationUtils;
 import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
@@ -36,7 +37,6 @@ import com.wruzjan.ihg.utils.threading.GenerateNewPaderewskiegoDailyReportAsyncT
 import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
 import com.wruzjan.ihg.utils.view.ProgressLayout;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +47,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
 public class BrowseAddressesActivity extends AppCompatActivity implements GenerateDailyReportDialog.Listener, BaseAsyncTask.PreExecuteUiListener, BaseAsyncTask.PostExecuteUiListener<String> {
 
@@ -79,7 +78,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
                 List<AwaitingProtocol> awaitingProtocols = awaitingProtocolDataSource.getAwaitingProtocols();
                 ArrayList<Uri> uris = new ArrayList<>(awaitingProtocols.size());
                 for (AwaitingProtocol awaitingProtocol : awaitingProtocols) {
-                    Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(awaitingProtocol.getProtocolPdfUrl()));
+                    Uri uri = FileUtils.getUriFromFile(this, awaitingProtocol.getProtocolPdfUrl());
                     uris.add(uri);
                 }
                 data.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
@@ -413,7 +412,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         progressLayout.setVisibility(View.GONE);
 
         if (!reportFilePath.isEmpty()) {
-            Uri uri =  FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(reportFilePath));
+            Uri uri =  FileUtils.getUriFromFile(this, reportFilePath);
 
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");

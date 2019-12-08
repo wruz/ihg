@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.FileUtils;
 import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
@@ -51,7 +53,6 @@ import java.util.Date;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.content.FileProvider;
 
 public class EnterDataActivity extends Activity {
 
@@ -1120,7 +1121,7 @@ public class EnterDataActivity extends Activity {
     }
 
     public void sendMail(View view) {
-        Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(pdfFilePath));
+        Uri uri = FileUtils.getUriFromFile(this, pdfFilePath);
 
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
@@ -1147,7 +1148,7 @@ public class EnterDataActivity extends Activity {
     }
 
     private void openDrobpoxApp() {
-        Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(pdfFilePath));
+        Uri uri = FileUtils.getUriFromFile(this, pdfFilePath);
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");

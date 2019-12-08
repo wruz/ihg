@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.FileUtils;
 import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
@@ -42,7 +43,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.content.FileProvider;
 
 public class EnterData2Activity extends Activity {
 
@@ -1699,7 +1699,7 @@ public class EnterData2Activity extends Activity {
     }
 
     public void sendMail(View view) {
-        Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(pdfFilePath));
+        Uri uri = FileUtils.getUriFromFile(this, pdfFilePath);
 
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
@@ -1726,7 +1726,7 @@ public class EnterData2Activity extends Activity {
     }
 
     private void openDropboxApp() {
-        Uri uri = FileProvider.getUriForFile(this, "com.ihg.fileprovider", new File(pdfFilePath));
+        Uri uri = FileUtils.getUriFromFile(this, pdfFilePath);
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
