@@ -5,9 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.wruzjan.ihg.utils.StringUtils;
 import com.wruzjan.ihg.utils.Utils;
 
 public class PrinterSettingActivity extends Activity {
@@ -31,20 +29,16 @@ public class PrinterSettingActivity extends Activity {
         EditText printerEditText = findViewById(R.id.printers_edit);
         String printer = printerEditText.getText().toString();
 
-        if (StringUtils.isValidMacAddress(printer)) {
-            SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString(Utils.PRINTER_MAC, printer);
+        SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Utils.PRINTER_MAC, printer);
 
-            // remove obsolete settings param
-            if (settings.contains(Utils.PRINTER_POSITION)) {
-                editor.remove(Utils.PRINTER_POSITION);
-            }
-
-            editor.commit();
-            finish();
-        } else {
-            Toast.makeText(this, getString(R.string.incorrect_printer_mac_address), Toast.LENGTH_SHORT).show();
+        // remove obsolete settings param
+        if (settings.contains(Utils.PRINTER_POSITION)) {
+            editor.remove(Utils.PRINTER_POSITION);
         }
+
+        editor.commit();
+        finish();
     }
 }
