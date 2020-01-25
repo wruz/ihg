@@ -5,6 +5,7 @@
     <string name="app_name">Interhammer Gaz</string>
     <string name="select_printer_settings">Wybierz drukarkę</string>
     <string name="required">pole wymagane</string>
+    <string name="required_with_parenthesis">(Pole wymagane)</string>
     <string name="save_button">zapisz</string>
     <string name="send_button">email</string>
     <string name="open_button">otwórz</string>

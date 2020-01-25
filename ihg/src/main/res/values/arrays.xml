@@ -15,4 +15,10 @@
     <string-array name="new_paderewskiego_protocol_type">
         <item>przewodów kominowych i instalacji gazowej</item>
     </string-array>
+
+    <!-- Czyszczenie-->
+    <string-array name="cleaning_items_array">
+        <item>@string/yes</item>
+        <item>@string/no</item>
+    </string-array>
 </resources>

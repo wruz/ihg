@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.FileUtils;
+import com.wruzjan.ihg.utils.HintHandlingArrayAdapter;
 import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
@@ -71,14 +72,22 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     private Spinner kitchenClosedSpinner;
     private ArrayAdapter<String> kitchenClosedSpinnerAdapter;
 
+    private Spinner kitchenCleanSpinner;
+
     private Spinner bathroomClosedSpinner;
     private ArrayAdapter<String> bathroomClosedSpinnerAdapter;
+
+    private Spinner bathroomCleanSpinner;
 
     private Spinner toiletClosedSpinner;
     private ArrayAdapter<String> toiletClosedSpinnerAdapter;
 
+    private Spinner toiletCleanSpinner;
+
     private Spinner flueClosedSpinner;
     private ArrayAdapter<String> flueClosedSpinnerAdapter;
+
+    private Spinner flueCleanSpinner;
 
     private Spinner kitchenMicroventSpinner;
     private ArrayAdapter<String> kitchenMicroventSpinnerAdapter;
@@ -115,18 +124,14 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         SwitchCompat bathroomBakeSwitch = findViewById(R.id.bathroom_bake);
         TextView bathroomBakeSwitchText = findViewById(R.id.bathroom_bake_text);
         setTextOnOffLabelChangeListener(bathroomBakeSwitch, bathroomBakeSwitchText);
-        SwitchCompat kitchenClean = findViewById(R.id.kitchen_clean);
-        TextView kitchenCleanText = findViewById(R.id.kitchen_clean_text);
-        setTextOnOffLabelChangeListener(kitchenClean, kitchenCleanText);
-        SwitchCompat toiletClean = findViewById(R.id.toilet_clean);
-        TextView toiletCleanText = findViewById(R.id.toilet_clean_text);
-        setTextOnOffLabelChangeListener(toiletClean, toiletCleanText);
-        SwitchCompat bathClean = findViewById(R.id.bath_clean);
-        TextView bathCleanText = findViewById(R.id.bath_clean_text);
-        setTextOnOffLabelChangeListener(bathClean, bathCleanText);
-        SwitchCompat flueCleanSwitch = findViewById(R.id.flue_clean);
-        TextView flueCleanSwitchText = findViewById(R.id.flue_clean_text);
-        setTextOnOffLabelChangeListener(flueCleanSwitch, flueCleanSwitchText);
+        kitchenCleanSpinner = findViewById(R.id.kitchen_clean);
+        setupSpinnerWithHint(kitchenCleanSpinner);
+        toiletCleanSpinner = findViewById(R.id.toilet_clean);
+        setupSpinnerWithHint(toiletCleanSpinner);
+        bathroomCleanSpinner = findViewById(R.id.bath_clean);
+        setupSpinnerWithHint(bathroomCleanSpinner);
+        flueCleanSpinner = findViewById(R.id.flue_clean);
+        setupSpinnerWithHint(flueCleanSpinner);
 
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
@@ -789,13 +794,9 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 }
                 AdapterUtils.setItemToSpinner(kitchenClosedSpinner, kitchenClosedSpinnerAdapter, protocolEdited.get_kitchen_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(kitchenMicroventSpinner, kitchenMicroventSpinnerAdapter, protocolEdited.get_kitchen_airflow_microventilation());
-                if ("tak".equals(protocolEdited.get_kitchen_clean())) {
-                    kitchenClean.setChecked(true);
-                } else {
-                    kitchenClean.setChecked(false);
-                }
-                kitchenCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_kitchen_comments());
+                AdapterUtils.setItemToSpinner(kitchenCleanSpinner, protocolEdited.get_kitchen_clean());
 
+                kitchenCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_kitchen_comments());
 
                 //toilet
                 toiletAvailableSwitch.setChecked(protocolEdited.is_toilet_enabled());
@@ -813,11 +814,8 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 }
                 AdapterUtils.setItemToSpinner(toiletClosedSpinner, toiletClosedSpinnerAdapter, protocolEdited.get_toilet_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(toiletMicroventSpinner, toiletMicroventSpinnerAdapter, protocolEdited.get_toilet_airflow_microventilation());
-                if ("tak".equals(protocolEdited.get_toilet_clean())) {
-                    toiletClean.setChecked(true);
-                } else {
-                    toiletClean.setChecked(false);
-                }
+                AdapterUtils.setItemToSpinner(toiletCleanSpinner, protocolEdited.get_toilet_clean());
+
                 toiletCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_toilet_comments());
 
                 //bath
@@ -836,17 +834,16 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 }
                 AdapterUtils.setItemToSpinner(bathroomClosedSpinner, bathroomClosedSpinnerAdapter, protocolEdited.get_bathroom_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(bathroomMicroventSpinner, bathroomMicroventSpinnerAdapter, protocolEdited.get_bathroom_airflow_microventilation());
-                if ("tak".equals(protocolEdited.get_bath_clean())) {
-                    bathClean.setChecked(true);
-                } else {
-                    bathClean.setChecked(false);
-                }
+                AdapterUtils.setItemToSpinner(bathroomCleanSpinner, protocolEdited.get_bath_clean());
+
                 bathroomCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_bathroom_comments());
 
                 //flue
                 flueAvailableSwitch.setChecked(protocolEdited.is_flue_enabled());
                 AdapterUtils.setItemToSpinner(flueClosedSpinner, flueClosedSpinnerAdapter, protocolEdited.get_flue_airflow_windows_closed());
                 AdapterUtils.setItemToSpinner(flueMicroventSpinner, flueMicroventSpinnerAdapter, protocolEdited.get_flue_airflow_microventilation());
+                AdapterUtils.setItemToSpinner(flueCleanSpinner, protocolEdited.get_flue_clean());
+
                 flueCommentsMultiSelectionViewHelper.setSelection(protocolEdited.get_flue_comments());
 
                 //others
@@ -918,22 +915,10 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
 //        get fields from form
         //new paderewskiego specific
-        SwitchCompat kitchenCleanSwitch = (SwitchCompat) findViewById(R.id.kitchen_clean);
-        String kitchenClean = "tak";
-        if(!kitchenCleanSwitch.isChecked())
-            kitchenClean = "nie";
-        SwitchCompat bathCleanSwitch = (SwitchCompat) findViewById(R.id.bath_clean);
-        String bathClean = "tak";
-        if(!bathCleanSwitch.isChecked())
-            bathClean = "nie";
-        SwitchCompat toiletCleanSwitch = (SwitchCompat) findViewById(R.id.toilet_clean);
-        String toiletClean = "tak";
-        if(!toiletCleanSwitch.isChecked())
-            toiletClean = "nie";
-        SwitchCompat flueCleanSwitch = (SwitchCompat) findViewById(R.id.flue_clean);
-        String flueClean = "tak";
-        if(!flueCleanSwitch.isChecked())
-            flueClean = "nie";
+        String kitchenClean = kitchenCleanSpinner.getSelectedItem().toString();
+        String bathClean = bathroomCleanSpinner.getSelectedItem().toString();
+        String toiletClean = toiletCleanSpinner.getSelectedItem().toString();
+        String flueClean = flueCleanSpinner.getSelectedItem().toString();
         TextView telephoneTextView = (TextView) findViewById(R.id.telephone);
         String telephone = telephoneTextView.getText().toString();
         //end of new paderewskiego specific
@@ -1008,7 +993,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 //        validate required fields
 
         if(kitchenChecked){
-            if(((kitchenGridX.isEmpty() || kitchenGridY.isEmpty()) && kitchenGridRound.isEmpty()) || kitchenAirflowClosed.isEmpty() || kitchenAirflowMicro.isEmpty()){
+            if(((kitchenGridX.isEmpty() || kitchenGridY.isEmpty()) && kitchenGridRound.isEmpty()) || kitchenAirflowClosed.isEmpty() || kitchenAirflowMicro.isEmpty() || isHintSelected(kitchenCleanSpinner)) {
                 displayValidationError();
                 return;
             }
@@ -1019,7 +1004,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             }
         }
         if(bathChecked){
-            if(((bathGridX.isEmpty() || bathGridY.isEmpty()) && bathGridRound.isEmpty()) || bathAirflowClosed.isEmpty() || bathAirflowMicro.isEmpty()){
+            if(((bathGridX.isEmpty() || bathGridY.isEmpty()) && bathGridRound.isEmpty()) || bathAirflowClosed.isEmpty() || bathAirflowMicro.isEmpty() || isHintSelected(bathroomCleanSpinner)){
                 displayValidationError();
                 return;
             }
@@ -1030,7 +1015,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             }
         }
         if(toiletChecked){
-            if(((toiletGridX.isEmpty() || toiletGridY.isEmpty()) && toiletGridRound.isEmpty()) || toiletAirflowClosed.isEmpty() || toiletAirflowMicro.isEmpty()){
+            if(((toiletGridX.isEmpty() || toiletGridY.isEmpty()) && toiletGridRound.isEmpty()) || toiletAirflowClosed.isEmpty() || toiletAirflowMicro.isEmpty() || isHintSelected(toiletCleanSpinner)){
                 displayValidationError();
                 return;
             }
@@ -1041,7 +1026,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             }
         }
         if(flueChecked){
-            if(flueAirflowClosed.isEmpty() || flueAirflowMicro.isEmpty()){
+            if(flueAirflowClosed.isEmpty() || flueAirflowMicro.isEmpty() || isHintSelected(flueCleanSpinner)){
                 displayValidationError();
                 return;
             }
@@ -1546,6 +1531,19 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             userComments = userComments.replace(comment, "");
         }
         return userComments;
+    }
+
+    private void setupSpinnerWithHint(final Spinner spinner) {
+        spinner.setAdapter(HintHandlingArrayAdapter.create(
+                this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.cleaning_items_array),
+                getResources().getString(R.string.required_with_parenthesis)
+        ));
+    }
+
+    private static boolean isHintSelected(final Spinner spinner) {
+        return spinner.getSelectedItemPosition() == 0;
     }
 
     private void setTextOnOffLabelChangeListener(final SwitchCompat switchCompat, final TextView switchText) {
