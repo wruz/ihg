@@ -5,1004 +5,1058 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".EnterDataNewPaderewskiegoActivity">
 
-    <ScrollView android:id="@+id/ScrollView01"
+    <ScrollView
+        android:id="@+id/ScrollView01"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:orientation="vertical" >
-
-        <!--kuchnia-->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#33B5E5"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:text="@string/kitchen" />
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <!--kuchnia-->
             <TextView
-                android:layout_width="250dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/roomAvailability" />
+                android:background="#33B5E5"
+                android:gravity="center"
+                android:text="@string/kitchen"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/kitchen_availability"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:textOn="@string/measurementPossible"
-                    android:textOff="@string/measurementImpossible"
-                    android:layout_marginBottom="20dip" />
-
                 <TextView
-                    android:id="@+id/kitchen_availability_text"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/roomAvailability" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/measurementPossible" />
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/kitchen_availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dip"
+                        android:checked="true"
+                        android:textOff="@string/measurementImpossible"
+                        android:textOn="@string/measurementPossible" />
+
+                    <TextView
+                        android:id="@+id/kitchen_availability_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/measurementPossible" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/grid_dimension" />
-
-            <EditText
-                android:id="@+id/kitchen_grid_dimension_1"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="14"></EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/centimeter" />
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/mutiply" />
-
-            <EditText
-                android:id="@+id/kitchen_grid_dimension_2"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="14"></EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/centimeter" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/grid_dimension_round" />
-            <EditText
-                android:id="@+id/kitchen_grid_dimension_round"
-                android:inputType="numberDecimal"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" >
-            </EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/centimeter" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/airflow_windows_closed" />
-            <Spinner
-                android:id="@+id/kitchen_airflow_windows_closed"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/required"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </Spinner>
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/meters_per_second" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/airflow_windows_open" />
-            <Spinner
-                android:id="@+id/kitchen_airflow_microventilation"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/required"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </Spinner>
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/meters_per_second" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/cleaning" />
-
-            <Spinner
-                android:id="@+id/kitchen_clean"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/comments" />
-            <AutoCompleteTextView
-                android:id="@+id/kitchen_comments"
-                android:layout_width="300dp"
-                android:maxLength="135"
-                android:layout_height="wrap_content" >
-            </AutoCompleteTextView>
-        </LinearLayout>
-
-        <!--łazienka-->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#33B5E5"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:text="@string/bathroom" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/roomAvailability" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/bathroom_availability"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:textOn="@string/measurementPossible"
-                    android:textOff="@string/measurementImpossible"
-                    android:layout_marginBottom="20dip" />
+                    android:gravity="left"
+                    android:text="@string/grid_dimension" />
+
+                <EditText
+                    android:id="@+id/kitchen_grid_dimension_1"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:text="14" />
 
                 <TextView
-                    android:id="@+id/bathroom_availability_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/measurementPossible" />
+                    android:gravity="center"
+                    android:text="@string/centimeter"
+                    android:textColor="#ABABAB" />
 
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/mutiply" />
+
+                <EditText
+                    android:id="@+id/kitchen_grid_dimension_2"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:text="14" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/centimeter"
+                    android:textColor="#ABABAB" />
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/grid_dimension" />
-
-            <EditText
-                android:id="@+id/bathroom_grid_dimension_1"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="14"></EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/centimeter" />
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/mutiply" />
-
-            <EditText
-                android:id="@+id/bathroom_grid_dimension_2"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="14"></EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/centimeter" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/grid_dimension_round" />
-            <EditText
-                android:id="@+id/bathroom_grid_dimension_round"
-                android:inputType="numberDecimal"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" >
-            </EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/centimeter" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/airflow_windows_closed" />
-            <Spinner
-                android:id="@+id/bathroom_airflow_windows_closed"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/required"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </Spinner>
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/meters_per_second" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/airflow_windows_open" />
-            <Spinner
-                android:id="@+id/bathroom_airflow_microventilation"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/required"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </Spinner>
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/meters_per_second" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/cleaning" />
-
-            <Spinner
-                android:id="@+id/bath_clean"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/comments" />
-            <AutoCompleteTextView
-                android:id="@+id/bathroom_comments"
-                android:layout_width="300dp"
-                android:maxLength="135"
-                android:layout_height="wrap_content" >
-            </AutoCompleteTextView>
-        </LinearLayout>
-
-        <!--WC-->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#33B5E5"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:text="@string/toilet" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/roomAvailability" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/toilet_availability"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dip"
-                    android:checked="true"
-                    android:textOff="@string/measurementImpossible"
-                    android:textOn="@string/measurementPossible" />
+                    android:gravity="left"
+                    android:text="@string/grid_dimension_round" />
+
+                <EditText
+                    android:id="@+id/kitchen_grid_dimension_round"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"></EditText>
 
                 <TextView
-                    android:id="@+id/toilet_availability_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/measurementPossible" />
-
+                    android:gravity="center"
+                    android:text="@string/centimeter"
+                    android:textColor="#ABABAB" />
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/grid_dimension" />
-
-            <EditText
-                android:id="@+id/toilet_grid_dimension_1"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="14"></EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/centimeter" />
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/mutiply" />
-
-            <EditText
-                android:id="@+id/toilet_grid_dimension_2"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="14"></EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/centimeter" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/grid_dimension_round" />
-            <EditText
-                android:id="@+id/toilet_grid_dimension_round"
-                android:inputType="numberDecimal"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" >
-            </EditText>
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/centimeter" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/airflow_windows_closed" />
-            <Spinner
-                android:id="@+id/toilet_airflow_windows_closed"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/required"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </Spinner>
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/meters_per_second" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/airflow_windows_open" />
-            <Spinner
-                android:id="@+id/toilet_airflow_microventilation"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/required"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </Spinner>
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/meters_per_second" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/cleaning" />
-
-            <Spinner
-                android:id="@+id/toilet_clean"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/comments" />
-            <AutoCompleteTextView
-                android:id="@+id/toilet_comments"
-                android:layout_width="300dp"
-                android:maxLength="135"
-                android:layout_height="wrap_content" >
-            </AutoCompleteTextView>
-        </LinearLayout>
-
-        <!--przewód spalinowy-->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#33B5E5"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:text="@string/flue_pipe" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/roomAvailability" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/flue_availability"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:textOn="@string/measurementPossible"
-                    android:textOff="@string/measurementImpossible"
-                    android:layout_marginBottom="20dip" />
+                    android:gravity="left"
+                    android:text="@string/airflow_windows_closed" />
+
+                <Spinner
+                    android:id="@+id/kitchen_airflow_windows_closed"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/required"
+                    android:inputType="numberDecimal|numberSigned"></Spinner>
 
                 <TextView
-                    android:id="@+id/flue_availability_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/measurementPossible" />
+                    android:gravity="center"
+                    android:text="@string/meters_per_second"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/airflow_windows_open" />
+
+                <Spinner
+                    android:id="@+id/kitchen_airflow_microventilation"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/required"
+                    android:inputType="numberDecimal|numberSigned"></Spinner>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/meters_per_second"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/cleaning" />
+
+                <Spinner
+                    android:id="@+id/kitchen_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/comments" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/kitchen_comments"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:maxLength="135"></AutoCompleteTextView>
+            </LinearLayout>
+
+            <!--łazienka-->
             <TextView
-                android:layout_width="250dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/airflow_windows_closed" />
-            <Spinner
-                android:id="@+id/flue_airflow_windows_closed"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/required"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </Spinner>
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
+                android:background="#33B5E5"
                 android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/meters_per_second" />
-        </LinearLayout>
+                android:text="@string/bathroom"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/airflow_windows_open" />
-            <Spinner
-                android:id="@+id/flue_airflow_microventilation"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/required"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </Spinner>
-            <TextView
-                android:layout_width="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/roomAvailability" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/bathroom_availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dip"
+                        android:checked="true"
+                        android:textOff="@string/measurementImpossible"
+                        android:textOn="@string/measurementPossible" />
+
+                    <TextView
+                        android:id="@+id/bathroom_availability_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/measurementPossible" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/grid_dimension" />
+
+                <EditText
+                    android:id="@+id/bathroom_grid_dimension_1"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:text="14" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/centimeter"
+                    android:textColor="#ABABAB" />
+
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/mutiply" />
+
+                <EditText
+                    android:id="@+id/bathroom_grid_dimension_2"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:text="14" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/centimeter"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/grid_dimension_round" />
+
+                <EditText
+                    android:id="@+id/bathroom_grid_dimension_round"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"></EditText>
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/centimeter"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/airflow_windows_closed" />
+
+                <Spinner
+                    android:id="@+id/bathroom_airflow_windows_closed"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/required"
+                    android:inputType="numberDecimal|numberSigned"></Spinner>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/meters_per_second"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/airflow_windows_open" />
+
+                <Spinner
+                    android:id="@+id/bathroom_airflow_microventilation"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/required"
+                    android:inputType="numberDecimal|numberSigned"></Spinner>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/meters_per_second"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/cleaning" />
+
+                <Spinner
+                    android:id="@+id/bath_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/comments" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/bathroom_comments"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:maxLength="135"></AutoCompleteTextView>
+            </LinearLayout>
+
+            <!--WC-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#33B5E5"
                 android:gravity="center"
-                android:textColor="#ABABAB"
-                android:text="@string/meters_per_second" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/cleaning" />
-
-            <Spinner
-                android:id="@+id/flue_clean"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/comments" />
-            <AutoCompleteTextView
-                android:id="@+id/flue_comments"
-                android:inputType="textMultiLine"
-                android:layout_width="300dp"
-                android:maxLength="135"
-                android:layout_height="wrap_content" >
-            </AutoCompleteTextView>
-        </LinearLayout>
-
-        <!--urządzenia-->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#33B5E5"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:text="@string/equipment" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/is_gas_fittings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/gas_fittings" />
+                android:text="@string/toilet"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/gas_fittings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dip"
-                    android:checked="true"
-                    android:textOff="@string/leaky_z"
-                    android:textOn="@string/tight_z" />
-
                 <TextView
-                    android:id="@+id/gas_fittings_text"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/roomAvailability" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tight_z" />
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/toilet_availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dip"
+                        android:checked="true"
+                        android:textOff="@string/measurementImpossible"
+                        android:textOn="@string/measurementPossible" />
+
+                    <TextView
+                        android:id="@+id/toilet_availability_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/measurementPossible" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/comments" />
-            <EditText
-                android:id="@+id/gas_fittings_comments"
-                android:inputType="textMultiLine"
-                android:layout_width="300dp"
-                android:maxLength="105"
-                android:layout_height="wrap_content" >
-            </EditText>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <CheckBox android:id="@+id/is_gas_cooker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/gas_cooker"/>
-
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/gas_cooker"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dip"
-                    android:checked="true"
-                    android:textOff="@string/leaky_z"
-                    android:textOn="@string/tight_z" />
+                    android:gravity="left"
+                    android:text="@string/grid_dimension" />
+
+                <EditText
+                    android:id="@+id/toilet_grid_dimension_1"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:text="14" />
 
                 <TextView
-                    android:id="@+id/gas_cooker_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/tight_z" />
+                    android:gravity="center"
+                    android:text="@string/centimeter"
+                    android:textColor="#ABABAB" />
 
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/mutiply" />
+
+                <EditText
+                    android:id="@+id/toilet_grid_dimension_2"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:text="14" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/centimeter"
+                    android:textColor="#ABABAB" />
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <CheckBox android:id="@+id/is_bathroom_bake"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bathroom_bake"/>
-
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/bathroom_bake"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dip"
-                    android:checked="true"
-                    android:textOff="@string/leaky_m"
-                    android:textOn="@string/tight_m" />
+                    android:gravity="left"
+                    android:text="@string/grid_dimension_round" />
+
+                <EditText
+                    android:id="@+id/toilet_grid_dimension_round"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"></EditText>
 
                 <TextView
-                    android:id="@+id/bathroom_bake_text"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/centimeter"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/airflow_windows_closed" />
+
+                <Spinner
+                    android:id="@+id/toilet_airflow_windows_closed"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/required"
+                    android:inputType="numberDecimal|numberSigned"></Spinner>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/meters_per_second"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/airflow_windows_open" />
+
+                <Spinner
+                    android:id="@+id/toilet_airflow_microventilation"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/required"
+                    android:inputType="numberDecimal|numberSigned"></Spinner>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/meters_per_second"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/cleaning" />
+
+                <Spinner
+                    android:id="@+id/toilet_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/comments" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/toilet_comments"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:maxLength="135"></AutoCompleteTextView>
+            </LinearLayout>
+
+            <!--przewód spalinowy-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#33B5E5"
+                android:gravity="center"
+                android:text="@string/flue_pipe"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/roomAvailability" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tight_m" />
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/flue_availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dip"
+                        android:checked="true"
+                        android:textOff="@string/measurementImpossible"
+                        android:textOn="@string/measurementPossible" />
+
+                    <TextView
+                        android:id="@+id/flue_availability_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/measurementPossible" />
+
+                </LinearLayout>
 
             </LinearLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/comments" />
-            <EditText
-                android:id="@+id/equipment_comments"
-                android:inputType="textMultiLine"
-                android:layout_width="300dp"
-                android:maxLength="105"
-                android:layout_height="wrap_content" >
-            </EditText>
-        </LinearLayout>
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/airflow_windows_closed" />
+
+                <Spinner
+                    android:id="@+id/flue_airflow_windows_closed"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/required"
+                    android:inputType="numberDecimal|numberSigned"></Spinner>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/meters_per_second"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/telephone" />
-            <EditText
-                android:id="@+id/telephone"
-                android:inputType="numberDecimal"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" >
-            </EditText>
-        </LinearLayout>
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="250dp"
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/airflow_windows_open" />
+
+                <Spinner
+                    android:id="@+id/flue_airflow_microventilation"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/required"
+                    android:inputType="numberDecimal|numberSigned"></Spinner>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/meters_per_second"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/co2" />
-            <EditText
-                android:id="@+id/co2"
-                android:inputType="number"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" >
-            </EditText>
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:textColor="#ABABAB"
-                android:text="@string/ppm" />
-        </LinearLayout>
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/comments_for_user" />
-            <EditText
-                android:id="@+id/comments_for_user"
-                android:inputType="textMultiLine"
-                android:layout_width="match_parent"
-                android:maxLength="175"
-                android:layout_height="wrap_content" >
-            </EditText>
-        </LinearLayout>
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/cleaning" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/comments_for_manager" />
-            <EditText
-                android:id="@+id/comments_for_manager"
-                android:inputType="textMultiLine"
-                android:layout_width="match_parent"
-                android:maxLength="135"
-                android:layout_height="wrap_content" >
-            </EditText>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="right">
-
-            <!--podpis-->
-            <Button
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/get_signature_button"
-                android:onClick="getSignature"
-                android:layout_gravity="right" />
-
-            <!--drukuj-->
-            <Button
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/print_button"
-                android:onClick="printData"
-                android:layout_gravity="right" />
-
-            <!--zapisz-->
-            <Button
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/save_button"
-                android:onClick="saveData"
-                android:layout_gravity="right" />
-
-            <!--wyślij-->
-            <Button
-                android:id="@+id/send_button"
-                android:enabled="false"
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/send_button"
-                android:onClick="sendMail"
-                android:layout_gravity="right" />
-
-            <!--zamnij-->
-            <Button
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/close_button"
-                android:onClick="close"
-                android:layout_gravity="right" />
+                <Spinner
+                    android:id="@+id/flue_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
-    </LinearLayout>
 
-</ScrollView>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/comments" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/flue_comments"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:maxLength="135"></AutoCompleteTextView>
+            </LinearLayout>
+
+            <!--urządzenia-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#33B5E5"
+                android:gravity="center"
+                android:text="@string/equipment"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/is_gas_fittings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/gas_fittings" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/gas_fittings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dip"
+                        android:checked="true"
+                        android:textOff="@string/leaky_z"
+                        android:textOn="@string/tight_z" />
+
+                    <TextView
+                        android:id="@+id/gas_fittings_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tight_z" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/comments" />
+
+                <EditText
+                    android:id="@+id/gas_fittings_comments"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:maxLength="105"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/is_gas_cooker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gas_cooker" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/gas_cooker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dip"
+                        android:checked="true"
+                        android:textOff="@string/leaky_z"
+                        android:textOn="@string/tight_z" />
+
+                    <TextView
+                        android:id="@+id/gas_cooker_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tight_z" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/is_bathroom_bake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bathroom_bake" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/bathroom_bake"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dip"
+                        android:checked="true"
+                        android:textOff="@string/leaky_m"
+                        android:textOn="@string/tight_m" />
+
+                    <TextView
+                        android:id="@+id/bathroom_bake_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tight_m" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/comments" />
+
+                <EditText
+                    android:id="@+id/equipment_comments"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:maxLength="105"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/telephone" />
+
+                <EditText
+                    android:id="@+id/telephone"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/co2" />
+
+                <EditText
+                    android:id="@+id/co2"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"></EditText>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/ppm"
+                    android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/comments_for_user" />
+
+                <EditText
+                    android:id="@+id/comments_for_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:maxLength="175"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/comments_for_manager" />
+
+                <EditText
+                    android:id="@+id/comments_for_manager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:maxLength="135"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:orientation="horizontal">
+
+                <!--podpis-->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:onClick="getSignature"
+                    android:text="@string/get_signature_button" />
+
+                <!--drukuj-->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:onClick="printData"
+                    android:text="@string/print_button" />
+
+                <!--zapisz-->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:onClick="saveData"
+                    android:text="@string/save_button" />
+
+                <!--wyślij-->
+                <Button
+                    android:id="@+id/send_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:enabled="false"
+                    android:onClick="sendMail"
+                    android:text="@string/send_button" />
+
+                <!--zamnij-->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:onClick="close"
+                    android:text="@string/close_button" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
