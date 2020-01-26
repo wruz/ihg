@@ -57,6 +57,7 @@ public class Protocol {
 
     private String companyAddress;
     private String protocolType;
+    private int ventCount;
 
     public Protocol(){
     }
@@ -502,6 +503,14 @@ public class Protocol {
 
     public void setProtocolType(String protocolType) {
         this.protocolType = protocolType;
+    }
+
+    public int getVentCount() {
+        return ventCount;
+    }
+
+    public void setVentCount(int ventCount) {
+        this.ventCount = ventCount;
     }
 
     //    Prepare record for listView

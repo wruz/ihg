@@ -6,7 +6,6 @@ import android.os.Environment;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.wruzjan.ihg.R;
@@ -43,7 +42,6 @@ public class GeneratePDF {
         form.setField("protocol_type", protocol.getProtocolType());
         form.setField("name", address.getName());
         form.setField("address", address.getStreet()+" "+address.getBuilding()+"/"+address.getFlat());
-//        +", "+address.getCity());
         form.setField("date", new SimpleDateFormat("yyyy MMM dd").format(Calendar.getInstance().getTime()));
         form.setField("temp_outside", Double.toString(round(protocol.get_temp_outside(), 2)));
         form.setField("temp_inside", Double.toString(round(protocol.get_temp_inside(), 2)));
@@ -52,7 +50,7 @@ public class GeneratePDF {
         double sum_closed_less = 0;
         double sum_micro_more = 0;
         double sum_micro_less = 0;
-        double f = (double) 0.36;
+        double f = 0.36;
         double kitchen_closed_m3 = 0;
         double kitchen_micro_m3 = 0;
         double bath_closed_m3 = 0;
@@ -97,11 +95,9 @@ public class GeneratePDF {
             if(kitchen_closed_m3>70){
                 //nadmiar
                 form.setField("kitchen_closed_more", Double.toString(round(kitchen_closed_m3 - 70, 2)));
-//                form.setField("kitchen_closed_less", "0");
                 sum_closed_more = kitchen_closed_m3-70;
             } else {
                 //niedobór
-//                form.setField("kitchen_closed_more", "0");
                 form.setField("kitchen_closed_less", Double.toString(round(kitchen_closed_m3-70, 2)));
                 sum_closed_less = kitchen_closed_m3-70;
                 closed_less = true;
@@ -110,12 +106,10 @@ public class GeneratePDF {
             if(kitchen_micro_m3>70){
                 //nadmiar
                 form.setField("kitchen_micro_more", Double.toString(round(kitchen_micro_m3-70, 2)));
-//                form.setField("kitchen_micro_less", "0");
                 sum_micro_more = kitchen_micro_m3-70;
 
             } else {
                 //niedobór
-//                form.setField("kitchen_micro_more", "0");
                 form.setField("kitchen_micro_less", Double.toString(round(kitchen_micro_m3-70, 2)));
                 sum_micro_less = kitchen_micro_m3-70;
                 micro_less_comment = addCommentsForManager("kuchni", micro_less_comment);
@@ -153,11 +147,9 @@ public class GeneratePDF {
             if(bath_closed_m3>50){
                 //nadmiar
                 form.setField("bath_closed_more", Double.toString(round(bath_closed_m3-50, 2)));
-//                form.setField("bath_closed_less", "0");
                 sum_closed_more = sum_closed_more + bath_closed_m3-50;
             } else {
                 //niedobór
-//                form.setField("bath_closed_more", "0");
                 form.setField("bath_closed_less", Double.toString(round(bath_closed_m3-50, 2)));
                 sum_closed_less = sum_closed_less + bath_closed_m3-50;
                 closed_less = true;
@@ -166,12 +158,10 @@ public class GeneratePDF {
             if(bath_micro_m3>50){
                 //nadmiar
                 form.setField("bath_micro_more", Double.toString(round(bath_micro_m3-50, 2)));
-//                form.setField("bath_micro_less", "0");
                 sum_micro_more = sum_micro_more + bath_micro_m3-50;
 
             } else {
                 //niedobór
-//                form.setField("bath_micro_more", "0");
                 form.setField("bath_micro_less", Double.toString(round(bath_micro_m3-50, 2)));
                 sum_micro_less = sum_micro_less + bath_micro_m3-50;
                 micro_less_comment = addCommentsForManager("łazience", micro_less_comment);
@@ -206,11 +196,9 @@ public class GeneratePDF {
             if(toilet_closed_m3>30){
                 //nadmiar
                 form.setField("toilet_closed_more", Double.toString(round(toilet_closed_m3-30, 2)));
-//                form.setField("toilet_closed_less", "0");
                 sum_closed_more = sum_closed_more + toilet_closed_m3-30;
             } else {
                 //niedobór
-//                form.setField("toilet_closed_more", "0");
                 form.setField("toilet_closed_less", Double.toString(round(toilet_closed_m3-30, 2)));
                 sum_closed_less = sum_closed_less + toilet_closed_m3-30;
                 closed_less = true;
@@ -220,11 +208,9 @@ public class GeneratePDF {
             if(toilet_micro_m3>30){
                 //nadmiar
                 form.setField("toilet_micro_more", Double.toString(round(toilet_micro_m3-30, 2)));
-//                form.setField("toilet_micro_less", "0");
                 sum_micro_more = sum_micro_more + toilet_micro_m3-30;
             } else {
                 //niedobór
-//                form.setField("toilet_micro_more", "0");
                 form.setField("toilet_micro_less", Double.toString(round(toilet_micro_m3-30, 2)));
                 sum_micro_less = sum_micro_less + toilet_micro_m3-30;
                 micro_less_comment = addCommentsForManager("toalecie", micro_less_comment);
@@ -244,11 +230,9 @@ public class GeneratePDF {
             if(flue_closed_m3>35){
                 //nadmiar
                 form.setField("flue_closed_more", Double.toString(round(flue_closed_m3-35, 2)));
-//                form.setField("flue_closed_less", "0");
                 sum_closed_more = sum_closed_more + (flue_closed_m3-35);
             } else {
                 //niedobór
-//                form.setField("flue_closed_more", "0");
                 form.setField("flue_closed_less", Double.toString(round(flue_closed_m3-35, 2)));
                 sum_closed_less = sum_closed_less + (flue_closed_m3-35);
                 closed_less = true;
@@ -256,11 +240,9 @@ public class GeneratePDF {
             if(flue_micro_m3>35){
                 //nadmiar
                 form.setField("flue_micro_more", Double.toString(round(flue_micro_m3-35, 2)));
-//                form.setField("flue_micro_less", "0");
                 sum_micro_more = sum_micro_more + (flue_micro_m3-35);
             } else {
                 //niedobór
-//                form.setField("flue_micro_more", "0");
                 form.setField("flue_micro_less", Double.toString(round(flue_micro_m3-30, 2)));
                 sum_micro_less = sum_micro_less + (flue_micro_m3-30);
                 micro_less_comment = addCommentsForManager("przewodzie", micro_less_comment);
@@ -320,6 +302,7 @@ public class GeneratePDF {
             form.setField("bath_bake_working", "brak");
         }
 
+        form.setField("vent_count", Integer.toString(protocol.getVentCount()));
     }
 
     public String generatePdf(Address address, Protocol protocol) throws Exception {
@@ -356,13 +339,6 @@ public class GeneratePDF {
         form.setGenerateAppearances(true);
         fill(form, address, protocol);
         stamper.setFormFlattening(true);
-
-        PdfContentByte content = stamper.getOverContent(reader.getNumberOfPages());
-//        Image image = Image.getInstance(Utils.SIGNATURE_PATH);
-//
-//        image.setAbsolutePosition(95,125);
-//        image.scaleAbsolute(110,38);
-//        content.addImage(image);
 
         stamper.close();
         reader.close();

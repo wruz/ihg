@@ -8,7 +8,7 @@ import android.util.Log;
 public class ApplicationOpenHelper extends SQLiteOpenHelper {
 
     //columns
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
     private static final String DATABASE_NAME = "ighDB.db";
     public static final String TABLE_ADDRESSES = "addresses";
     public static final String TABLE_PROTOCOL_PADEREWSKIEGO = "protocols_paderewskiego";
@@ -119,6 +119,7 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EQUIPMENT_COMMENTS = "equipment_comments";
     public static final String COLUMN_COMPANY_ADDRESS = "company_address";
     public static final String COLUMN_PROTOCOL_TYPE = "protocol_type";
+    public static final String COLUMN_VENT_COUNT = "vent_count";
 
     public static final String COLUMN_CREATED = "created";
 
@@ -358,6 +359,9 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
         if (oldVersion < 8) {
             onUpgradeTo8(sqLiteDatabase);
         }
+        if (oldVersion < 9) {
+            onUpgradeTo9(sqLiteDatabase);
+        }
     }
 
     private void onUpgradeTo5(SQLiteDatabase sqLiteDatabase) {
@@ -439,5 +443,13 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_PROTOCOL_PDF_URL + " TEXT NOT NULL)";
 
         sqLiteDatabase.execSQL(CREATE_AWAITING_PROTOCOL_TABLE);
+    }
+
+    private void onUpgradeTo9(SQLiteDatabase sqLiteDatabase) {
+        String addVentCountColumnSiemanowice = "ALTER TABLE " + TABLE_PROTOCOL_SIEMIANOWICE + " ADD " + COLUMN_VENT_COUNT + " INTEGER;";
+        sqLiteDatabase.execSQL(addVentCountColumnSiemanowice);
+
+        String addVentCountColumnNewPaderewskiego = "ALTER TABLE " + TABLE_PROTOCOL_NEW_PADEREWSKIEGO + " ADD " + COLUMN_VENT_COUNT + " INTEGER;";
+        sqLiteDatabase.execSQL(addVentCountColumnNewPaderewskiego);
     }
 }

@@ -114,7 +114,8 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                     "tlenek węgla",
                     "zalecenia dla lokatora",
                     "zalecenia dla zarządcy",
-                    "uwagi SM"
+                    "uwagi SM",
+                    "nawiewniki"
             });
 
             ProtocolNewPaderewskiego previousProtocol = protocolDataSource.getProtocolBefore(protocols.get(0).get_id());
@@ -149,7 +150,9 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                             bean.getGasComments(),
                             bean.getCo2(),
                             bean.getCommentsForUser(),
-                            bean.getCommentsForManager()
+                            bean.getCommentsForManager(),
+                            bean.getSmComments(),
+                            bean.getVentCount()
                     });
                 }
             }
@@ -193,6 +196,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                 .withCo2(Float.toString(protocol.get_co2()))
                 .withCommentsForUser(protocol.get_comments_for_user())
                 .withCommentsForManager(protocol.get_comments_for_manager())
+                .withVentCount(Integer.toString(protocol.getVentCount()))
                 .build();
     }
 

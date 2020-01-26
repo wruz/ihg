@@ -142,4 +142,5 @@
     <string name="no_inspector_chosen_item">(nie wybrano pracownika)</string>
     <string name="no_inspector_chosen_message">Nie wybrano pracownika. Proszę wybrać pracownika.</string>
     <string name="incorrect_printer_mac_address">Nieprawidłowy format adresu MAC drukarki. Proszę poprawić.</string>
+    <string name="vent_count_text">Ilość nawiewników</string>
 </resources>

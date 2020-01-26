@@ -104,6 +104,8 @@ public class EnterDataActivity extends Activity {
     private MultiSelectionViewHelper toiletCommentsMultiSelectionViewHelper;
     private MultiSelectionViewHelper flueCommentsMultiSelectionViewHelper;
 
+    private Spinner ventCountSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -446,6 +448,9 @@ public class EnterDataActivity extends Activity {
 
         flueMicroventSpinner = findViewById(R.id.flue_airflow_microventilation);
         flueMicroventSpinnerAdapter = AdapterUtils.createAdapterAndAssignToSpinner(flueMicroventSpinner, "1.0");
+
+        ventCountSpinner = findViewById(R.id.vent_count);
+        AdapterUtils.setupSpinnerWithHint(this, ventCountSpinner, R.array.vent_count_items_array, R.string.required_with_parenthesis);
 
         final SwitchCompat kitchenAvailableSwitch = findViewById(R.id.kitchen_availability);
         final TextView kitchenAvailableSwitchText = findViewById(R.id.kitchen_availability_text);
@@ -845,6 +850,7 @@ public class EnterDataActivity extends Activity {
                 userCommentsTextView.setText(protocolEdited.get_comments_for_user());
                 TextView managerCommentsTextView = findViewById(R.id.comments_for_manager);
                 managerCommentsTextView.setText(protocolEdited.get_comments_for_manager());
+                AdapterUtils.setItemToSpinner(ventCountSpinner, Integer.toString(protocolEdited.getVentCount()));
             }
         }
     }
@@ -956,6 +962,8 @@ public class EnterDataActivity extends Activity {
         TextView co2TextView = (TextView) findViewById(R.id.co2);
         String co2 = co2TextView.getText().toString();
 
+        String ventCount = ventCountSpinner.getSelectedItem().toString();
+
 //        validate required fields
 
         if (kitchenChecked) {
@@ -1009,6 +1017,10 @@ public class EnterDataActivity extends Activity {
                 displayValidationError();
                 return;
             }
+        }
+        if (AdapterUtils.isHintSelected(ventCountSpinner)) {
+            displayValidationError();
+            return;
         }
 
         protocol.set_kitchen_enabled(kitchenChecked);
@@ -1069,6 +1081,7 @@ public class EnterDataActivity extends Activity {
         protocol.set_comments_for_manager(managerCommentsTextView.getText().toString());
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         protocol.set_created(dateFormat.format(new Date()));
+        protocol.setVentCount(Integer.parseInt(ventCount));
 
         //get address
         if (intent.hasExtra(Utils.ADDRESS_ID)) {
@@ -1290,6 +1303,8 @@ public class EnterDataActivity extends Activity {
         TextView co2TextView = (TextView) findViewById(R.id.co2);
         String co2 = co2TextView.getText().toString();
 
+        String ventCount = ventCountSpinner.getSelectedItem().toString();
+
 //        validate required fields
         if (kitchenChecked) {
             if (((kitchenGridX.isEmpty() || kitchenGridY.isEmpty()) && kitchenGridRound.isEmpty()) || kitchenAirflowClosed.isEmpty() || kitchenAirflowMicro.isEmpty()) {
@@ -1400,6 +1415,7 @@ public class EnterDataActivity extends Activity {
         protocol.set_equipment_comments(equipmentComments);
         protocol.set_comments_for_user(userCommentsTextView.getText().toString());
         protocol.set_comments_for_manager(managerCommentsTextView.getText().toString());
+        protocol.setVentCount(Integer.parseInt(ventCount));
 
         PROTOCOL = protocol;
 

@@ -103,7 +103,8 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
                     "tlenek węgla",
                     "zalecenia dla lokatora",
                     "zalecenia dla zarządcy",
-                    "uwagi SM"
+                    "uwagi SM",
+                    "nawiewniki"
             });
 
             Protocol previousProtocol = protocolDataSource.getProtocolBefore(protocols.get(0).get_id());
@@ -138,7 +139,9 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
                             bean.getGasComments(),
                             bean.getCo2(),
                             bean.getCommentsForUser(),
-                            bean.getCommentsForManager()
+                            bean.getCommentsForManager(),
+                            bean.getSmComments(),
+                            bean.getVentCount()
                     });
                 }
             }
@@ -182,6 +185,7 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
                 .withCo2(Float.toString(protocol.get_co2()))
                 .withCommentsForUser(protocol.get_comments_for_user())
                 .withCommentsForManager(protocol.get_comments_for_manager())
+                .withVentCount(Integer.toString(protocol.getVentCount()))
                 .build();
     }
 

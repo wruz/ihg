@@ -1,5 +1,6 @@
 package com.wruzjan.ihg.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -7,7 +8,9 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 public class AdapterUtils {
 
@@ -37,6 +40,19 @@ public class AdapterUtils {
     public static void setItemToSpinner(@NonNull Spinner spinner, @NonNull ArrayAdapter<String> adapter, float value) {
         int selectedItemIndex = adapter.getPosition(String.format(Locale.US, "%.1f", value));
         spinner.setSelection(selectedItemIndex);
+    }
+
+    public static void setupSpinnerWithHint(@NonNull final Activity activity, @NonNull final Spinner spinner, @ArrayRes int itemsArrayRes, @StringRes int hintStringRes) {
+        spinner.setAdapter(HintHandlingArrayAdapter.create(
+                activity,
+                android.R.layout.simple_spinner_item,
+                activity.getResources().getStringArray(itemsArrayRes),
+                activity.getResources().getString(hintStringRes)
+        ));
+    }
+
+    public static boolean isHintSelected(@NonNull final Spinner spinner) {
+        return spinner.getSelectedItemPosition() == 0;
     }
 
     @NonNull

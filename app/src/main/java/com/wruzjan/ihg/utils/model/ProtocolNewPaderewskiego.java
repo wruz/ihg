@@ -68,6 +68,7 @@ public class ProtocolNewPaderewskiego {
 
     private String companyAddress;
     private String protocolType;
+    private int ventCount;
 
     public ProtocolNewPaderewskiego(){
     }
@@ -583,6 +584,14 @@ public class ProtocolNewPaderewskiego {
 
     public void setProtocolType(String protocolType) {
         this.protocolType = protocolType;
+    }
+
+    public int getVentCount() {
+        return ventCount;
+    }
+
+    public void setVentCount(int ventCount) {
+        this.ventCount = ventCount;
     }
 
     //    Prepare record for listView

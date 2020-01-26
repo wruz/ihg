@@ -55,6 +55,8 @@ public class DailyReport {
     private final String commentsForManager;
     @Nullable
     private final String smComments;
+    @Nullable
+    private final String ventCount;
 
     private DailyReport(Builder builder) {
         locatorId = builder.locatorId;
@@ -82,6 +84,7 @@ public class DailyReport {
         commentsForUser = builder.commentsForUser;
         commentsForManager = builder.commentsForManager;
         smComments = builder.smComments;
+        ventCount = builder.ventCount;
     }
 
     public static Builder newBuilder() {
@@ -155,7 +158,7 @@ public class DailyReport {
 
     @NonNull
     public String getFlueWindowsClosed() {
-        return flueMicrovent;
+        return flueWindowsClosed;
     }
 
     @Nullable
@@ -213,6 +216,11 @@ public class DailyReport {
         return flueMicrovent;
     }
 
+    @Nullable
+    public String getVentCount() {
+        return ventCount;
+    }
+
     public static final class Builder {
         private String locatorId;
         private String street;
@@ -239,6 +247,7 @@ public class DailyReport {
         private String commentsForUser;
         private String commentsForManager;
         private String smComments;
+        private String ventCount;
 
         private Builder() {
         }
@@ -367,6 +376,12 @@ public class DailyReport {
             smComments = val;
             return this;
         }
+
+        public Builder withVentCount(String val) {
+            ventCount = val;
+            return this;
+        }
+
 
         public DailyReport build() {
             return new DailyReport(this);

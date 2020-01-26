@@ -44,7 +44,6 @@ public class GeneratePDFNewPaderewskiego {
         form.setField("company_address", protocol.getCompanyAddress());
         form.setField("protocol_type", protocol.getProtocolType());
         form.setField("address", address.getStreet()+" "+address.getBuilding()+"/"+address.getFlat());
-//        +", "+address.getCity());
         form.setField("date", new SimpleDateFormat("yyyy MMM dd").format(Calendar.getInstance().getTime()));
         form.setField("temp_outside", Double.toString(round(protocol.get_temp_outside(), 2)));
         form.setField("temp_inside", Double.toString(round(protocol.get_temp_inside(), 2)));
@@ -64,7 +63,6 @@ public class GeneratePDFNewPaderewskiego {
         double flue_micro_m3 = 0;
         double requiredValue = 0;
 
-        boolean closed_less = false;
         String micro_less_comment = "";
 
         form.setField("kitchen_comments", protocol.get_kitchen_comments());
@@ -98,25 +96,20 @@ public class GeneratePDFNewPaderewskiego {
             if(kitchen_closed_m3>70){
                 //nadmiar
                 form.setField("kitchen_closed_more", Double.toString(round(kitchen_closed_m3 - 70, 2)));
-//                form.setField("kitchen_closed_less", "0");
                 sum_closed_more = kitchen_closed_m3-70;
             } else {
                 //niedobór
-//                form.setField("kitchen_closed_more", "0");
                 form.setField("kitchen_closed_less", Double.toString(round(kitchen_closed_m3-70, 2)));
                 sum_closed_less = kitchen_closed_m3-70;
-                closed_less = true;
             }
 
             if(kitchen_micro_m3>70){
                 //nadmiar
                 form.setField("kitchen_micro_more", Double.toString(round(kitchen_micro_m3-70, 2)));
-//                form.setField("kitchen_micro_less", "0");
                 sum_micro_more = kitchen_micro_m3-70;
 
             } else {
                 //niedobór
-//                form.setField("kitchen_micro_more", "0");
                 form.setField("kitchen_micro_less", Double.toString(round(kitchen_micro_m3-70, 2)));
                 sum_micro_less = kitchen_micro_m3-70;
                 micro_less_comment = addCommentsForManager("kuchni", micro_less_comment);
@@ -154,25 +147,20 @@ public class GeneratePDFNewPaderewskiego {
             if(bath_closed_m3>50){
                 //nadmiar
                 form.setField("bath_closed_more", Double.toString(round(bath_closed_m3-50, 2)));
-//                form.setField("bath_closed_less", "0");
                 sum_closed_more = sum_closed_more + bath_closed_m3-50;
             } else {
                 //niedobór
-//                form.setField("bath_closed_more", "0");
                 form.setField("bath_closed_less", Double.toString(round(bath_closed_m3-50, 2)));
                 sum_closed_less = sum_closed_less + bath_closed_m3-50;
-                closed_less = true;
             }
 
             if(bath_micro_m3>50){
                 //nadmiar
                 form.setField("bath_micro_more", Double.toString(round(bath_micro_m3-50, 2)));
-//                form.setField("bath_micro_less", "0");
                 sum_micro_more = sum_micro_more + bath_micro_m3-50;
 
             } else {
                 //niedobór
-//                form.setField("bath_micro_more", "0");
                 form.setField("bath_micro_less", Double.toString(round(bath_micro_m3-50, 2)));
                 sum_micro_less = sum_micro_less + bath_micro_m3-50;
                 micro_less_comment = addCommentsForManager("łazience", micro_less_comment);
@@ -207,25 +195,20 @@ public class GeneratePDFNewPaderewskiego {
             if(toilet_closed_m3>30){
                 //nadmiar
                 form.setField("toilet_closed_more", Double.toString(round(toilet_closed_m3-30, 2)));
-//                form.setField("toilet_closed_less", "0");
                 sum_closed_more = sum_closed_more + toilet_closed_m3-30;
             } else {
                 //niedobór
-//                form.setField("toilet_closed_more", "0");
                 form.setField("toilet_closed_less", Double.toString(round(toilet_closed_m3-30, 2)));
                 sum_closed_less = sum_closed_less + toilet_closed_m3-30;
-                closed_less = true;
             }
 
             form.setField("toilet_micro_m3", Double.toString(round(toilet_micro_m3, 2)));
             if(toilet_micro_m3>30){
                 //nadmiar
                 form.setField("toilet_micro_more", Double.toString(round(toilet_micro_m3-30, 2)));
-//                form.setField("toilet_micro_less", "0");
                 sum_micro_more = sum_micro_more + toilet_micro_m3-30;
             } else {
                 //niedobór
-//                form.setField("toilet_micro_more", "0");
                 form.setField("toilet_micro_less", Double.toString(round(toilet_micro_m3-30, 2)));
                 sum_micro_less = sum_micro_less + toilet_micro_m3-30;
                 micro_less_comment = addCommentsForManager("toalecie", micro_less_comment);
@@ -245,23 +228,18 @@ public class GeneratePDFNewPaderewskiego {
             if(flue_closed_m3>35){
                 //nadmiar
                 form.setField("flue_closed_more", Double.toString(round(flue_closed_m3-35, 2)));
-//                form.setField("flue_closed_less", "0");
                 sum_closed_more = sum_closed_more + (flue_closed_m3-35);
             } else {
                 //niedobór
-//                form.setField("flue_closed_more", "0");
                 form.setField("flue_closed_less", Double.toString(round(flue_closed_m3-35, 2)));
                 sum_closed_less = sum_closed_less + (flue_closed_m3-35);
-                closed_less = true;
             }
             if(flue_micro_m3>35){
                 //nadmiar
                 form.setField("flue_micro_more", Double.toString(round(flue_micro_m3-35, 2)));
-//                form.setField("flue_micro_less", "0");
                 sum_micro_more = sum_micro_more + (flue_micro_m3-35);
             } else {
                 //niedobór
-//                form.setField("flue_micro_more", "0");
                 form.setField("flue_micro_less", Double.toString(round(flue_micro_m3-30, 2)));
                 sum_micro_less = sum_micro_less + (flue_micro_m3-30);
                 micro_less_comment = addCommentsForManager("przewodzie", micro_less_comment);
@@ -270,10 +248,6 @@ public class GeneratePDFNewPaderewskiego {
 
 
         protocol.set_comments_for_manager(addCommentsForUser(micro_less_comment, protocol.get_comments_for_manager()));
-        // not needed in new paderewskiego
-//        if(closed_less){
-//            protocol.set_comments_for_user(addCommentsForUser("proponowany montaż nawiewników", protocol.get_comments_for_user()));
-//        }
         form.setField("telephone", protocol.get_telephone());
         form.setField("kitchen_clean", protocol.get_kitchen_clean());
         form.setField("bath_clean", protocol.get_bath_clean());
@@ -328,6 +302,7 @@ public class GeneratePDFNewPaderewskiego {
             form.setField("bath_bake_working", "brak");
         }
 
+        form.setField("vent_count", Integer.toString(protocol.getVentCount()));
     }
 
     public String generatePdf(Address address, ProtocolNewPaderewskiego protocol) throws Exception {

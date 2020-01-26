@@ -126,7 +126,7 @@
                     android:id="@+id/kitchen_grid_dimension_round"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"></EditText>
+                    android:inputType="numberDecimal" />
 
                 <TextView
                     android:layout_width="20dp"
@@ -152,7 +152,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/required"
-                    android:inputType="numberDecimal|numberSigned"></Spinner>
+                    android:inputType="numberDecimal|numberSigned" />
 
                 <TextView
                     android:layout_width="30dp"
@@ -178,7 +178,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/required"
-                    android:inputType="numberDecimal|numberSigned"></Spinner>
+                    android:inputType="numberDecimal|numberSigned" />
 
                 <TextView
                     android:layout_width="30dp"
@@ -203,7 +203,7 @@
                     android:id="@+id/kitchen_comments"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:maxLength="135"></AutoCompleteTextView>
+                    android:maxLength="135" />
             </LinearLayout>
 
             <!--łazienka-->
@@ -265,7 +265,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
-                    android:text="14"></EditText>
+                    android:text="14" />
 
                 <TextView
                     android:layout_width="20dp"
@@ -285,7 +285,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
-                    android:text="14"></EditText>
+                    android:text="14" />
 
                 <TextView
                     android:layout_width="20dp"
@@ -310,7 +310,7 @@
                     android:id="@+id/bathroom_grid_dimension_round"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"></EditText>
+                    android:inputType="numberDecimal" />
 
                 <TextView
                     android:layout_width="20dp"
@@ -336,7 +336,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/required"
-                    android:inputType="numberDecimal|numberSigned"></Spinner>
+                    android:inputType="numberDecimal|numberSigned" />
 
                 <TextView
                     android:layout_width="30dp"
@@ -362,7 +362,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/required"
-                    android:inputType="numberDecimal|numberSigned"></Spinner>
+                    android:inputType="numberDecimal|numberSigned" />
 
                 <TextView
                     android:layout_width="30dp"
@@ -387,7 +387,7 @@
                     android:id="@+id/bathroom_comments"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:maxLength="135"></AutoCompleteTextView>
+                    android:maxLength="135" />
             </LinearLayout>
 
             <!--WC-->
@@ -449,7 +449,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
-                    android:text="14"></EditText>
+                    android:text="14" />
 
                 <TextView
                     android:layout_width="20dp"
@@ -469,7 +469,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
-                    android:text="14"></EditText>
+                    android:text="14" />
 
                 <TextView
                     android:layout_width="20dp"
@@ -494,7 +494,7 @@
                     android:id="@+id/toilet_grid_dimension_round"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"></EditText>
+                    android:inputType="numberDecimal" />
 
                 <TextView
                     android:layout_width="20dp"
@@ -520,7 +520,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/required"
-                    android:inputType="numberDecimal|numberSigned"></Spinner>
+                    android:inputType="numberDecimal|numberSigned" />
 
                 <TextView
                     android:layout_width="30dp"
@@ -546,7 +546,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/required"
-                    android:inputType="numberDecimal|numberSigned"></Spinner>
+                    android:inputType="numberDecimal|numberSigned" />
 
                 <TextView
                     android:layout_width="30dp"
@@ -571,7 +571,7 @@
                     android:id="@+id/toilet_comments"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:maxLength="135"></AutoCompleteTextView>
+                    android:maxLength="135" />
             </LinearLayout>
 
             <!--przewód spalinowy-->
@@ -634,7 +634,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/required"
-                    android:inputType="numberDecimal|numberSigned"></Spinner>
+                    android:inputType="numberDecimal|numberSigned" />
 
                 <TextView
                     android:layout_width="30dp"
@@ -660,7 +660,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/required"
-                    android:inputType="numberDecimal|numberSigned"></Spinner>
+                    android:inputType="numberDecimal|numberSigned" />
 
                 <TextView
                     android:layout_width="30dp"
@@ -686,7 +686,7 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:maxLength="135"></AutoCompleteTextView>
+                    android:maxLength="135" />
             </LinearLayout>
 
             <!--urządzenia-->
@@ -751,7 +751,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:maxLength="105"
-                    android:text="@string/no_gas"></EditText>
+                    android:text="@string/no_gas" />
             </LinearLayout>
 
             <LinearLayout
@@ -839,7 +839,7 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:maxLength="105"></EditText>
+                    android:maxLength="105" />
             </LinearLayout>
 
             <LinearLayout
@@ -857,7 +857,7 @@
                     android:id="@+id/co2"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"></EditText>
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="30dp"
@@ -865,6 +865,24 @@
                     android:gravity="left"
                     android:text="@string/ppm"
                     android:textColor="#ABABAB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Ilość nawiewników" />
+
+                <Spinner
+                    android:id="@+id/vent_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
 
             <LinearLayout
