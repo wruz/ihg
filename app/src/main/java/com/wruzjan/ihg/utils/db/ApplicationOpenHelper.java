@@ -8,7 +8,7 @@ import android.util.Log;
 public class ApplicationOpenHelper extends SQLiteOpenHelper {
 
     //columns
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
     private static final String DATABASE_NAME = "ighDB.db";
     public static final String TABLE_ADDRESSES = "addresses";
     public static final String TABLE_PROTOCOL_PADEREWSKIEGO = "protocols_paderewskiego";
@@ -274,6 +274,7 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_CREATED + " DATE default CURRENT_DATE," +
                 COLUMN_COMPANY_ADDRESS + " TEXT," +
                 COLUMN_PROTOCOL_TYPE + " TEXT," +
+                COLUMN_VENT_COUNT + " INTEGER," +
                 "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
 
         String CREATE_PROTOCOL_NEW_PADEREWSKIEGO_TABLE = "CREATE TABLE " +
@@ -326,6 +327,7 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_FLUE_CLEANED + " TEXT," +
                 COLUMN_COMPANY_ADDRESS + " TEXT," +
                 COLUMN_PROTOCOL_TYPE + " TEXT," +
+                COLUMN_VENT_COUNT + " INTEGER," +
                 "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
 
         String CREATE_AWAITING_PROTOCOL_TABLE = "CREATE TABLE " +
@@ -361,6 +363,9 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 9) {
             onUpgradeTo9(sqLiteDatabase);
+        }
+        if (oldVersion < 10) {
+            onUpgradeTo10(sqLiteDatabase);
         }
     }
 
@@ -451,5 +456,14 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
 
         String addVentCountColumnNewPaderewskiego = "ALTER TABLE " + TABLE_PROTOCOL_NEW_PADEREWSKIEGO + " ADD " + COLUMN_VENT_COUNT + " INTEGER;";
         sqLiteDatabase.execSQL(addVentCountColumnNewPaderewskiego);
+    }
+
+    private void onUpgradeTo10(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PROTOCOL_NEW_PADEREWSKIEGO);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PROTOCOL_SIEMIANOWICE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PROTOCOL_PADEREWSKIEGO);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ADDRESSES);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_AWAITING_PROTOCOL);
+        onCreate(sqLiteDatabase);
     }
 }
