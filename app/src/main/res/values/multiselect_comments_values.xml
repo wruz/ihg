@@ -44,6 +44,7 @@
     </string-array>
 
     <string-array name="flue_comments">
+        <item>Brak</item>
         <item>Sztywna rura</item>
         <item>Brak dostępu</item>
         <item>Bojler/przep. ogrz. wody</item>
@@ -51,6 +52,7 @@
         <item>Nieszczelne odprowadzenie spalin</item>
         <item>Piec zbyt wysoko</item>
         <item>Pomieszczenie &lt; 8m3</item>
+        <item>Alufol</item>
     </string-array>
 
 </resources>

@@ -400,7 +400,15 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
                 String[] flueComments = getResources().getStringArray(R.array.flue_comments);
 
-                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[0])) {
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[1])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. spalinowego", comments));
+                } else if (!flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[2])) {
+                    String comments = userCommentsTextView.getText().toString();
+                    userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. spalinowego", comments));
+                }
+
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[2])) {
                     String comments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. spalinowego", comments));
                 } else if (!flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[1])) {
@@ -408,15 +416,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. spalinowego", comments));
                 }
 
-                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[1])) {
-                    String comments = userCommentsTextView.getText().toString();
-                    userCommentsTextView.setText(addCommentsForUser("Umożliwić dostęp do przew. spalinowego", comments));
-                } else if (!flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[0])) {
-                    String comments = userCommentsTextView.getText().toString();
-                    userCommentsTextView.setText(removeCommentsForUser("Umożliwić dostęp do przew. spalinowego", comments));
-                }
-
-                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[3])) {
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[4])) {
                     String comments = managerCommentsTextView.getText().toString();
                     managerCommentsTextView.setText(addCommentsForUser("Lokator odmówił kontroli przewodu spalinowego", comments));
                 } else  {
@@ -425,7 +425,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 }
 
 
-                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[4])) {
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[5])) {
                     String comments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("Uszczelnić odprowadzenie spalin", comments));
                 } else  {
@@ -433,7 +433,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     userCommentsTextView.setText(removeCommentsForUser("Uszczelnić odprowadzenie spalin", comments));
                 }
 
-                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[5])) {
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[6])) {
                     String comments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("Odcinek pionowy rury spal. od piecyka ma mieć min. 22 cm", comments));
                 } else  {
@@ -441,7 +441,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     userCommentsTextView.setText(removeCommentsForUser("Odcinek pionowy rury spal. od piecyka ma mieć min. 22 cm", comments));
                 }
 
-                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[6])) {
+                if (flueCommentsMultiSelectionViewHelper.isEntrySelected(flueComments[7])) {
                     String comments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("Zbyt mała kubatura pomieszczenia - zakaz używania pieca gazowego", comments));
                 } else  {
@@ -665,7 +665,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         });
 
         //flue autocomplete
-        EditText flueComments = (EditText) findViewById(R.id.flue_comments);
+        EditText flueComments = findViewById(R.id.flue_comments);
         flueComments.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -678,22 +678,22 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             public void afterTextChanged(Editable s) {
                 String comment = s.toString();
                 if(comment.contains("wentylator") || comment.contains("okap elektryczny")){
-                    TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
+                    TextView userCommentsTextView = findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("usunąć wyciąg mechaniczny z przewodu spalinowego", userComments));
                 }
                 if(!comment.contains("wentylator") && !comment.contains("okap elektryczny")){
-                    TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
+                    TextView userCommentsTextView = findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("usunąć wyciąg mechaniczny z przewodu spalinowego", userComments));
                 }
                 if(comment.contains("kratka stała") || comment.contains("zabudowa, brak dostępu") || comment.contains("sztywna rura")){
-                    TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
+                    TextView userCommentsTextView = findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(addCommentsForUser("umożliwić dostęp do przewodu spalinowego", userComments));
                 }
                 if(!comment.contains("kratka stała") && !comment.contains("zabudowa, brak dostępu") && !comment.contains("sztywna rura")){
-                    TextView userCommentsTextView = (TextView) findViewById(R.id.comments_for_user);
+                    TextView userCommentsTextView = findViewById(R.id.comments_for_user);
                     String userComments = userCommentsTextView.getText().toString();
                     userCommentsTextView.setText(removeCommentsForUser("umożliwić dostęp do przewodu spalinowego", userComments));
                 }
