@@ -1348,7 +1348,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
 //        validate required fields
         if(kitchenChecked){
-            if(((kitchenGridX.isEmpty() || kitchenGridY.isEmpty()) && kitchenGridRound.isEmpty()) || kitchenAirflowClosed.isEmpty() || kitchenAirflowMicro.isEmpty()){
+            if(((kitchenGridX.isEmpty() || kitchenGridY.isEmpty()) && kitchenGridRound.isEmpty()) || kitchenAirflowClosed.isEmpty() || kitchenAirflowMicro.isEmpty() || AdapterUtils.isHintSelected(kitchenCleanSpinner)){
                 displayValidationError();
                 return;
             }
@@ -1359,7 +1359,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             }
         }
         if(bathChecked){
-            if(((bathGridX.isEmpty() || bathGridY.isEmpty()) && bathGridRound.isEmpty()) || bathAirflowClosed.isEmpty() || bathAirflowMicro.isEmpty()){
+            if(((bathGridX.isEmpty() || bathGridY.isEmpty()) && bathGridRound.isEmpty()) || bathAirflowClosed.isEmpty() || bathAirflowMicro.isEmpty() || AdapterUtils.isHintSelected(bathroomCleanSpinner)){
                 displayValidationError();
                 return;
             }
@@ -1370,7 +1370,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             }
         }
         if(toiletChecked){
-            if(((toiletGridX.isEmpty() || toiletGridY.isEmpty()) && toiletGridRound.isEmpty()) || toiletAirflowClosed.isEmpty() || toiletAirflowMicro.isEmpty()){
+            if(((toiletGridX.isEmpty() || toiletGridY.isEmpty()) && toiletGridRound.isEmpty()) || toiletAirflowClosed.isEmpty() || toiletAirflowMicro.isEmpty() || AdapterUtils.isHintSelected(toiletCleanSpinner)) {
                 displayValidationError();
                 return;
             }
@@ -1381,7 +1381,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             }
         }
         if(flueChecked){
-            if(flueAirflowClosed.isEmpty() || flueAirflowMicro.isEmpty()){
+            if(flueAirflowClosed.isEmpty() || flueAirflowMicro.isEmpty() || AdapterUtils.isHintSelected(flueCleanSpinner)){
                 displayValidationError();
                 return;
             }
@@ -1398,6 +1398,10 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                 displayValidationError();
                 return;
             }
+        }
+        if (AdapterUtils.isHintSelected(ventCountSpinner)) {
+            displayValidationError();
+            return;
         }
 
         protocol.set_kitchen_enabled(kitchenChecked);

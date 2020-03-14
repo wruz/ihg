@@ -1358,6 +1358,10 @@ public class EnterDataActivity extends Activity {
                 return;
             }
         }
+        if (AdapterUtils.isHintSelected(ventCountSpinner)) {
+            displayValidationError();
+            return;
+        }
 
         protocol.set_kitchen_enabled(kitchenChecked);
         if (kitchenChecked) {
