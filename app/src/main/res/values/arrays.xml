@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="available_street_names">
+        <item>Graniczna</item>
+        <item>I.J.Paderewskiego</item>
+        <item>Sikorskiego</item>
+        <item>Sowińskiego</item>
+        <item>Inne</item>
+    </string-array>
+
+    <string-array name="available_street_identifiers">
+        <item>2</item>
+        <item>4</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+    </string-array>
+
     <string-array name="siemanowice_company_addresses">
         <item>Siemianowickiej Spółdzielni Mieszkaniowej</item>
     </string-array>
