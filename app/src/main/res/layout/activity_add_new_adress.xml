@@ -15,14 +15,12 @@
         android:layout_height="fill_parent">
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:orientation="vertical" >
 
             <LinearLayout
-                android:id="@+id/linearLayout1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
@@ -41,7 +39,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
@@ -60,7 +57,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
@@ -69,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="@string/building" />
+
                 <EditText
                     android:id="@+id/building"
                     android:hint="@string/required"
@@ -78,7 +75,6 @@
             </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linearLayout1"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
@@ -95,7 +91,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linearLayout1"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
@@ -114,7 +109,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linearLayout1"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
@@ -136,7 +130,6 @@
                 android:layout_height="40dp" />
 
             <LinearLayout
-                android:id="@+id/linearLayout1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

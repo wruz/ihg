@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
+import com.wruzjan.ihg.utils.ValidationUtils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 
@@ -27,13 +28,13 @@ public class AddNewAddressActivity extends Activity {
         //get data from last entry and fill form
         SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
 
-        EditText streetField = (EditText) findViewById(R.id.street);
+        EditText streetField = findViewById(R.id.street);
         streetField.setText(settings.getString(Utils.STREET, null), TextView.BufferType.EDITABLE);
 
-        EditText cityField = (EditText) findViewById(R.id.city);
+        EditText cityField = findViewById(R.id.city);
         cityField.setText(settings.getString(Utils.CITY, null), TextView.BufferType.EDITABLE);
 
-        EditText districtField = (EditText) findViewById(R.id.district);
+        EditText districtField = findViewById(R.id.district);
         districtField.setText(settings.getString(Utils.DISTRICT, null), TextView.BufferType.EDITABLE);
 
         datasource = new AddressDataSource(this);
@@ -43,23 +44,23 @@ public class AddNewAddressActivity extends Activity {
     public void addAddress(View view) {
 
 //        required fields
-        EditText nameField = (EditText) findViewById(R.id.name);
+        EditText nameField = findViewById(R.id.name);
         String name = nameField.getText().toString();
 
-        EditText streetField = (EditText) findViewById(R.id.street);
+        EditText streetField = findViewById(R.id.street);
         String street = streetField.getText().toString();
 
-        EditText buildingField = (EditText) findViewById(R.id.building);
+        EditText buildingField = findViewById(R.id.building);
         String building = buildingField.getText().toString();
 
-        EditText cityField = (EditText) findViewById(R.id.city);
+        EditText cityField = findViewById(R.id.city);
         String city = cityField.getText().toString();
 
 //        optional fields
-        EditText flatField = (EditText) findViewById(R.id.flat);
+        EditText flatField = findViewById(R.id.flat);
         String flat = flatField.getText().toString();
 
-        EditText districtField = (EditText) findViewById(R.id.district);
+        EditText districtField = findViewById(R.id.district);
         String district = districtField.getText().toString();
 
 //        create Address
@@ -73,6 +74,10 @@ public class AddNewAddressActivity extends Activity {
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+        } else if (!ValidationUtils.isMatchingBuildingNumberPattern(address.getBuilding())) {
+            Toast.makeText(this, R.string.address_validation_error_invalid_building_number, Toast.LENGTH_LONG).show();
+        } else if (!address.getFlat().isEmpty() && !ValidationUtils.isMatchingBuildingNumberPattern(address.getFlat())) {
+            Toast.makeText(this, R.string.address_validation_error_invalid_flat_number, Toast.LENGTH_LONG).show();
         } else {
             datasource.insertAddress(address);
 
@@ -93,23 +98,23 @@ public class AddNewAddressActivity extends Activity {
     public void addAddressAndProtocolSiemianowice(View view) {
 
 //        required fields
-        EditText nameField = (EditText) findViewById(R.id.name);
+        EditText nameField = findViewById(R.id.name);
         String name = nameField.getText().toString();
 
-        EditText streetField = (EditText) findViewById(R.id.street);
+        EditText streetField = findViewById(R.id.street);
         String street = streetField.getText().toString();
 
-        EditText buildingField = (EditText) findViewById(R.id.building);
+        EditText buildingField = findViewById(R.id.building);
         String building = buildingField.getText().toString();
 
-        EditText cityField = (EditText) findViewById(R.id.city);
+        EditText cityField = findViewById(R.id.city);
         String city = cityField.getText().toString();
 
 //        optional fields
-        EditText flatField = (EditText) findViewById(R.id.flat);
+        EditText flatField = findViewById(R.id.flat);
         String flat = flatField.getText().toString();
 
-        EditText districtField = (EditText) findViewById(R.id.district);
+        EditText districtField = findViewById(R.id.district);
         String district = districtField.getText().toString();
 
 //        create Address
@@ -123,6 +128,10 @@ public class AddNewAddressActivity extends Activity {
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+        } else if (!ValidationUtils.isMatchingBuildingNumberPattern(address.getBuilding())) {
+            Toast.makeText(this, R.string.address_validation_error_invalid_building_number, Toast.LENGTH_LONG).show();
+        } else if (!address.getFlat().isEmpty() && !ValidationUtils.isMatchingBuildingNumberPattern(address.getFlat())) {
+            Toast.makeText(this, R.string.address_validation_error_invalid_flat_number, Toast.LENGTH_LONG).show();
         } else {
             address = datasource.insertAddress(address);
 
@@ -144,23 +153,23 @@ public class AddNewAddressActivity extends Activity {
     public void addAddressAndProtocolNewPaderewskiego(View view) {
 
 //        required fields
-        EditText nameField = (EditText) findViewById(R.id.name);
+        EditText nameField = findViewById(R.id.name);
         String name = nameField.getText().toString();
 
-        EditText streetField = (EditText) findViewById(R.id.street);
+        EditText streetField = findViewById(R.id.street);
         String street = streetField.getText().toString();
 
-        EditText buildingField = (EditText) findViewById(R.id.building);
+        EditText buildingField = findViewById(R.id.building);
         String building = buildingField.getText().toString();
 
-        EditText cityField = (EditText) findViewById(R.id.city);
+        EditText cityField = findViewById(R.id.city);
         String city = cityField.getText().toString();
 
 //        optional fields
-        EditText flatField = (EditText) findViewById(R.id.flat);
+        EditText flatField = findViewById(R.id.flat);
         String flat = flatField.getText().toString();
 
-        EditText districtField = (EditText) findViewById(R.id.district);
+        EditText districtField = findViewById(R.id.district);
         String district = districtField.getText().toString();
 
 //        create Address
@@ -174,6 +183,10 @@ public class AddNewAddressActivity extends Activity {
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+        } else if (!ValidationUtils.isMatchingBuildingNumberPattern(address.getBuilding())) {
+            Toast.makeText(this, R.string.address_validation_error_invalid_building_number, Toast.LENGTH_LONG).show();
+        } else if (!address.getFlat().isEmpty() && !ValidationUtils.isMatchingBuildingNumberPattern(address.getFlat())) {
+            Toast.makeText(this, R.string.address_validation_error_invalid_flat_number, Toast.LENGTH_LONG).show();
         } else {
             address = datasource.insertAddress(address);
 
@@ -195,23 +208,23 @@ public class AddNewAddressActivity extends Activity {
     public void addAddressAndProtocolPadarewskiego(View view) {
 
 //        required fields
-        EditText nameField = (EditText) findViewById(R.id.name);
+        EditText nameField = findViewById(R.id.name);
         String name = nameField.getText().toString();
 
-        EditText streetField = (EditText) findViewById(R.id.street);
+        EditText streetField = findViewById(R.id.street);
         String street = streetField.getText().toString();
 
-        EditText buildingField = (EditText) findViewById(R.id.building);
+        EditText buildingField = findViewById(R.id.building);
         String building = buildingField.getText().toString();
 
-        EditText cityField = (EditText) findViewById(R.id.city);
+        EditText cityField = findViewById(R.id.city);
         String city = cityField.getText().toString();
 
 //        optional fields
-        EditText flatField = (EditText) findViewById(R.id.flat);
+        EditText flatField = findViewById(R.id.flat);
         String flat = flatField.getText().toString();
 
-        EditText districtField = (EditText) findViewById(R.id.district);
+        EditText districtField = findViewById(R.id.district);
         String district = districtField.getText().toString();
 
 //        create Address
@@ -225,6 +238,10 @@ public class AddNewAddressActivity extends Activity {
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+        } else if (!ValidationUtils.isMatchingBuildingNumberPattern(address.getBuilding())) {
+            Toast.makeText(this, R.string.address_validation_error_invalid_building_number, Toast.LENGTH_LONG).show();
+        } else if (!address.getFlat().isEmpty() && !ValidationUtils.isMatchingBuildingNumberPattern(address.getFlat())) {
+            Toast.makeText(this, R.string.address_validation_error_invalid_flat_number, Toast.LENGTH_LONG).show();
         } else {
             address = datasource.insertAddress(address);
 

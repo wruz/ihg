@@ -43,6 +43,10 @@
     <string name="yes">tak</string>
     <string name="no">nie</string>
 
+    <!--nowy adres-->
+    <string name="address_validation_error_invalid_building_number">Nieprawidłowy numer domu</string>
+    <string name="address_validation_error_invalid_flat_number">Nieprawidłowy numer mieszkania</string>
+
     <!--raport dzienny-->
     <string name="generate_daily_report_siemanowice">Wygeneruj raport dzienny (Siemianowice)</string>
     <string name="generate_daily_report_nowy_paderewskiego">Wygeneruj raport dzienny (Nowy Paderewskiego)</string>
