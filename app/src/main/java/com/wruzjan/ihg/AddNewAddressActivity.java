@@ -116,63 +116,7 @@ public class AddNewAddressActivity extends Activity {
 
     }
 
-    public void addAddressAndProtocolSiemianowice(View view) {
-
-//        required fields
-        EditText nameField = findViewById(R.id.name);
-        String name = nameField.getText().toString();
-
-        List<String> availableStreetIds = Arrays.asList(getResources().getStringArray(R.array.available_street_identifiers));
-        Spinner streetField = findViewById(R.id.street);
-        String street = availableStreetIds.get((int) streetField.getSelectedItemId());
-
-        EditText buildingField = findViewById(R.id.building);
-        String building = buildingField.getText().toString();
-
-        EditText cityField = findViewById(R.id.city);
-        String city = cityField.getText().toString();
-
-//        optional fields
-        EditText flatField = findViewById(R.id.flat);
-        String flat = flatField.getText().toString();
-
-        EditText districtField = findViewById(R.id.district);
-        String district = districtField.getText().toString();
-
-//        create Address
-        Address address = new Address(name, street, building, flat, district, city);
-//        validate address
-        if (address.getName().isEmpty() || address.getStreet().isEmpty() ||
-                address.getBuilding().isEmpty() || address.getCity().isEmpty()) {
-            Context context = getApplicationContext();
-            CharSequence text = AlertUtils.VALIDATION_FAILED_FIELDS;
-            int duration = Toast.LENGTH_LONG;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        } else if (!isBuildingNumberValid(address.getBuilding())) {
-            Toast.makeText(this, R.string.address_validation_error_invalid_building_number, Toast.LENGTH_LONG).show();
-        } else if (!address.getFlat().isEmpty() && !isBuildingNumberValid(address.getFlat())) {
-            Toast.makeText(this, R.string.address_validation_error_invalid_flat_number, Toast.LENGTH_LONG).show();
-        } else {
-            address = datasource.insertAddress(address);
-
-            //save data for further entries
-            SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString(Utils.STREET, address.getStreet());
-            editor.putString(Utils.CITY, address.getCity());
-            editor.putString(Utils.DISTRICT, address.getDistrinct());
-            editor.commit();
-
-            Intent intent = new Intent(this, ChooseWorkerActivity.class);
-            intent.putExtra(Utils.ADDRESS_ID, address.getId());
-            startActivity(intent);
-        }
-
-    }
-
-    public void addAddressAndProtocolNewPaderewskiego(View view) {
+    public void addAddressAndProtocol(View view) {
 
 //        required fields
         EditText nameField = findViewById(R.id.name);
@@ -226,61 +170,6 @@ public class AddNewAddressActivity extends Activity {
             startActivity(intent);
         }
 
-    }
-
-    public void addAddressAndProtocolPadarewskiego(View view) {
-
-//        required fields
-        EditText nameField = findViewById(R.id.name);
-        String name = nameField.getText().toString();
-
-        List<String> availableStreetIds = Arrays.asList(getResources().getStringArray(R.array.available_street_identifiers));
-        Spinner streetField = findViewById(R.id.street);
-        String street = availableStreetIds.get((int) streetField.getSelectedItemId());
-
-        EditText buildingField = findViewById(R.id.building);
-        String building = buildingField.getText().toString();
-
-        EditText cityField = findViewById(R.id.city);
-        String city = cityField.getText().toString();
-
-//        optional fields
-        EditText flatField = findViewById(R.id.flat);
-        String flat = flatField.getText().toString();
-
-        EditText districtField = findViewById(R.id.district);
-        String district = districtField.getText().toString();
-
-//        create Address
-        Address address = new Address(name, street, building, flat, district, city);
-//        validate address
-        if (address.getName().isEmpty() || address.getStreet().isEmpty() ||
-                address.getBuilding().isEmpty() || address.getCity().isEmpty()) {
-            Context context = getApplicationContext();
-            CharSequence text = AlertUtils.VALIDATION_FAILED_FIELDS;
-            int duration = Toast.LENGTH_LONG;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        } else if (!isBuildingNumberValid(address.getBuilding())) {
-            Toast.makeText(this, R.string.address_validation_error_invalid_building_number, Toast.LENGTH_LONG).show();
-        } else if (!address.getFlat().isEmpty() && !isBuildingNumberValid(address.getFlat())) {
-            Toast.makeText(this, R.string.address_validation_error_invalid_flat_number, Toast.LENGTH_LONG).show();
-        } else {
-            address = datasource.insertAddress(address);
-
-            //save data for further entries
-            SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString(Utils.STREET, address.getStreet());
-            editor.putString(Utils.CITY, address.getCity());
-            editor.putString(Utils.DISTRICT, address.getDistrinct());
-            editor.commit();
-
-            Intent intent = new Intent(this, ChooseWorker2Activity.class);
-            intent.putExtra(Utils.ADDRESS_ID, address.getId());
-            startActivity(intent);
-        }
     }
 
     @Override

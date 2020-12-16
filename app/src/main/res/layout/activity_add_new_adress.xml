@@ -146,24 +146,8 @@
                     android:layout_height="fill_parent"
                     android:layout_width="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="@string/add_address_protocol_sie"
-                    android:onClick="addAddressAndProtocolSiemianowice"
-                    android:layout_gravity="left" />
-
-                <Button
-                    android:layout_height="fill_parent"
-                    android:layout_width="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/add_address_protocol_pad"
-                    android:onClick="addAddressAndProtocolPadarewskiego"
-                    android:layout_gravity="left" />
-
-                <Button
-                    android:layout_height="fill_parent"
-                    android:layout_width="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:text="@string/add_address_protocol_new_pad"
-                    android:onClick="addAddressAndProtocolNewPaderewskiego"
+                    android:onClick="addAddressAndProtocol"
                     android:layout_gravity="left" />
             </LinearLayout>
         </LinearLayout>
