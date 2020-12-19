@@ -18,15 +18,17 @@ import androidx.annotation.Nullable;
 public class AddressDataSource {
 
     private SQLiteDatabase database;
-    private ApplicationOpenHelper applicationHelper;
-    private String[] allColumns = {
+    private final ApplicationOpenHelper applicationHelper;
+    private final String[] allColumns = {
             ApplicationOpenHelper.COLUMN_ID,
             ApplicationOpenHelper.COLUMN_NAME,
             ApplicationOpenHelper.COLUMN_STREET,
             ApplicationOpenHelper.COLUMN_BUILDING,
             ApplicationOpenHelper.COLUMN_FLAT,
             ApplicationOpenHelper.COLUMN_CITY,
-            ApplicationOpenHelper.COLUMN_DISTRICT};
+            ApplicationOpenHelper.COLUMN_DISTRICT,
+            ApplicationOpenHelper.COLUMN_STREET_AND_IDENTIFIER_ID
+    };
 
     public AddressDataSource(Context context) {
         applicationHelper = new ApplicationOpenHelper(context);
@@ -34,7 +36,6 @@ public class AddressDataSource {
 
     public void open() throws SQLException {
         database = applicationHelper.getWritableDatabase();
-//        applicationHelper.onCreate(database);
     }
 
     public void close() {
@@ -44,12 +45,13 @@ public class AddressDataSource {
     public Address insertAddress(Address address) {
 
         ContentValues values = new ContentValues();
-        values.put(applicationHelper.COLUMN_NAME, address.getName());
-        values.put(applicationHelper.COLUMN_STREET, address.getStreet());
-        values.put(applicationHelper.COLUMN_BUILDING, address.getBuilding());
-        values.put(applicationHelper.COLUMN_FLAT, address.getFlat());
-        values.put(applicationHelper.COLUMN_DISTRICT, address.getDistrinct());
-        values.put(applicationHelper.COLUMN_CITY, address.getCity());
+        values.put(ApplicationOpenHelper.COLUMN_NAME, address.getName());
+        values.put(ApplicationOpenHelper.COLUMN_STREET, address.getStreet());
+        values.put(ApplicationOpenHelper.COLUMN_BUILDING, address.getBuilding());
+        values.put(ApplicationOpenHelper.COLUMN_FLAT, address.getFlat());
+        values.put(ApplicationOpenHelper.COLUMN_DISTRICT, address.getDistrinct());
+        values.put(ApplicationOpenHelper.COLUMN_CITY, address.getCity());
+        values.put(ApplicationOpenHelper.COLUMN_STREET_AND_IDENTIFIER_ID, address.getStreetAndIdentifierId());
 
         long insertId = database.insert(ApplicationOpenHelper.TABLE_ADDRESSES, null,
                 values);
@@ -92,14 +94,13 @@ public class AddressDataSource {
                 cursor.close();
             }
         }
-
     }
 
     public List<Address> getAllAddresses() {
-        List<Address> addresses = new ArrayList<Address>();
+        List<Address> addresses = new ArrayList<>();
 
         Cursor cursor = database.query(ApplicationOpenHelper.TABLE_ADDRESSES,
-                allColumns, null, null, null, null, applicationHelper.COLUMN_STREET);
+                allColumns, null, null, null, null, ApplicationOpenHelper.COLUMN_STREET);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -121,6 +122,7 @@ public class AddressDataSource {
         address.setFlat(cursor.getString(4));
         address.setCity(cursor.getString(5));
         address.setDistrict(cursor.getString(6));
+        address.setStreetAndIdentifierId(cursor.getInt(7));
         return address;
     }
 }

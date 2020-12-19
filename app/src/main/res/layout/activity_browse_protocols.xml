@@ -30,8 +30,7 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dip"
-            android:background="#33B5E5"
-            />
+            android:background="#33B5E5" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -60,19 +59,19 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:text="@string/protocols_siemianowice" />
+            android:text="@string/legacy_protocols_siemianowice" />
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/list_wrapper">
-            <ListView android:id="@+id/protocols_siemianowice_list"
+            android:layout_gravity="center_horizontal">
+
+            <ListView
+                android:id="@+id/protocols_siemianowice_list"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" ></ListView>
+                android:layout_weight="1" />
         </LinearLayout>
         <Button
             android:id="@+id/open_siemianowice_button"
@@ -88,19 +87,19 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:text="@string/protocols_paderewskiego" />
+            android:text="@string/legacy_protocols_paderewskiego" />
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/list_wrapper">
-            <ListView android:id="@+id/protocols_paderewskiego_list"
+            android:layout_gravity="center_horizontal">
+
+            <ListView
+                android:id="@+id/protocols_paderewskiego_list"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" ></ListView>
+                android:layout_weight="1" />
         </LinearLayout>
         <Button
             android:id="@+id/open_paderewskiego_button"
@@ -116,19 +115,19 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:text="@string/protocols_new_paderewskiego" />
+            android:text="@string/legacy_protocols_new_paderewskiego" />
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/list_wrapper">
-            <ListView android:id="@+id/protocols_new_paderewskiego_list"
+            android:layout_gravity="center_horizontal">
+
+            <ListView
+                android:id="@+id/protocols_new_paderewskiego_list"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" ></ListView>
+                android:layout_weight="1" />
         </LinearLayout>
         <Button
             android:id="@+id/open_new_paderewskiego_button"

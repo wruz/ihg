@@ -1,9 +1,7 @@
 package com.wruzjan.ihg;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,16 +18,19 @@ import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
+import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.Protocol;
 import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
 import com.wruzjan.ihg.utils.model.ProtocolPaderewskiego;
+import com.wruzjan.ihg.utils.model.StreetAndIdentifier;
 
 import java.util.List;
 
 public class BrowseProtocolsActivity extends Activity {
 
     private AddressDataSource addressDataSource;
+    private StreetAndIdentifierDataSource streetAndIdentifierDataSource;
     private ProtocolDataSource protocolDataSource;
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
     private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
@@ -40,9 +41,6 @@ public class BrowseProtocolsActivity extends Activity {
     private int siemianowiceSelectedPosition = 0;
     private int paderewskiegoSelectedPosition = 0;
     private int newPaderewskiegoSelectedPosition = 0;
-    private ArrayAdapter<Protocol> adapterSiemianowice;
-    private ArrayAdapter<ProtocolPaderewskiego> adapterPaderewskiego;
-    private ArrayAdapter<ProtocolNewPaderewskiego> adapterNewPaderewskiego;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +64,9 @@ public class BrowseProtocolsActivity extends Activity {
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
 
+        streetAndIdentifierDataSource = new StreetAndIdentifierDataSource(this);
+        streetAndIdentifierDataSource.open();
+
         Intent intent = getIntent();
 
         //get address details
@@ -82,7 +83,7 @@ public class BrowseProtocolsActivity extends Activity {
         }
 
         //fill address details
-        TextView addressDetails = (TextView) findViewById(R.id.address_details);
+        TextView addressDetails = findViewById(R.id.address_details);
         addressDetails.setText(address.getName() + " " + address.getStreet() + " " + address.getBuilding() + "/" + address.getFlat() + ", " + address.getCity());
 
         //get protocols
@@ -94,17 +95,17 @@ public class BrowseProtocolsActivity extends Activity {
                 protocolNewPaderewskiegoDataSource.getAllNewPaderewskiegoProtocolsByAddressId(address.getId());
 
         //fill protocols details
-        protocolsSiemianowiceList = (ListView) findViewById(R.id.protocols_siemianowice_list);
-        protocolsPaderewskiegoList = (ListView) findViewById(R.id.protocols_paderewskiego_list);
-        protocolsNewPaderewskiegoList = (ListView) findViewById(R.id.protocols_new_paderewskiego_list);
+        protocolsSiemianowiceList = findViewById(R.id.protocols_siemianowice_list);
+        protocolsPaderewskiegoList = findViewById(R.id.protocols_paderewskiego_list);
+        protocolsNewPaderewskiegoList = findViewById(R.id.protocols_new_paderewskiego_list);
 
-        adapterSiemianowice = new ArrayAdapter<Protocol>(this,
+        ArrayAdapter<Protocol> adapterSiemianowice = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_activated_1, protocolsSiemianowice);
 
         if(adapterSiemianowice.isEmpty()){
-            TextView protocolsSiemianowiceTitle = (TextView) findViewById(R.id.protocols_siemianowice_title);
+            TextView protocolsSiemianowiceTitle = findViewById(R.id.protocols_siemianowice_title);
             protocolsSiemianowiceTitle.setVisibility(View.GONE);
-            Button openSiemianowiceButton = (Button) findViewById(R.id.open_siemianowice_button);
+            Button openSiemianowiceButton = findViewById(R.id.open_siemianowice_button);
             openSiemianowiceButton.setVisibility(View.GONE);
             protocolsSiemianowiceList.setVisibility(View.GONE);
             hasSiemianowiceProrocols = false;
@@ -122,14 +123,14 @@ public class BrowseProtocolsActivity extends Activity {
             });
         }
 
-        adapterPaderewskiego = new ArrayAdapter<ProtocolPaderewskiego>(this,
+        ArrayAdapter<ProtocolPaderewskiego> adapterPaderewskiego = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_activated_1, protocolsPaderewskiego);
 
         if(adapterPaderewskiego.isEmpty()){
-            TextView protocolsPaderewskiegoTitle = (TextView) findViewById(R.id.protocols_paderewskiego_title);
+            TextView protocolsPaderewskiegoTitle = findViewById(R.id.protocols_paderewskiego_title);
             protocolsPaderewskiegoTitle.setVisibility(View.GONE);
             //TODO wczytywanie paderewskiego
-            Button openPaderewkiegoButton = (Button) findViewById(R.id.open_paderewskiego_button);
+            Button openPaderewkiegoButton = findViewById(R.id.open_paderewskiego_button);
             openPaderewkiegoButton.setVisibility(View.GONE);
             protocolsPaderewskiegoList.setVisibility(View.GONE);
             hasPaderewskiegoProrocols = false;
@@ -147,18 +148,25 @@ public class BrowseProtocolsActivity extends Activity {
             });
         }
 
-        adapterNewPaderewskiego = new ArrayAdapter<ProtocolNewPaderewskiego>(this,
+        ArrayAdapter<ProtocolNewPaderewskiego> adapterNewPaderewskiego = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_activated_1, protocolsNewPaderewskiego);
 
         if(adapterNewPaderewskiego.isEmpty()){
-            TextView protocolsNewPaderewskiegoTitle = (TextView) findViewById(R.id.protocols_new_paderewskiego_title);
+            TextView protocolsNewPaderewskiegoTitle = findViewById(R.id.protocols_new_paderewskiego_title);
             protocolsNewPaderewskiegoTitle.setVisibility(View.GONE);
             //TODO wczytywanie new paderewskiego
-            Button openNewPaderewskiegoButton = (Button) findViewById(R.id.open_new_paderewskiego_button);
+            Button openNewPaderewskiegoButton = findViewById(R.id.open_new_paderewskiego_button);
             openNewPaderewskiegoButton.setVisibility(View.GONE);
             protocolsNewPaderewskiegoList.setVisibility(View.GONE);
             hasNewPaderewskiegoProrocols = false;
         } else {
+            TextView protocolsNewPaderewskiegoTitle = findViewById(R.id.protocols_new_paderewskiego_title);
+            StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId());
+
+            if (streetAndIdentifier != null) {
+                protocolsNewPaderewskiegoTitle.setText(getString(R.string.protocols_header, streetAndIdentifier.getStreetName()));
+            }
+
             protocolsNewPaderewskiegoList.setAdapter(adapterNewPaderewskiego);
             protocolsNewPaderewskiegoList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             protocolsNewPaderewskiegoList.setItemChecked(0, true);
@@ -251,6 +259,7 @@ public class BrowseProtocolsActivity extends Activity {
         protocolPaderewskiegoDataSource.open();
         protocolNewPaderewskiegoDataSource.open();
         addressDataSource.open();
+        streetAndIdentifierDataSource.open();
         super.onResume();
     }
 
@@ -260,8 +269,7 @@ public class BrowseProtocolsActivity extends Activity {
         protocolPaderewskiegoDataSource.close();
         protocolNewPaderewskiegoDataSource.close();
         addressDataSource.close();
+        streetAndIdentifierDataSource.close();
         super.onPause();
-
     }
-
 }

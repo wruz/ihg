@@ -8,15 +8,18 @@ import android.util.Log;
 public class ApplicationOpenHelper extends SQLiteOpenHelper {
 
     //columns
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     private static final String DATABASE_NAME = "ighDB.db";
     public static final String TABLE_ADDRESSES = "addresses";
     public static final String TABLE_PROTOCOL_PADEREWSKIEGO = "protocols_paderewskiego";
     public static final String TABLE_PROTOCOL_NEW_PADEREWSKIEGO = "protocols_new_paderewskiego";
     public static final String TABLE_PROTOCOL_SIEMIANOWICE = "protocols_siemianowice";
     public static final String TABLE_AWAITING_PROTOCOL = "awaiting_protocol";
+    public static final String TABLE_STREET_AND_IDENTIFIER = "street_and_identifier";
 
     public static final String COLUMN_ID = "_id";
+
+    // TABLE_ADDRESSES
     public static final String COLUMN_ADDRESS_ID = "address_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_STREET = "street";
@@ -24,6 +27,11 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CITY = "city";
     public static final String COLUMN_FLAT = "flat";
     public static final String COLUMN_DISTRICT = "district";
+    public static final String COLUMN_STREET_AND_IDENTIFIER_ID = "street_and_identifier_id";
+
+    // TABLE_STREET_AND_IDENTIFIER
+    public static final String COLUMN_STREET_IDENTIFIER = "street_identifier";
+
     public static final String COLUMN_WORKER_NAME = "worker_name";
     public static final String COLUMN_PHONE_NR = "phone_nr";
     public static final String COLUMN_TEMP_OUTSIDE = "temp_out";
@@ -227,7 +235,7 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_FLUE_AIRFLOW_WINDOWS_MICRO + " DOUBLE," +
                 COLUMN_COMMENTS_FOR_USER + " TEXT," +
                 COLUMN_CREATED + " DATE default CURRENT_DATE," +
-                "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
+                "FOREIGN KEY (" + COLUMN_ADDRESS_ID + ") REFERENCES " + TABLE_ADDRESSES + " (" + COLUMN_ID + "))";
 
         String CREATE_PROTOCOL_SIEMIANOWICE_TABLE = "CREATE TABLE " +
                 TABLE_PROTOCOL_SIEMIANOWICE + "(" +
@@ -275,7 +283,7 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_COMPANY_ADDRESS + " TEXT," +
                 COLUMN_PROTOCOL_TYPE + " TEXT," +
                 COLUMN_VENT_COUNT + " INTEGER," +
-                "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
+                "FOREIGN KEY (" + COLUMN_ADDRESS_ID + ") REFERENCES " + TABLE_ADDRESSES + " (" + COLUMN_ID + "))";
 
         String CREATE_PROTOCOL_NEW_PADEREWSKIEGO_TABLE = "CREATE TABLE " +
                 TABLE_PROTOCOL_NEW_PADEREWSKIEGO + "(" +
@@ -328,7 +336,7 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_COMPANY_ADDRESS + " TEXT," +
                 COLUMN_PROTOCOL_TYPE + " TEXT," +
                 COLUMN_VENT_COUNT + " INTEGER," +
-                "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
+                "FOREIGN KEY (" + COLUMN_ADDRESS_ID + ") REFERENCES " + TABLE_ADDRESSES + " (" + COLUMN_ID + "))";
 
         String CREATE_AWAITING_PROTOCOL_TABLE = "CREATE TABLE " +
                 TABLE_AWAITING_PROTOCOL + "(" +
@@ -366,6 +374,9 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 10) {
             onUpgradeTo10(sqLiteDatabase);
+        }
+        if (oldVersion < 11) {
+            onUpgradeTo11(sqLiteDatabase);
         }
     }
 
@@ -419,7 +430,7 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
                 COLUMN_BATH_CLEANED + " TEXT," +
                 COLUMN_TOILET_CLEANED + " TEXT," +
                 COLUMN_FLUE_CLEANED + " TEXT," +
-                "FOREIGN KEY ("+COLUMN_ADDRESS_ID+") REFERENCES "+TABLE_ADDRESSES+" ("+COLUMN_ID+"))";
+                "FOREIGN KEY (" + COLUMN_ADDRESS_ID + ") REFERENCES " + TABLE_ADDRESSES + " (" + COLUMN_ID + "))";
 
         sqLiteDatabase.execSQL(CREATE_PROTOCOL_NEW_PADEREWSKIEGO_TABLE);
     }
@@ -465,5 +476,57 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ADDRESSES);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_AWAITING_PROTOCOL);
         onCreate(sqLiteDatabase);
+    }
+
+    private void onUpgradeTo11(SQLiteDatabase sqLiteDatabase) {
+        String CREATE_STREET_AND_IDENTIFIER_TABLE = "CREATE TABLE " +
+                TABLE_STREET_AND_IDENTIFIER + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_STREET + " TEXT NOT NULL," +
+                COLUMN_STREET_IDENTIFIER + " INTEGER NOT NULL)";
+        sqLiteDatabase.execSQL(CREATE_STREET_AND_IDENTIFIER_TABLE);
+
+        insertNewStreetAndIdentifier(sqLiteDatabase, "Sikorskiego", 1);
+        insertNewStreetAndIdentifier(sqLiteDatabase, "Graniczna", 2);
+        insertNewStreetAndIdentifier(sqLiteDatabase, "Sowińskiego", 3);
+        insertNewStreetAndIdentifier(sqLiteDatabase, "I.J.Paderewskiego", 4);
+        insertNewStreetAndIdentifier(sqLiteDatabase, "Inne", -1);
+
+        sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_ADDRESSES + " RENAME TO " + TABLE_ADDRESSES + "_tmp");
+        String CREATE_ADDRESSES_TABLE = "CREATE TABLE " +
+                TABLE_ADDRESSES + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_NAME + " TEXT NOT NULL," +
+                COLUMN_STREET + " TEXT," + // constraint removed because we're relying now on street_and_identifier_id
+                COLUMN_BUILDING + " TEXT NOT NULL," +
+                COLUMN_CITY + " TEXT NOT NULL," +
+                COLUMN_FLAT + " TEXT," +
+                COLUMN_DISTRICT + " TEXT," +
+                COLUMN_STREET_AND_IDENTIFIER_ID + " INTEGER DEFAULT NULL," +
+                "FOREIGN KEY (" + COLUMN_STREET_AND_IDENTIFIER_ID + ") REFERENCES " + TABLE_STREET_AND_IDENTIFIER + " (" + COLUMN_ID + ") ON DELETE SET NULL)";
+
+        sqLiteDatabase.execSQL(CREATE_ADDRESSES_TABLE);
+        sqLiteDatabase.execSQL(
+                "INSERT INTO " + TABLE_ADDRESSES + " (" +
+                        COLUMN_NAME + ", " +
+                        COLUMN_STREET + ", " +
+                        COLUMN_BUILDING + ", " +
+                        COLUMN_CITY + ", " +
+                        COLUMN_FLAT + ", " +
+                        COLUMN_DISTRICT +
+                        ") SELECT " +
+                        COLUMN_NAME + ", " +
+                        COLUMN_STREET + ", " +
+                        COLUMN_BUILDING + ", " +
+                        COLUMN_CITY + ", " +
+                        COLUMN_FLAT + ", " +
+                        COLUMN_DISTRICT +
+                        " FROM " + TABLE_ADDRESSES + "_tmp"
+        );
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ADDRESSES + "_tmp");
+    }
+
+    private void insertNewStreetAndIdentifier(SQLiteDatabase sqLiteDatabase, String streetName, int streetId) {
+        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_STREET_AND_IDENTIFIER + " (" + COLUMN_STREET + ", " + COLUMN_STREET_IDENTIFIER + ") VALUES(\"" + streetName + "\", " + streetId + ")");
     }
 }

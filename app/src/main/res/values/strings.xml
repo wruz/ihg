@@ -73,9 +73,10 @@
 
     <!-- lista protokołów -->
     <string name="title_activity_browse_protocols">Lista zapisanych protokołów</string>
-    <string name="protocols_siemianowice">protokoły siemianowice: </string>
-    <string name="protocols_paderewskiego">protokoły paderewskiego: </string>
-    <string name="protocols_new_paderewskiego">protokoły paderewskiego (nowe): </string>
+    <string name="legacy_protocols_siemianowice">protokoły siemianowice: </string>
+    <string name="legacy_protocols_paderewskiego">protokoły paderewskiego: </string>
+    <string name="legacy_protocols_new_paderewskiego">protokoły paderewskiego (nowe): </string>
+    <string name="protocols_header">protokoły %1$s: </string>
 
     <!-- dodawanie nowego adresu -->
     <string name="title_activity_add_new_address">Dodaj nowy adres</string>

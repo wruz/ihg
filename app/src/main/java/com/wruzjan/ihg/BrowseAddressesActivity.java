@@ -30,8 +30,10 @@ import com.wruzjan.ihg.utils.dao.AwaitingProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
+import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.AwaitingProtocol;
+import com.wruzjan.ihg.utils.model.StreetAndIdentifier;
 import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
 import com.wruzjan.ihg.utils.threading.GenerateNewPaderewskiegoDailyReportAsyncTask;
 import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
@@ -54,6 +56,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     public static final String DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT = "DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT";
     private AddressDataSource datasource;
     private ProtocolDataSource protocolDataSource;
+    private StreetAndIdentifierDataSource streetAndIdentifierDataSource;
     private ProtocolPaderewskiegoDataSource protocolPaderewskiegoDataSource;
     private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
     private AwaitingProtocolDataSource awaitingProtocolDataSource;
@@ -129,10 +132,19 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         protocolNewPaderewskiegoDataSource = new ProtocolNewPaderewskiegoDataSource(this);
         protocolNewPaderewskiegoDataSource.open();
 
+        streetAndIdentifierDataSource = new StreetAndIdentifierDataSource(this);
+        streetAndIdentifierDataSource.open();
+
         addressesList = findViewById(R.id.addresses_list);
         EditText inputSearch = findViewById(R.id.inputSearch);
 
         List<Address> values = datasource.getAllAddresses();
+
+        for (Address value : values) {
+            StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(value.getStreetAndIdentifierId());
+            String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : value.getStreet();
+            value.setStreet(streetName);
+        }
 
         // Use the built-in layout for showing a list item with a single
         // line of text whose background is changes when activated.
@@ -333,6 +345,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         protocolPaderewskiegoDataSource.open();
         protocolNewPaderewskiegoDataSource.open();
         awaitingProtocolDataSource.open();
+        streetAndIdentifierDataSource.open();
         addressesList.setItemChecked(0, true);
 
         int awaitingProtocolCount = awaitingProtocolDataSource.getAwaitincProtocolCount();
@@ -364,6 +377,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         protocolPaderewskiegoDataSource.close();
         protocolNewPaderewskiegoDataSource.close();
         awaitingProtocolDataSource.close();
+        streetAndIdentifierDataSource.close();
         super.onPause();
     }
 

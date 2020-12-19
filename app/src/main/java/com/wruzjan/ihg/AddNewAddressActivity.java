@@ -16,7 +16,9 @@ import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.ValidationUtils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
+import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
 import com.wruzjan.ihg.utils.model.Address;
+import com.wruzjan.ihg.utils.model.StreetAndIdentifier;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +27,8 @@ public class AddNewAddressActivity extends Activity {
 
     private static final String UNSPECIFIED_STREET = "5";
 
-    private AddressDataSource datasource;
+    private AddressDataSource addressDataSource;
+    private StreetAndIdentifierDataSource streetAndIdentifierDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +60,11 @@ public class AddNewAddressActivity extends Activity {
         EditText districtField = findViewById(R.id.district);
         districtField.setText(settings.getString(Utils.DISTRICT, null), TextView.BufferType.EDITABLE);
 
-        datasource = new AddressDataSource(this);
-        datasource.open();
+        addressDataSource = new AddressDataSource(this);
+        addressDataSource.open();
+
+        streetAndIdentifierDataSource = new StreetAndIdentifierDataSource(this);
+        streetAndIdentifierDataSource.open();
     }
 
     public void addAddress(View view) {
@@ -69,7 +75,7 @@ public class AddNewAddressActivity extends Activity {
 
         List<String> availableStreetIds = Arrays.asList(getResources().getStringArray(R.array.available_street_identifiers));
         Spinner streetField = findViewById(R.id.street);
-        String street = availableStreetIds.get((int) streetField.getSelectedItemId());
+        String localStreetIdentifier = availableStreetIds.get((int) streetField.getSelectedItemId());
 
         EditText buildingField = findViewById(R.id.building);
         String building = buildingField.getText().toString();
@@ -85,10 +91,12 @@ public class AddNewAddressActivity extends Activity {
         String district = districtField.getText().toString();
 
 //        create Address
-        Address address = new Address(name, street, building, flat, district, city);
+        StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(Integer.parseInt(localStreetIdentifier));
+        Integer streetIdentifier = streetAndIdentifier != null ? streetAndIdentifier.getStreetIdentifier() : -1;
+
+        Address address = new Address(name, null, building, flat, district, city, streetIdentifier);
 //        validate address
-        if (address.getName().isEmpty() || address.getStreet().isEmpty() ||
-                address.getBuilding().isEmpty() || address.getCity().isEmpty()) {
+        if (address.getName().isEmpty() || address.getBuilding().isEmpty() || address.getCity().isEmpty()) {
             Context context = getApplicationContext();
             CharSequence text = AlertUtils.VALIDATION_FAILED_FIELDS;
             int duration = Toast.LENGTH_LONG;
@@ -100,7 +108,7 @@ public class AddNewAddressActivity extends Activity {
         } else if (!address.getFlat().isEmpty() && !isBuildingNumberValid(address.getFlat())) {
             Toast.makeText(this, R.string.address_validation_error_invalid_flat_number, Toast.LENGTH_LONG).show();
         } else {
-            datasource.insertAddress(address);
+            addressDataSource.insertAddress(address);
 
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
@@ -124,7 +132,7 @@ public class AddNewAddressActivity extends Activity {
 
         List<String> availableStreetIds = Arrays.asList(getResources().getStringArray(R.array.available_street_identifiers));
         Spinner streetField = findViewById(R.id.street);
-        String street = availableStreetIds.get((int) streetField.getSelectedItemId());
+        String localStreetIdentifier = availableStreetIds.get((int) streetField.getSelectedItemId());
 
         EditText buildingField = findViewById(R.id.building);
         String building = buildingField.getText().toString();
@@ -140,10 +148,12 @@ public class AddNewAddressActivity extends Activity {
         String district = districtField.getText().toString();
 
 //        create Address
-        Address address = new Address(name, street, building, flat, district, city);
+        StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(Integer.parseInt(localStreetIdentifier));
+        Integer streetIdentifier = streetAndIdentifier != null ? streetAndIdentifier.getStreetIdentifier() : -1;
+
+        Address address = new Address(name, null, building, flat, district, city, streetIdentifier);
 //        validate address
-        if (address.getName().isEmpty() || address.getStreet().isEmpty() ||
-                address.getBuilding().isEmpty() || address.getCity().isEmpty()) {
+        if (address.getName().isEmpty() || address.getBuilding().isEmpty() || address.getCity().isEmpty()) {
             Context context = getApplicationContext();
             CharSequence text = AlertUtils.VALIDATION_FAILED_FIELDS;
             int duration = Toast.LENGTH_LONG;
@@ -155,7 +165,7 @@ public class AddNewAddressActivity extends Activity {
         } else if (!address.getFlat().isEmpty() && !isBuildingNumberValid(address.getFlat())) {
             Toast.makeText(this, R.string.address_validation_error_invalid_flat_number, Toast.LENGTH_LONG).show();
         } else {
-            address = datasource.insertAddress(address);
+            address = addressDataSource.insertAddress(address);
 
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
@@ -174,13 +184,15 @@ public class AddNewAddressActivity extends Activity {
 
     @Override
     protected void onResume() {
-        datasource.open();
+        addressDataSource.open();
+        streetAndIdentifierDataSource.open();
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        datasource.close();
+        addressDataSource.close();
+        streetAndIdentifierDataSource.close();
         super.onPause();
     }
 

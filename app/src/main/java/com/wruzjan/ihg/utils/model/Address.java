@@ -9,11 +9,12 @@ public class Address {
     private String _city;
     private String _flat;
     private String _district;
+    private Integer _streetAndIdentifierId;
 
     public Address() {
     }
 
-    public Address(String name, String street, String building, String flat, String district, String city) {
+    public Address(String name, String street, String building, String flat, String district, String city, Integer streetAndIdentifierId) {
         this._name = name;
         this._street = street;
         this._building = building;
@@ -23,19 +24,7 @@ public class Address {
             this._flat = flat;
         this._district = district;
         this._city = city;
-    }
-
-    public Address(int id, String name, String street, String building, String flat, String district, String city) {
-        this._id = id;
-        this._name = name;
-        this._street = street;
-        this._building = building;
-        if(flat.isEmpty())
-            this._flat = "1";
-        else
-            this._flat = flat;
-        this._district = district;
-        this._city = city;
+        this._streetAndIdentifierId = streetAndIdentifierId;
     }
 
     public void setId(int id) {
@@ -59,7 +48,7 @@ public class Address {
     }
 
     public String getStreet() {
-        return this._street;
+        return this._street != null ? this._street : String.valueOf(_streetAndIdentifierId);
     }
 
     public void setBuilding(String building) {
@@ -92,6 +81,14 @@ public class Address {
 
     public String getCity() {
         return this._city;
+    }
+
+    public Integer getStreetAndIdentifierId() {
+        return _streetAndIdentifierId;
+    }
+
+    public void setStreetAndIdentifierId(Integer _streetAndIdentifierId) {
+        this._streetAndIdentifierId = _streetAndIdentifierId;
     }
 
     //    Prepare record for listView
