@@ -67,8 +67,6 @@
             android:label="@string/title_activity_capture_signature"
             android:screenOrientation="landscape" >
         </activity>
-        <activity android:name=".MeasurementDetailsActivity" />
-        <activity android:name=".MeasurementListActivity" />
         <activity android:name=".ChooseWorker2Activity"
             android:label="@string/title_activity_choose_worker"
             android:screenOrientation="portrait">
