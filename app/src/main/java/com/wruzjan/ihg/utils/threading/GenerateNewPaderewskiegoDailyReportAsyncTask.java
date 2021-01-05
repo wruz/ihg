@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.opencsv.CSVWriter;
 import com.wruzjan.ihg.R;
 import com.wruzjan.ihg.utils.DateUtils;
+import com.wruzjan.ihg.utils.LocatorIdGenerator;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
@@ -46,6 +47,10 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
     private final StreetAndIdentifierDataSource streetAndIdentifierDataSource;
     @NonNull
     private final ProtocolNewPaderewskiegoDataSource protocolDataSource;
+    @NonNull
+    private final StreetAndIdentifierDataSource streetAndIdentifierDataSource;
+    @NonNull
+    private final LocatorIdGenerator locatorIdGenerator = new LocatorIdGenerator();
 
     public GenerateNewPaderewskiegoDailyReportAsyncTask(
             @NonNull Application application,
@@ -170,7 +175,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
         String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
 
         return DailyReport.newBuilder()
-                .withLocatorId("")
+                .withLocatorId(locatorIdGenerator.generate(address, streetAndIdentifier))
                 .withStreet(streetName)
                 .withHouseNumber(address.getBuilding())
                 .withFlatNumber(address.getFlat())
