@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.View;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,8 @@ public class GenerateDailyReportDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         city = (City) getArguments().getSerializable(ARG_CITY);
+        Calendar currentDateCalendar = Calendar.getInstance();
+        currentDateCalendar.setTime(new Date());
 
         DatePickerDialog pickerDialog = new DatePickerDialog(
                 requireContext(),
@@ -48,33 +51,8 @@ public class GenerateDailyReportDialog extends DialogFragment {
                             listener.onReportGenerate(city, calendar.getTime());
                         }
                     }
-                }, -1, -1, -1);
-
-        pickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.generate_daily_report_cancel), Message.obtain());
-        pickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.generate_daily_report), Message.obtain());
+                }, currentDateCalendar.get(Calendar.YEAR), currentDateCalendar.get(Calendar.MONTH), currentDateCalendar.get(Calendar.DAY_OF_MONTH));
         pickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-
-//        AlertDialog alertDialog = new AlertDialog.Builder(requireActivity())
-//                .setTitle(city.toString())
-//                .setView(rootView)
-//                .setNegativeButton(R.string.generate_daily_report_cancel, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .setPositiveButton(R.string.generate_daily_report, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Calendar calendar = Calendar.getInstance();
-//                        calendar.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
-//                        if (listener != null) {
-//                            listener.onReportGenerate(city, calendar.getTime());
-//                        }
-//                    }
-//                })
-//                .create();
-//        datePicker = rootView.findViewById(R.id.date_picker);
         return pickerDialog;
     }
 
