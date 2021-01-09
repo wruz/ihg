@@ -138,16 +138,19 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        createStreetAndIdentifierTable(sqLiteDatabase);
+
         String CREATE_ADDRESSES_TABLE = "CREATE TABLE " +
                 TABLE_ADDRESSES + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_NAME + " TEXT NOT NULL," +
-                COLUMN_STREET + " TEXT NOT NULL," +
+                COLUMN_STREET + " TEXT," + // constraint removed because we're relying now on street_and_identifier_id
                 COLUMN_BUILDING + " TEXT NOT NULL," +
                 COLUMN_CITY + " TEXT NOT NULL," +
                 COLUMN_FLAT + " TEXT," +
-                COLUMN_DISTRICT + " TEXT" +
-                ")";
+                COLUMN_DISTRICT + " TEXT," +
+                COLUMN_STREET_AND_IDENTIFIER_ID + " INTEGER DEFAULT NULL," +
+                "FOREIGN KEY (" + COLUMN_STREET_AND_IDENTIFIER_ID + ") REFERENCES " + TABLE_STREET_AND_IDENTIFIER + " (" + COLUMN_ID + ") ON DELETE SET NULL)";
 
         String CREATE_PROTOCOL_PADEREWSKIEGO_TABLE = "CREATE TABLE " +
                 TABLE_PROTOCOL_PADEREWSKIEGO + "(" +
@@ -479,18 +482,7 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
     }
 
     private void onUpgradeTo11(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_STREET_AND_IDENTIFIER_TABLE = "CREATE TABLE " +
-                TABLE_STREET_AND_IDENTIFIER + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COLUMN_STREET + " TEXT NOT NULL," +
-                COLUMN_STREET_IDENTIFIER + " INTEGER NOT NULL)";
-        sqLiteDatabase.execSQL(CREATE_STREET_AND_IDENTIFIER_TABLE);
-
-        insertNewStreetAndIdentifier(sqLiteDatabase, "Sikorskiego", 1);
-        insertNewStreetAndIdentifier(sqLiteDatabase, "Graniczna", 2);
-        insertNewStreetAndIdentifier(sqLiteDatabase, "Sowińskiego", 3);
-        insertNewStreetAndIdentifier(sqLiteDatabase, "I.J.Paderewskiego", 4);
-        insertNewStreetAndIdentifier(sqLiteDatabase, "Inne", -1);
+        createStreetAndIdentifierTable(sqLiteDatabase);
 
         sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_ADDRESSES + " RENAME TO " + TABLE_ADDRESSES + "_tmp");
         String CREATE_ADDRESSES_TABLE = "CREATE TABLE " +
@@ -528,5 +520,20 @@ public class ApplicationOpenHelper extends SQLiteOpenHelper {
 
     private void insertNewStreetAndIdentifier(SQLiteDatabase sqLiteDatabase, String streetName, int streetId) {
         sqLiteDatabase.execSQL("INSERT INTO " + TABLE_STREET_AND_IDENTIFIER + " (" + COLUMN_STREET + ", " + COLUMN_STREET_IDENTIFIER + ") VALUES(\"" + streetName + "\", " + streetId + ")");
+    }
+
+    private void createStreetAndIdentifierTable(SQLiteDatabase sqLiteDatabase) {
+        String CREATE_STREET_AND_IDENTIFIER_TABLE = "CREATE TABLE " +
+                TABLE_STREET_AND_IDENTIFIER + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_STREET + " TEXT NOT NULL," +
+                COLUMN_STREET_IDENTIFIER + " INTEGER NOT NULL)";
+        sqLiteDatabase.execSQL(CREATE_STREET_AND_IDENTIFIER_TABLE);
+
+        insertNewStreetAndIdentifier(sqLiteDatabase, "Sikorskiego", 1);
+        insertNewStreetAndIdentifier(sqLiteDatabase, "Graniczna", 2);
+        insertNewStreetAndIdentifier(sqLiteDatabase, "Sowińskiego", 3);
+        insertNewStreetAndIdentifier(sqLiteDatabase, "I.J.Paderewskiego", 4);
+        insertNewStreetAndIdentifier(sqLiteDatabase, "Inne", -1);
     }
 }
