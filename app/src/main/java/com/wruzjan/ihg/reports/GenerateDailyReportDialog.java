@@ -1,11 +1,8 @@
-package com.wruzjan.ihg;
+package com.wruzjan.ihg.reports;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Message;
-import android.view.View;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
@@ -17,17 +14,12 @@ import java.util.Date;
 
 public class GenerateDailyReportDialog extends DialogFragment {
 
-    private static final String ARG_CITY = "ARG_CITY";
-
-    private City city;
-
     @Nullable
     private Listener listener;
 
-    public static GenerateDailyReportDialog newInstance(@NonNull City city) {
+    public static GenerateDailyReportDialog newInstance() {
         GenerateDailyReportDialog dialog = new GenerateDailyReportDialog();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARG_CITY, city);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -35,7 +27,6 @@ public class GenerateDailyReportDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        city = (City) getArguments().getSerializable(ARG_CITY);
         Calendar currentDateCalendar = Calendar.getInstance();
         currentDateCalendar.setTime(new Date());
 
@@ -48,7 +39,7 @@ public class GenerateDailyReportDialog extends DialogFragment {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(view.getYear(), view.getMonth(), view.getDayOfMonth());
                         if (listener != null) {
-                            listener.onReportGenerate(city, calendar.getTime());
+                            listener.onReportGenerate(calendar.getTime());
                         }
                     }
                 }, currentDateCalendar.get(Calendar.YEAR), currentDateCalendar.get(Calendar.MONTH), currentDateCalendar.get(Calendar.DAY_OF_MONTH));
@@ -66,13 +57,8 @@ public class GenerateDailyReportDialog extends DialogFragment {
         this.listener = listener;
     }
 
-    enum City {
-        SIEMANOWICE,
-        NOWY_PADERWSKIEGO
-    }
+    public interface Listener {
 
-    interface Listener {
-
-        void onReportGenerate(@NonNull City city, @NonNull Date reportDate);
+        void onReportGenerate(@NonNull Date reportDate);
     }
 }

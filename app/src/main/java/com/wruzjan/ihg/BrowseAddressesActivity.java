@@ -20,6 +20,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.wruzjan.ihg.reports.GenerateReportActivity;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.FileUtils;
 import com.wruzjan.ihg.utils.NavigationUtils;
@@ -34,26 +42,12 @@ import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.AwaitingProtocol;
 import com.wruzjan.ihg.utils.model.StreetAndIdentifier;
-import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
-import com.wruzjan.ihg.utils.threading.GenerateNewPaderewskiegoDailyReportAsyncTask;
-import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
-import com.wruzjan.ihg.utils.view.ProgressLayout;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+public class BrowseAddressesActivity extends AppCompatActivity {
 
-public class BrowseAddressesActivity extends AppCompatActivity implements GenerateDailyReportDialog.Listener, BaseAsyncTask.PreExecuteUiListener, BaseAsyncTask.PostExecuteUiListener<String> {
-
-    public static final String DAILY_REPORT_SIEMANOWICE_FRAGMENT = "DAILY_REPORT_SIEMANOWICE_FRAGMENT";
-    public static final String DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT = "DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT";
     private AddressDataSource datasource;
     private ProtocolDataSource protocolDataSource;
     private StreetAndIdentifierDataSource streetAndIdentifierDataSource;
@@ -65,10 +59,6 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     private int selectedPosition = 0;
     private ArrayAdapter<Address> adapter;
 
-    @Nullable private GenerateSiemanowiceDailyReportAsyncTask generateSiemanowiceDailyReportAsyncTask;
-    @Nullable private GenerateNewPaderewskiegoDailyReportAsyncTask generateNewPaderewskiegoDailyReportAsyncTask;
-
-    private ProgressLayout progressLayout;
     private Button synchronizeProtocolsButton;
 
     private NetworkStateChecker networkStateChecker;
@@ -105,7 +95,6 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
 
         networkStateChecker = new NetworkStateChecker(getApplication());
 
-        progressLayout = findViewById(R.id.progress);
         synchronizeProtocolsButton = findViewById(R.id.synchronize_all_protocols_button);
         synchronizeProtocolsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,7 +206,7 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent = new Intent(this, PrinterSettingActivity.class);
         startActivity(intent);
         return true;
@@ -362,16 +351,6 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
 
     @Override
     protected void onPause() {
-        if (generateSiemanowiceDailyReportAsyncTask != null) {
-            generateSiemanowiceDailyReportAsyncTask.setPreExecuteUiListener(null);
-            generateSiemanowiceDailyReportAsyncTask.setPostExecuteUiListener(null);
-        }
-
-        if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
-            generateNewPaderewskiegoDailyReportAsyncTask.setPreExecuteUiListener(null);
-            generateNewPaderewskiegoDailyReportAsyncTask.setPostExecuteUiListener(null);
-        }
-
         datasource.close();
         protocolDataSource.close();
         protocolPaderewskiegoDataSource.close();
@@ -381,83 +360,12 @@ public class BrowseAddressesActivity extends AppCompatActivity implements Genera
         super.onPause();
     }
 
-    @Override
-    protected void onDestroy() {
-        if (generateSiemanowiceDailyReportAsyncTask != null) {
-            generateSiemanowiceDailyReportAsyncTask.cancel(true);
-        }
-        if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
-            generateNewPaderewskiegoDailyReportAsyncTask.cancel(true);
-        }
-        super.onDestroy();
-    }
-
-    @Override
-    public void onReportGenerate(@NonNull GenerateDailyReportDialog.City city, @NonNull Date reportDate) {
-        switch (city) {
-            case SIEMANOWICE:
-                if (generateSiemanowiceDailyReportAsyncTask != null) {
-                    generateSiemanowiceDailyReportAsyncTask.cancel(true);
-                }
-                generateSiemanowiceDailyReportAsyncTask = new GenerateSiemanowiceDailyReportAsyncTask(datasource, protocolDataSource);
-                generateSiemanowiceDailyReportAsyncTask.setPreExecuteUiListener(this);
-                generateSiemanowiceDailyReportAsyncTask.setPostExecuteUiListener(this);
-                generateSiemanowiceDailyReportAsyncTask.execute(reportDate);
-                break;
-            case NOWY_PADERWSKIEGO:
-                if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
-                    generateNewPaderewskiegoDailyReportAsyncTask.cancel(true);
-                }
-                generateNewPaderewskiegoDailyReportAsyncTask = new GenerateNewPaderewskiegoDailyReportAsyncTask(datasource, protocolNewPaderewskiegoDataSource);
-                generateNewPaderewskiegoDailyReportAsyncTask.setPreExecuteUiListener(this);
-                generateNewPaderewskiegoDailyReportAsyncTask.setPostExecuteUiListener(this);
-                generateNewPaderewskiegoDailyReportAsyncTask.execute(reportDate);
-                break;
-        }
-    }
-
-    @Override
-    public void onPreExecute() {
-        progressLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onPostExecute(@NonNull String reportFilePath) {
-        progressLayout.setVisibility(View.GONE);
-
-        if (!reportFilePath.isEmpty()) {
-            Uri uri =  FileUtils.getUriFromFile(this, reportFilePath);
-
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_STREAM, uri);
-
-            try {
-                startActivity(Intent.createChooser(intent, "Wybierz aplikację Dropbox"));
-            } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(this, "Brak klienta Dropbox na urządzeniu.", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(this, "Brak protokołów z tego dnia", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public void generateDailyReportSiemianowice(@NonNull View view) {
-        GenerateDailyReportDialog dialog = (GenerateDailyReportDialog) getSupportFragmentManager().findFragmentByTag(DAILY_REPORT_SIEMANOWICE_FRAGMENT);
-        if (dialog == null) {
-            dialog = GenerateDailyReportDialog.newInstance(GenerateDailyReportDialog.City.SIEMANOWICE);
-        }
-        dialog.setListener(this);
-        dialog.show(getSupportFragmentManager(), DAILY_REPORT_SIEMANOWICE_FRAGMENT);
+        GenerateReportActivity.start(this, GenerateReportActivity.City.SIEMANOWICE);
     }
 
     public void generateDailyReportNewPaderewskiego(@NonNull View view) {
-        GenerateDailyReportDialog dialog = (GenerateDailyReportDialog) getSupportFragmentManager().findFragmentByTag(DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT);
-        if (dialog == null) {
-            dialog = GenerateDailyReportDialog.newInstance(GenerateDailyReportDialog.City.NOWY_PADERWSKIEGO);
-        }
-        dialog.setListener(this);
-        dialog.show(getSupportFragmentManager(), DAILY_REPORT_NEW_PADERWSKIEGO_FRAGMENT);
+        GenerateReportActivity.start(this, GenerateReportActivity.City.NOWY_PADERWSKIEGO);
     }
 
     private boolean isExternalStorageAccessGranted() {

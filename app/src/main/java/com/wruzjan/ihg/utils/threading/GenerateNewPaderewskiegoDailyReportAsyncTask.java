@@ -45,7 +45,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
     @NonNull
     private final ProtocolNewPaderewskiegoDataSource protocolDataSource;
 
-    public GenerateNewPaderewskiegoDailyReportAsyncTask(
+    public  GenerateNewPaderewskiegoDailyReportAsyncTask(
             @NonNull AddressDataSource addressDataSource,
             @NonNull ProtocolNewPaderewskiegoDataSource protocolDataSource) {
         this.addressDataSource = addressDataSource;
