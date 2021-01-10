@@ -209,28 +209,17 @@ public class GenerateReportActivity extends AppCompatActivity implements BaseAsy
 
     private void assignStartDate(@NonNull Date reporStarttDate) {
         startDateButton.setText(getString(R.string.generate_report_from_date, DateUtils.DATABASE_DATE_FORMAT.format(reporStarttDate)));
-        startDate = getDateOnlyCalendar(reporStarttDate).getTime();
+        startDate = DateUtils.getDateOnlyCalendar(reporStarttDate).getTime();
     }
 
     private void assignEndDate(@NonNull Date reportEndDate) {
         endDateButton.setText(getString(R.string.generate_report_to_date, DateUtils.DATABASE_DATE_FORMAT.format(reportEndDate)));
-        endDate = getDateOnlyCalendar(reportEndDate).getTime();
+        endDate = DateUtils.getDateOnlyCalendar(reportEndDate).getTime();
     }
 
     private boolean isGreaterThanMaxDateRange() {
         long rangeMillis = endDate.getTime() - startDate.getTime();
         return TimeUnit.DAYS.convert(rangeMillis, TimeUnit.MILLISECONDS) > MAX_DATE_RANGE_IN_DAYS;
-    }
-
-    @NonNull
-    private Calendar getDateOnlyCalendar(@NonNull Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar;
     }
 
     public enum City {

@@ -72,7 +72,7 @@ public class BrowseAddressesActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == NavigationUtils.DROPBOX_SHARE_REQUEST_CODE) {
-            if(data != null && data.getComponent() != null && !TextUtils.isEmpty(data.getComponent().flattenToShortString()) ) {
+            if (data != null && data.getComponent() != null && !TextUtils.isEmpty(data.getComponent().flattenToShortString())) {
                 awaitingProtocolDataSource.open();
                 List<AwaitingProtocol> awaitingProtocols = awaitingProtocolDataSource.getAwaitingProtocols();
                 ArrayList<Uri> uris = new ArrayList<>(awaitingProtocols.size());
@@ -379,8 +379,12 @@ public class BrowseAddressesActivity extends AppCompatActivity {
             startDateCalendar.setTime(startDate);
             startDateCalendar.add(Calendar.DATE, 1);
 
-            Date endDate = getYesterdayDate();
-            GenerateReportActivity.start(this, GenerateReportActivity.City.SIEMANOWICE, startDateCalendar.getTime(), endDate);
+            Calendar endDateCalendar = DateUtils.getDateOnlyCalendar(getYesterdayDate());
+            if (startDateCalendar.after(endDateCalendar)) {
+                startDateCalendar.setTime(endDateCalendar.getTime());
+            }
+
+            GenerateReportActivity.start(this, GenerateReportActivity.City.SIEMANOWICE, startDateCalendar.getTime(), endDateCalendar.getTime());
         } catch (ParseException exception) {
             Toast.makeText(this, getString(R.string.corrupted_protocol_data_error_message), Toast.LENGTH_SHORT).show();
         }
@@ -399,8 +403,12 @@ public class BrowseAddressesActivity extends AppCompatActivity {
             startDateCalendar.setTime(startDate);
             startDateCalendar.add(Calendar.DATE, 1);
 
-            Date endDate = getYesterdayDate();
-            GenerateReportActivity.start(this, GenerateReportActivity.City.NOWY_PADERWSKIEGO, startDateCalendar.getTime(), endDate);
+            Calendar endDateCalendar = DateUtils.getDateOnlyCalendar(getYesterdayDate());
+            if (startDateCalendar.after(endDateCalendar)) {
+                startDateCalendar.setTime(endDateCalendar.getTime());
+            }
+
+            GenerateReportActivity.start(this, GenerateReportActivity.City.NOWY_PADERWSKIEGO, startDateCalendar.getTime(), endDateCalendar.getTime());
         } catch (ParseException exception) {
             Toast.makeText(this, getString(R.string.corrupted_protocol_data_error_message), Toast.LENGTH_SHORT).show();
         }

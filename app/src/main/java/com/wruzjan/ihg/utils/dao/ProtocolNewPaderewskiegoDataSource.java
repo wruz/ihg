@@ -239,7 +239,7 @@ public class ProtocolNewPaderewskiegoDataSource {
             cursor = database.query(
                     ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
                     allColumns,
-                    String.format("%s >= '%s' AND %s <= '%s'", ApplicationOpenHelper.COLUMN_CREATED, startDate, ApplicationOpenHelper.COLUMN_CREATED, endDate),
+                    String.format("%s >= '%s 00:00:00' AND %s <= '%s 23:59:59'", ApplicationOpenHelper.COLUMN_CREATED, startDate, ApplicationOpenHelper.COLUMN_CREATED, endDate),
                     null,
                     null,
                     null,
