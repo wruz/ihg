@@ -413,7 +413,6 @@ public class BrowseAddressesActivity extends AppCompatActivity {
     @NonNull
     private Date getYesterdayDate() {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
         calendar.add(Calendar.DATE, -1);
         return calendar.getTime();
     }

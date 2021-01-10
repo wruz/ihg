@@ -14,12 +14,15 @@ import java.util.Date;
 
 public class ReportDateDialog extends DialogFragment {
 
+    private static final String ARG_SELECTED_DATE = "ARG_SELECTED_DATE";
+
     @Nullable
     private Listener listener;
 
-    public static ReportDateDialog newInstance() {
+    public static ReportDateDialog newInstance(@NonNull Date selectedDate) {
         ReportDateDialog dialog = new ReportDateDialog();
         Bundle bundle = new Bundle();
+        bundle.putSerializable(ARG_SELECTED_DATE, selectedDate);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -27,8 +30,8 @@ public class ReportDateDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Calendar currentDateCalendar = Calendar.getInstance();
-        currentDateCalendar.setTime(new Date());
+        Calendar selectedDateCalendar = Calendar.getInstance();
+        selectedDateCalendar.setTime((Date) requireArguments().getSerializable(ARG_SELECTED_DATE));
 
         DatePickerDialog pickerDialog = new DatePickerDialog(
                 requireContext(),
@@ -42,7 +45,7 @@ public class ReportDateDialog extends DialogFragment {
                             listener.onDateSelected(calendar.getTime());
                         }
                     }
-                }, currentDateCalendar.get(Calendar.YEAR), currentDateCalendar.get(Calendar.MONTH), currentDateCalendar.get(Calendar.DAY_OF_MONTH));
+                }, selectedDateCalendar.get(Calendar.YEAR), selectedDateCalendar.get(Calendar.MONTH), selectedDateCalendar.get(Calendar.DAY_OF_MONTH));
         pickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         return pickerDialog;
     }

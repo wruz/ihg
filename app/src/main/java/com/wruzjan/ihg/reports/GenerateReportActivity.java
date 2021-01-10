@@ -23,6 +23,7 @@ import com.wruzjan.ihg.utils.threading.GenerateNewPaderewskiegoDailyReportAsyncT
 import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
 import com.wruzjan.ihg.utils.view.ProgressLayout;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -147,7 +148,7 @@ public class GenerateReportActivity extends AppCompatActivity implements BaseAsy
     public void selectStartDate(@NonNull View view) {
         ReportDateDialog dialog = (ReportDateDialog) getSupportFragmentManager().findFragmentByTag(DATE_PICKER_FRAGMENT);
         if (dialog == null) {
-            dialog = ReportDateDialog.newInstance();
+            dialog = ReportDateDialog.newInstance(startDate);
         }
         dialog.setListener(new ReportDateDialog.Listener() {
             @Override
@@ -161,7 +162,7 @@ public class GenerateReportActivity extends AppCompatActivity implements BaseAsy
     public void selectEndDate(@NonNull View view) {
         ReportDateDialog dialog = (ReportDateDialog) getSupportFragmentManager().findFragmentByTag(DATE_PICKER_FRAGMENT);
         if (dialog == null) {
-            dialog = ReportDateDialog.newInstance();
+            dialog = ReportDateDialog.newInstance(endDate);
         }
         dialog.setListener(new ReportDateDialog.Listener() {
             @Override
@@ -206,19 +207,30 @@ public class GenerateReportActivity extends AppCompatActivity implements BaseAsy
         }
     }
 
-    private void assignStartDate(@NonNull Date reportDate) {
-        startDateButton.setText(getString(R.string.generate_report_from_date, DateUtils.DATABASE_DATE_FORMAT.format(reportDate)));
-        startDate = reportDate;
+    private void assignStartDate(@NonNull Date reporStarttDate) {
+        startDateButton.setText(getString(R.string.generate_report_from_date, DateUtils.DATABASE_DATE_FORMAT.format(reporStarttDate)));
+        startDate = getDateOnlyCalendar(reporStarttDate).getTime();
     }
 
-    private void assignEndDate(@NonNull Date reportDate) {
-        endDateButton.setText(getString(R.string.generate_report_to_date, DateUtils.DATABASE_DATE_FORMAT.format(reportDate)));
-        endDate = reportDate;
+    private void assignEndDate(@NonNull Date reportEndDate) {
+        endDateButton.setText(getString(R.string.generate_report_to_date, DateUtils.DATABASE_DATE_FORMAT.format(reportEndDate)));
+        endDate = getDateOnlyCalendar(reportEndDate).getTime();
     }
 
     private boolean isGreaterThanMaxDateRange() {
         long rangeMillis = endDate.getTime() - startDate.getTime();
         return TimeUnit.DAYS.convert(rangeMillis, TimeUnit.MILLISECONDS) > MAX_DATE_RANGE_IN_DAYS;
+    }
+
+    @NonNull
+    private Calendar getDateOnlyCalendar(@NonNull Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
     }
 
     public enum City {
