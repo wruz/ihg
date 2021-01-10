@@ -54,9 +54,10 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
 
     @Override
     protected String doInBackground(Date... dates) {
-        Date creationDate = dates[0];
+        Date startDate = dates[0];
+        Date endDate = dates[1];
 
-        List<ProtocolNewPaderewskiego> protocols = protocolDataSource.getNewPaderewskiegoProtocolsByCreationDate(DATABASE_DATE_FORMAT.format(creationDate));
+        List<ProtocolNewPaderewskiego> protocols = protocolDataSource.getNewPaderewskiegoProtocolsFromDateRange(DATABASE_DATE_FORMAT.format(startDate), DATABASE_DATE_FORMAT.format(endDate));
         Map<Integer, Address> addresses = new HashMap<>();
         for (ProtocolNewPaderewskiego protocol : protocols) {
             Address address = addressDataSource.getAddressById(protocol.get_address_id());
@@ -69,8 +70,8 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
             return "";
         }
 
-        String reportDirectoryPath = getReportDirectoryPath(creationDate);
-        String reportFilePath = reportDirectoryPath + "/" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(creationDate) + ".csv";
+        String reportDirectoryPath = getReportDirectoryPath(endDate);
+        String reportFilePath = reportDirectoryPath + "/" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(startDate) + "_" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(endDate) + ".csv";
 
         Writer writer = null;
 

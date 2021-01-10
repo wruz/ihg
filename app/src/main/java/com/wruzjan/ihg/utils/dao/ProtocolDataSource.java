@@ -241,12 +241,19 @@ public class ProtocolDataSource {
         }
     }
 
-    public List<Protocol> getSiemanowiceProtocolsByCreationDate(@NonNull String date) {
+    public List<Protocol> getSiemanowiceProtocolsFromDateRange(String startDate, @NonNull String endDate) {
         Cursor cursor = null;
         try {
             List<Protocol> protocols = new ArrayList<>();
-            cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
-                    allColumns, ApplicationOpenHelper.COLUMN_CREATED + " LIKE '" + date + "%'", null, null, null,  ApplicationOpenHelper.COLUMN_CREATED + " asc");
+            cursor = database.query(
+                    ApplicationOpenHelper.TABLE_PROTOCOL_SIEMIANOWICE,
+                    allColumns,
+                    String.format("%s >= '%s' AND %s <= '%s'", ApplicationOpenHelper.COLUMN_CREATED, startDate, ApplicationOpenHelper.COLUMN_CREATED, endDate),
+                    null,
+                    null,
+                    null,
+                    ApplicationOpenHelper.COLUMN_CREATED + " asc"
+            );
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 Protocol protocol = cursorToProtocol(cursor);

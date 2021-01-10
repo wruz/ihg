@@ -4,11 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="generateReportFromDateRange"
-        android:text="Generuj" />
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/start_date_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="selectStartDate" />
+
+        <Button
+            android:id="@+id/end_date_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="selectEndDate" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="generateReportFromDateRange"
+            android:text="@string/generate_report" />
+
+    </LinearLayout>
 
     <com.wruzjan.ihg.utils.view.ProgressLayout
         android:id="@+id/progress"

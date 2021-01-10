@@ -12,13 +12,13 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 import java.util.Date;
 
-public class GenerateDailyReportDialog extends DialogFragment {
+public class ReportDateDialog extends DialogFragment {
 
     @Nullable
     private Listener listener;
 
-    public static GenerateDailyReportDialog newInstance() {
-        GenerateDailyReportDialog dialog = new GenerateDailyReportDialog();
+    public static ReportDateDialog newInstance() {
+        ReportDateDialog dialog = new ReportDateDialog();
         Bundle bundle = new Bundle();
         dialog.setArguments(bundle);
         return dialog;
@@ -39,7 +39,7 @@ public class GenerateDailyReportDialog extends DialogFragment {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(view.getYear(), view.getMonth(), view.getDayOfMonth());
                         if (listener != null) {
-                            listener.onReportGenerate(calendar.getTime());
+                            listener.onDateSelected(calendar.getTime());
                         }
                     }
                 }, currentDateCalendar.get(Calendar.YEAR), currentDateCalendar.get(Calendar.MONTH), currentDateCalendar.get(Calendar.DAY_OF_MONTH));
@@ -59,6 +59,6 @@ public class GenerateDailyReportDialog extends DialogFragment {
 
     public interface Listener {
 
-        void onReportGenerate(@NonNull Date reportDate);
+        void onDateSelected(@NonNull Date reportDate);
     }
 }

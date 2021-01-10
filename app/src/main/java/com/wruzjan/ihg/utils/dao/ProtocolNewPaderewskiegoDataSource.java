@@ -232,12 +232,19 @@ public class ProtocolNewPaderewskiegoDataSource {
         }
     }
 
-    public List<ProtocolNewPaderewskiego> getNewPaderewskiegoProtocolsByCreationDate(@NonNull String date) {
+    public List<ProtocolNewPaderewskiego> getNewPaderewskiegoProtocolsFromDateRange(@NonNull String startDate, @NonNull String endDate) {
         Cursor cursor = null;
         try {
             List<ProtocolNewPaderewskiego> protocols = new ArrayList<>();
-            cursor = database.query(ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
-                    allColumns, ApplicationOpenHelper.COLUMN_CREATED + " LIKE '" + date + "%'", null, null, null,  ApplicationOpenHelper.COLUMN_CREATED + " asc");
+            cursor = database.query(
+                    ApplicationOpenHelper.TABLE_PROTOCOL_NEW_PADEREWSKIEGO,
+                    allColumns,
+                    String.format("%s >= '%s' AND %s <= '%s'", ApplicationOpenHelper.COLUMN_CREATED, startDate, ApplicationOpenHelper.COLUMN_CREATED, endDate),
+                    null,
+                    null,
+                    null,
+                    ApplicationOpenHelper.COLUMN_CREATED + " asc"
+            );
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 ProtocolNewPaderewskiego protocol = cursorToProtocol(cursor);

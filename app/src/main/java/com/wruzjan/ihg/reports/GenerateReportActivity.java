@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.wruzjan.ihg.R;
+import com.wruzjan.ihg.utils.DateUtils;
 import com.wruzjan.ihg.utils.FileUtils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
@@ -22,11 +24,16 @@ import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
 import com.wruzjan.ihg.utils.view.ProgressLayout;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-public class GenerateReportActivity extends AppCompatActivity implements GenerateDailyReportDialog.Listener, BaseAsyncTask.PreExecuteUiListener, BaseAsyncTask.PostExecuteUiListener<String> {
+public class GenerateReportActivity extends AppCompatActivity implements BaseAsyncTask.PreExecuteUiListener, BaseAsyncTask.PostExecuteUiListener<String> {
 
     private static final String DATE_PICKER_FRAGMENT = "DATE_PICKER_FRAGMENT";
     private static final String EXTRA_CITY = "EXTRA_CITY";
+    private static final String EXTRA_START_DATE = "EXTRA_START_DATE";
+    private static final String EXTRA_END_DATE = "EXTRA_END_DATE";
+
+    private static final int MAX_DATE_RANGE_IN_DAYS = 31;
 
     private ProgressLayout progressLayout;
 
@@ -39,9 +46,22 @@ public class GenerateReportActivity extends AppCompatActivity implements Generat
     @Nullable
     private GenerateNewPaderewskiegoDailyReportAsyncTask generateNewPaderewskiegoDailyReportAsyncTask;
 
-    public static void start(@NonNull Context context, @NonNull City city) {
+    private Date startDate;
+    private Date endDate;
+
+    private Button startDateButton;
+    private Button endDateButton;
+
+    public static void start(
+            @NonNull Context context,
+            @NonNull City city,
+            @NonNull Date startDate,
+            @NonNull Date endDate
+    ) {
         Intent intent = new Intent(context, GenerateReportActivity.class);
         intent.putExtra(EXTRA_CITY, city);
+        intent.putExtra(EXTRA_START_DATE, startDate);
+        intent.putExtra(EXTRA_END_DATE, endDate);
         context.startActivity(intent);
     }
 
@@ -50,8 +70,15 @@ public class GenerateReportActivity extends AppCompatActivity implements Generat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_report);
 
-        progressLayout = findViewById(R.id.progress);
+        startDate = (Date) getIntent().getSerializableExtra(EXTRA_START_DATE);
+        endDate = (Date) getIntent().getSerializableExtra(EXTRA_END_DATE);
 
+        progressLayout = findViewById(R.id.progress);
+        startDateButton = findViewById(R.id.start_date_button);
+        endDateButton = findViewById(R.id.end_date_button);
+
+        assignStartDate(startDate);
+        assignEndDate(endDate);
 
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
@@ -92,33 +119,6 @@ public class GenerateReportActivity extends AppCompatActivity implements Generat
     }
 
     @Override
-    public void onReportGenerate(@NonNull Date reportDate) {
-        City city = (City) getIntent().getSerializableExtra(EXTRA_CITY);
-        if (city != null) {
-            switch (city) {
-                case SIEMANOWICE:
-                    if (generateSiemanowiceDailyReportAsyncTask != null) {
-                        generateSiemanowiceDailyReportAsyncTask.cancel(true);
-                    }
-                    generateSiemanowiceDailyReportAsyncTask = new GenerateSiemanowiceDailyReportAsyncTask(addressDataSource, protocolDataSource);
-                    generateSiemanowiceDailyReportAsyncTask.setPreExecuteUiListener(this);
-                    generateSiemanowiceDailyReportAsyncTask.setPostExecuteUiListener(this);
-                    generateSiemanowiceDailyReportAsyncTask.execute(reportDate);
-                    break;
-                case NOWY_PADERWSKIEGO:
-                    if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
-                        generateNewPaderewskiegoDailyReportAsyncTask.cancel(true);
-                    }
-                    generateNewPaderewskiegoDailyReportAsyncTask = new GenerateNewPaderewskiegoDailyReportAsyncTask(addressDataSource, protocolNewPaderewskiegoDataSource);
-                    generateNewPaderewskiegoDailyReportAsyncTask.setPreExecuteUiListener(this);
-                    generateNewPaderewskiegoDailyReportAsyncTask.setPostExecuteUiListener(this);
-                    generateNewPaderewskiegoDailyReportAsyncTask.execute(reportDate);
-                    break;
-            }
-        }
-    }
-
-    @Override
     public void onPreExecute() {
         progressLayout.setVisibility(View.VISIBLE);
     }
@@ -144,13 +144,81 @@ public class GenerateReportActivity extends AppCompatActivity implements Generat
         }
     }
 
-    public void generateReportFromDateRange(@NonNull View view) {
-        GenerateDailyReportDialog dialog = (GenerateDailyReportDialog) getSupportFragmentManager().findFragmentByTag(DATE_PICKER_FRAGMENT);
+    public void selectStartDate(@NonNull View view) {
+        ReportDateDialog dialog = (ReportDateDialog) getSupportFragmentManager().findFragmentByTag(DATE_PICKER_FRAGMENT);
         if (dialog == null) {
-            dialog = GenerateDailyReportDialog.newInstance();
+            dialog = ReportDateDialog.newInstance();
         }
-        dialog.setListener(this);
+        dialog.setListener(new ReportDateDialog.Listener() {
+            @Override
+            public void onDateSelected(@NonNull Date reportDate) {
+                assignStartDate(reportDate);
+            }
+        });
         dialog.show(getSupportFragmentManager(), DATE_PICKER_FRAGMENT);
+    }
+
+    public void selectEndDate(@NonNull View view) {
+        ReportDateDialog dialog = (ReportDateDialog) getSupportFragmentManager().findFragmentByTag(DATE_PICKER_FRAGMENT);
+        if (dialog == null) {
+            dialog = ReportDateDialog.newInstance();
+        }
+        dialog.setListener(new ReportDateDialog.Listener() {
+            @Override
+            public void onDateSelected(@NonNull Date reportDate) {
+                assignEndDate(reportDate);
+            }
+        });
+        dialog.show(getSupportFragmentManager(), DATE_PICKER_FRAGMENT);
+    }
+
+    public void generateReportFromDateRange(@NonNull View view) {
+        if (startDate.after(endDate)) {
+            Toast.makeText(this, getString(R.string.start_date_greater_than_end_date_error_message), Toast.LENGTH_SHORT).show();
+            return;
+        } else if (isGreaterThanMaxDateRange()) {
+            Toast.makeText(this, getString(R.string.range_freater_than_max_range_error_message), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        City city = (City) getIntent().getSerializableExtra(EXTRA_CITY);
+        if (city != null) {
+            switch (city) {
+                case SIEMANOWICE:
+                    if (generateSiemanowiceDailyReportAsyncTask != null) {
+                        generateSiemanowiceDailyReportAsyncTask.cancel(true);
+                    }
+                    generateSiemanowiceDailyReportAsyncTask = new GenerateSiemanowiceDailyReportAsyncTask(addressDataSource, protocolDataSource);
+                    generateSiemanowiceDailyReportAsyncTask.setPreExecuteUiListener(this);
+                    generateSiemanowiceDailyReportAsyncTask.setPostExecuteUiListener(this);
+                    generateSiemanowiceDailyReportAsyncTask.execute(startDate, endDate);
+                    break;
+                case NOWY_PADERWSKIEGO:
+                    if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
+                        generateNewPaderewskiegoDailyReportAsyncTask.cancel(true);
+                    }
+                    generateNewPaderewskiegoDailyReportAsyncTask = new GenerateNewPaderewskiegoDailyReportAsyncTask(addressDataSource, protocolNewPaderewskiegoDataSource);
+                    generateNewPaderewskiegoDailyReportAsyncTask.setPreExecuteUiListener(this);
+                    generateNewPaderewskiegoDailyReportAsyncTask.setPostExecuteUiListener(this);
+                    generateNewPaderewskiegoDailyReportAsyncTask.execute(startDate, endDate);
+                    break;
+            }
+        }
+    }
+
+    private void assignStartDate(@NonNull Date reportDate) {
+        startDateButton.setText(getString(R.string.generate_report_from_date, DateUtils.DATABASE_DATE_FORMAT.format(reportDate)));
+        startDate = reportDate;
+    }
+
+    private void assignEndDate(@NonNull Date reportDate) {
+        endDateButton.setText(getString(R.string.generate_report_to_date, DateUtils.DATABASE_DATE_FORMAT.format(reportDate)));
+        endDate = reportDate;
+    }
+
+    private boolean isGreaterThanMaxDateRange() {
+        long rangeMillis = endDate.getTime() - startDate.getTime();
+        return TimeUnit.DAYS.convert(rangeMillis, TimeUnit.MILLISECONDS) > MAX_DATE_RANGE_IN_DAYS;
     }
 
     public enum City {

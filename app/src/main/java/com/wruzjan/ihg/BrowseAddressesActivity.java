@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 
 import com.wruzjan.ihg.reports.GenerateReportActivity;
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.DateUtils;
 import com.wruzjan.ihg.utils.FileUtils;
 import com.wruzjan.ihg.utils.NavigationUtils;
 import com.wruzjan.ihg.utils.NetworkStateChecker;
@@ -41,9 +42,14 @@ import com.wruzjan.ihg.utils.dao.ProtocolPaderewskiegoDataSource;
 import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.AwaitingProtocol;
+import com.wruzjan.ihg.utils.model.Protocol;
+import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
 import com.wruzjan.ihg.utils.model.StreetAndIdentifier;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class BrowseAddressesActivity extends AppCompatActivity {
@@ -337,7 +343,7 @@ public class BrowseAddressesActivity extends AppCompatActivity {
         streetAndIdentifierDataSource.open();
         addressesList.setItemChecked(0, true);
 
-        int awaitingProtocolCount = awaitingProtocolDataSource.getAwaitincProtocolCount();
+        int awaitingProtocolCount = awaitingProtocolDataSource.getAwaitingProtocolCount();
         if (awaitingProtocolCount > 0) {
             synchronizeProtocolsButton.setEnabled(true);
             synchronizeProtocolsButton.setText(getString(R.string.synchronize_protocols, awaitingProtocolCount));
@@ -361,14 +367,54 @@ public class BrowseAddressesActivity extends AppCompatActivity {
     }
 
     public void generateDailyReportSiemianowice(@NonNull View view) {
-        GenerateReportActivity.start(this, GenerateReportActivity.City.SIEMANOWICE);
+        Protocol latestProtocol = protocolDataSource.getLatestProtocol();
+        if (latestProtocol == null) {
+            Toast.makeText(this, getString(R.string.no_created_protocols_error_message), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            Date startDate = DateUtils.DATABASE_DATE_FORMAT.parse(latestProtocol.get_created());
+            Calendar startDateCalendar = Calendar.getInstance();
+            startDateCalendar.setTime(startDate);
+            startDateCalendar.add(Calendar.DATE, 1);
+
+            Date endDate = getYesterdayDate();
+            GenerateReportActivity.start(this, GenerateReportActivity.City.SIEMANOWICE, startDateCalendar.getTime(), endDate);
+        } catch (ParseException exception) {
+            Toast.makeText(this, getString(R.string.corrupted_protocol_data_error_message), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void generateDailyReportNewPaderewskiego(@NonNull View view) {
-        GenerateReportActivity.start(this, GenerateReportActivity.City.NOWY_PADERWSKIEGO);
+        ProtocolNewPaderewskiego latestProtocol = protocolNewPaderewskiegoDataSource.getLatestProtocol();
+        if (latestProtocol == null) {
+            Toast.makeText(this, getString(R.string.no_created_protocols_error_message), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            Date startDate = DateUtils.DATABASE_DATE_FORMAT.parse(latestProtocol.get_created());
+            Calendar startDateCalendar = Calendar.getInstance();
+            startDateCalendar.setTime(startDate);
+            startDateCalendar.add(Calendar.DATE, 1);
+
+            Date endDate = getYesterdayDate();
+            GenerateReportActivity.start(this, GenerateReportActivity.City.NOWY_PADERWSKIEGO, startDateCalendar.getTime(), endDate);
+        } catch (ParseException exception) {
+            Toast.makeText(this, getString(R.string.corrupted_protocol_data_error_message), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean isExternalStorageAccessGranted() {
         return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @NonNull
+    private Date getYesterdayDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, -1);
+        return calendar.getTime();
     }
 }

@@ -43,7 +43,7 @@ public class AwaitingProtocolDataSource {
         database.insert(ApplicationOpenHelper.TABLE_AWAITING_PROTOCOL, null, values);
     }
 
-    public int getAwaitincProtocolCount() {
+    public int getAwaitingProtocolCount() {
         Cursor cursor = null;
         try {
             cursor = database.query(

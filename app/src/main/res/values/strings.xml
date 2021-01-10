@@ -147,4 +147,11 @@
     <string name="incorrect_printer_mac_address">Nieprawidłowy format adresu MAC drukarki. Proszę poprawić.</string>
     <string name="vent_count_text">Ilość nawiewników</string>
     <string name="title_activity_generate_report">Wygeneruj raport z danego okresu</string>
+    <string name="generate_report_from_date">Od %1$s</string>
+    <string name="generate_report_to_date">Do %1$s</string>
+    <string name="generate_report">Generuj raport</string>
+    <string name="start_date_greater_than_end_date_error_message">Data rozpoczęcia nie może być większa niż data zakończenia</string>
+    <string name="range_freater_than_max_range_error_message">Wybrany okres nie może przekraczać 31 dni</string>
+    <string name="no_created_protocols_error_message">Brak zapisanych protokołów</string>
+    <string name="corrupted_protocol_data_error_message">Błąd odczytu protokołu - dane uszkodzone</string>
 </resources>

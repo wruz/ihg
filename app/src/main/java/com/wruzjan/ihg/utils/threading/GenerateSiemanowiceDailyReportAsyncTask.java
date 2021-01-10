@@ -43,9 +43,10 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
 
     @Override
     protected String doInBackground(Date... dates) {
-        Date creationDate = dates[0];
+        Date startDate = dates[0];
+        Date endDate = dates[1];
 
-        List<Protocol> protocols = protocolDataSource.getSiemanowiceProtocolsByCreationDate(DATABASE_DATE_FORMAT.format(creationDate));
+        List<Protocol> protocols = protocolDataSource.getSiemanowiceProtocolsFromDateRange(DATABASE_DATE_FORMAT.format(startDate), DATABASE_DATE_FORMAT.format(endDate));
         Map<Integer, Address> addresses = new HashMap<>();
         for (Protocol protocol : protocols) {
             Address address = addressDataSource.getAddressById(protocol.get_address_id());
@@ -58,8 +59,8 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
             return "";
         }
 
-        String reportDirectoryPath = getReportDirectoryPath(creationDate);
-        String reportFilePath = reportDirectoryPath + "/" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(creationDate) + ".csv";
+        String reportDirectoryPath = getReportDirectoryPath(endDate);
+        String reportFilePath = reportDirectoryPath + "/" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(startDate) + "_" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(endDate) + ".csv";
 
         Writer writer = null;
 
