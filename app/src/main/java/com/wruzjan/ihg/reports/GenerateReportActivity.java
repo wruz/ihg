@@ -18,12 +18,12 @@ import com.wruzjan.ihg.utils.FileUtils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
+import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
 import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
 import com.wruzjan.ihg.utils.threading.GenerateNewPaderewskiegoDailyReportAsyncTask;
 import com.wruzjan.ihg.utils.threading.GenerateSiemanowiceDailyReportAsyncTask;
 import com.wruzjan.ihg.utils.view.ProgressLayout;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -39,6 +39,7 @@ public class GenerateReportActivity extends AppCompatActivity implements BaseAsy
     private ProgressLayout progressLayout;
 
     private AddressDataSource addressDataSource;
+    private StreetAndIdentifierDataSource streetAndIdentifierDataSource;
     private ProtocolDataSource protocolDataSource;
     private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
 
@@ -84,6 +85,9 @@ public class GenerateReportActivity extends AppCompatActivity implements BaseAsy
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
 
+        streetAndIdentifierDataSource = new StreetAndIdentifierDataSource(this);
+        streetAndIdentifierDataSource.open();
+
         protocolNewPaderewskiegoDataSource = new ProtocolNewPaderewskiegoDataSource(this);
         protocolNewPaderewskiegoDataSource.open();
 
@@ -103,9 +107,7 @@ public class GenerateReportActivity extends AppCompatActivity implements BaseAsy
             generateNewPaderewskiegoDailyReportAsyncTask.setPreExecuteUiListener(null);
             generateNewPaderewskiegoDailyReportAsyncTask.setPostExecuteUiListener(null);
         }
-        addressDataSource.close();
-        protocolDataSource.close();
-        protocolNewPaderewskiegoDataSource.close();
+
     }
 
     @Override
@@ -117,6 +119,10 @@ public class GenerateReportActivity extends AppCompatActivity implements BaseAsy
         if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
             generateNewPaderewskiegoDailyReportAsyncTask.cancel(true);
         }
+        addressDataSource.close();
+        streetAndIdentifierDataSource.close();
+        protocolDataSource.close();
+        protocolNewPaderewskiegoDataSource.close();
     }
 
     @Override
@@ -198,7 +204,7 @@ public class GenerateReportActivity extends AppCompatActivity implements BaseAsy
                     if (generateNewPaderewskiegoDailyReportAsyncTask != null) {
                         generateNewPaderewskiegoDailyReportAsyncTask.cancel(true);
                     }
-                    generateNewPaderewskiegoDailyReportAsyncTask = new GenerateNewPaderewskiegoDailyReportAsyncTask(addressDataSource, protocolNewPaderewskiegoDataSource);
+                    generateNewPaderewskiegoDailyReportAsyncTask = new GenerateNewPaderewskiegoDailyReportAsyncTask(getApplication(), addressDataSource, streetAndIdentifierDataSource, protocolNewPaderewskiegoDataSource);
                     generateNewPaderewskiegoDailyReportAsyncTask.setPreExecuteUiListener(this);
                     generateNewPaderewskiegoDailyReportAsyncTask.setPostExecuteUiListener(this);
                     generateNewPaderewskiegoDailyReportAsyncTask.execute(startDate, endDate);

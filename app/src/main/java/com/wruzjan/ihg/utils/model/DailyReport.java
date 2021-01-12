@@ -57,6 +57,10 @@ public class DailyReport {
     private final String smComments;
     @Nullable
     private final String ventCount;
+    @NonNull
+    private final String gasCooker;
+    @NonNull
+    private final String bathroomBake;
 
     private DailyReport(Builder builder) {
         locatorId = builder.locatorId;
@@ -85,6 +89,8 @@ public class DailyReport {
         commentsForManager = builder.commentsForManager;
         smComments = builder.smComments;
         ventCount = builder.ventCount;
+        gasCooker = builder.gasCooker;
+        bathroomBake = builder.bathroomBake;
     }
 
     public static Builder newBuilder() {
@@ -221,6 +227,16 @@ public class DailyReport {
         return ventCount;
     }
 
+    @NonNull
+    public String getGasCooker() {
+        return gasCooker;
+    }
+
+    @NonNull
+    public String getBathroomBake() {
+        return bathroomBake;
+    }
+
     public static final class Builder {
         private String locatorId;
         private String street;
@@ -248,6 +264,8 @@ public class DailyReport {
         private String commentsForManager;
         private String smComments;
         private String ventCount;
+        private String gasCooker;
+        private String bathroomBake;
 
         private Builder() {
         }
@@ -382,6 +400,15 @@ public class DailyReport {
             return this;
         }
 
+        public Builder withGasCooker(String gasCooker) {
+            this.gasCooker = gasCooker;
+            return this;
+        }
+
+        public Builder withBathroomBake(String bathroomBake) {
+            this.bathroomBake = bathroomBake;
+            return this;
+        }
 
         public DailyReport build() {
             return new DailyReport(this);

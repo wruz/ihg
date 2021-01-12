@@ -59,8 +59,8 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
             return "";
         }
 
-        String reportDirectoryPath = getReportDirectoryPath(endDate);
-        String reportFilePath = reportDirectoryPath + "/" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(startDate) + "_" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(endDate) + ".csv";
+        String reportDirectoryPath = getReportDirectoryPath(startDate);
+        String reportFilePath = reportDirectoryPath + "/" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(startDate) + ".csv";
 
         Writer writer = null;
 

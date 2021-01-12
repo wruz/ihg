@@ -46,11 +46,6 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
         configureEditText();
     }
 
-    @Nullable
-    public String getPreAppendedText() {
-        return preAppendedText;
-    }
-
     public boolean isEntrySelected(@NonNull String textToFind) {
         for (int i = 0; i < entries.length; ++i) {
             if (entries[i].equalsIgnoreCase(textToFind) && selection[i]) {
@@ -60,37 +55,8 @@ public class MultiSelectionViewHelper implements MultiSelectionViewAdapter.Liste
         return false;
     }
 
-    public int indexOfEntries(@NonNull String textToFind) {
-        for (int i = 0; i < entries.length; ++i) {
-            if (entries[i].equalsIgnoreCase(textToFind)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public void setPreAppendedText(@Nullable String preAppendedText) {
-        for (String entry : entries) {
-            if (entry.equalsIgnoreCase(preAppendedText)) {
-                return;
-            }
-        }
-
-        this.preAppendedText = preAppendedText;
-        textView.setText(buildSelectedItemString());
-    }
-
     public void setOkClickListener(@Nullable DialogInterface.OnClickListener okClickListener) {
         this.okClickListener = okClickListener;
-    }
-
-    public void setSelectedOption(int position, boolean selected) {
-        selection[position] = selected;
-        textView.setText(buildSelectedItemString());
-    }
-
-    public void setEnabledOption(int position, boolean enabled) {
-        enabledOptions[position] = enabled;
     }
 
     public void setSelection(String selectionString) {

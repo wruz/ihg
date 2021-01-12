@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="kitchen_comment_report_codes">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>7</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>6</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
     <string-array name="kitchen_comments">
         <item>Kratka stała</item>
-        <item>Brak dostępu</item>
+        <item>Brak dostępu</item>k
         <item>Okap elektr.</item>
         <item>Wentylator</item>
         <item>Zabrudzona kratka</item>
@@ -13,6 +27,20 @@
         <item>Alufol</item>
         <item>Brak pomieszczenia</item>
         <item>Przelot</item>
+    </string-array>
+
+    <string-array name="bathroom_comment_report_codes">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>7</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>6</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
     </string-array>
 
     <string-array name="bathroom_comments">
@@ -29,6 +57,20 @@
         <item>Przelot</item>
     </string-array>
 
+    <string-array name="toilet_comment_report_codes">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>7</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>6</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
     <string-array name="toilet_comments">
         <item>Kratka stała</item>
         <item>Brak dostępu</item>
@@ -41,6 +83,18 @@
         <item>Alufol</item>
         <item>Brak pomieszczenia</item>
         <item>Przelot</item>
+    </string-array>
+
+    <string-array name="flue_comment_report_codes">
+        <item>-1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
     </string-array>
 
     <string-array name="flue_comments">
