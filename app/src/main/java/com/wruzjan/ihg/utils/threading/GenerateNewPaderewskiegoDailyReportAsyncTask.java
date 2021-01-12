@@ -3,6 +3,7 @@ package com.wruzjan.ihg.utils.threading;
 import android.app.Application;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +35,8 @@ import java.util.Map;
 import static com.wruzjan.ihg.utils.DateUtils.DATABASE_DATE_FORMAT;
 
 public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<Date, String> {
+
+    private static final String TAG = "GenerateDailyReport";
 
     @NonNull
     private final Application application;
@@ -146,14 +150,14 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                     });
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e(TAG, "Error during processing: ", e);
         } finally {
             if (writer != null) {
                 try {
                     writer.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Error during processing - close: ", e);
                 }
             }
         }
@@ -161,7 +165,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
         return reportFilePath;
     }
 
-    private DailyReport mapToDailyReport(@NonNull ProtocolNewPaderewskiego protocol, @Nullable ProtocolNewPaderewskiego previousProtocol, @NonNull Address address) {
+    private DailyReport mapToDailyReport(@NonNull ProtocolNewPaderewskiego protocol, @Nullable ProtocolNewPaderewskiego previousProtocol, @NonNull Address address) throws ParseException {
         StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId());
         String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
 
@@ -171,8 +175,8 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                 .withHouseNumber(address.getBuilding())
                 .withFlatNumber(address.getFlat())
                 .withCity(address.getCity())
-                .withInspectionDate(protocol.get_created())
-                .withPreviousInspectionDate(previousProtocol != null ? previousProtocol.get_created() : null)
+                .withInspectionDate(DateUtils.fromDatabaseToCsvDate(protocol.get_created()))
+                .withPreviousInspectionDate(previousProtocol != null ? DateUtils.fromDatabaseToCsvDate(previousProtocol.get_created()) : null)
                 .withKitchenComments(getKitchenCommentIdsString(protocol))
                 .withBathroomComments(getBathroomCommentIdsString(protocol))
                 .withToiletComments(getToiletCommentIdsString(protocol))
