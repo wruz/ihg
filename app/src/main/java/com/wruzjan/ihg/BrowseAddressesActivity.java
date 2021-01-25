@@ -54,6 +54,8 @@ import java.util.List;
 
 public class BrowseAddressesActivity extends AppCompatActivity {
 
+    public static final String EXTRA_PROTOCOL_PDF_TO_SHARE = "EXTRA_PROTOCOL_PDF_TO_SHARE";
+
     private AddressDataSource datasource;
     private ProtocolDataSource protocolDataSource;
     private StreetAndIdentifierDataSource streetAndIdentifierDataSource;
@@ -192,6 +194,11 @@ public class BrowseAddressesActivity extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
             }
         });
+
+        String pdfFilePath = getIntent().getStringExtra(EXTRA_PROTOCOL_PDF_TO_SHARE);
+        if (pdfFilePath != null) {
+            NavigationUtils.openDropBoxApp(this, pdfFilePath);
+        }
     }
 
     @Override

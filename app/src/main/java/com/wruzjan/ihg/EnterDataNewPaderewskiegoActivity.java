@@ -28,14 +28,17 @@ import android.widget.Toast;
 import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.FileUtils;
+import com.wruzjan.ihg.utils.LocatorIdGenerator;
 import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.AwaitingProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolNewPaderewskiegoDataSource;
+import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.AwaitingProtocol;
 import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
+import com.wruzjan.ihg.utils.model.StreetAndIdentifier;
 import com.wruzjan.ihg.utils.pdf.GeneratePDFNewPaderewskiego;
 import com.wruzjan.ihg.utils.printer.BluetoothConnectionNewPaderewskiego;
 import com.wruzjan.ihg.utils.view.MultiSelectionViewHelper;
@@ -50,6 +53,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
 public class EnterDataNewPaderewskiegoActivity extends Activity {
@@ -60,6 +64,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     private static ArrayList<String> PRINTER_MACS = new ArrayList<String>();
 
     private AddressDataSource addressDataSource;
+    private StreetAndIdentifierDataSource streetAndIdentifierDataSource;
     private ProtocolNewPaderewskiegoDataSource protocolNewPaderewskiegoDataSource;
     private AwaitingProtocolDataSource awaitingProtocolDataSource;
     private NetworkStateChecker networkStateChecker;
@@ -136,6 +141,9 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
+
+        streetAndIdentifierDataSource = new StreetAndIdentifierDataSource(this);
+        streetAndIdentifierDataSource.open();
 
         protocolNewPaderewskiegoDataSource = new ProtocolNewPaderewskiegoDataSource(this);
         protocolNewPaderewskiegoDataSource.open();
@@ -1136,10 +1144,10 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             toast.show();
         }
 //      generate files
-        GeneratePDFNewPaderewskiego pdfGenerator = new GeneratePDFNewPaderewskiego(getResources());
+        GeneratePDFNewPaderewskiego pdfGenerator = new GeneratePDFNewPaderewskiego(getResources(), new LocatorIdGenerator());
         try {
             PROTOCOL = protocol;
-            pdfFilePath = pdfGenerator.generatePdf(address, protocol);
+            pdfFilePath = pdfGenerator.generatePdf(address, streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId()), protocol);
 
             //      save in database
             protocolNewPaderewskiegoDataSource.insertProtocolNewPaderewskiego(protocol);
@@ -1155,7 +1163,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
                 Button sendButton = findViewById(R.id.send_button);
                 sendButton.setEnabled(true);
-                openDropboxApp();
+                goBackToMainScreen(pdfFilePath);
             } else {
                 Toast.makeText(this, "Brak połączenia z internetem. Protokół został zapisany do późniejszej synchronizacji", Toast.LENGTH_SHORT).show();
                 awaitingProtocolDataSource.addAwaitingProtocol(new AwaitingProtocol(pdfFilePath));
@@ -1175,10 +1183,13 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
     public void sendMail(View view) {
         Uri uri = FileUtils.getUriFromFile(this, pdfFilePath);
 
+        StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId());
+        String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
+
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_EMAIL, "");
-        i.putExtra(Intent.EXTRA_SUBJECT, "Pomiar: " + address.getDistrinct() + ", " + address.getStreet() + " " + address.getBuilding() + "/" + address.getFlat());
+        i.putExtra(Intent.EXTRA_SUBJECT, "Pomiar: " + address.getDistrinct() + ", " + streetName + " " + address.getBuilding() + "/" + address.getFlat());
         i.putExtra(Intent.EXTRA_TEXT   , "Protokół PDF w załączniku");
 
         File file = new File(pdfFilePath);
@@ -1199,22 +1210,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
 
     }
 
-    private void openDropboxApp() {
-        Uri uri = FileUtils.getUriFromFile(this, pdfFilePath);
-
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-
-        try {
-            startActivity(Intent.createChooser(intent, "Wybierz aplikację Dropbox"));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(EnterDataNewPaderewskiegoActivity.this, "Brak klienta Dropbox na urządzeniu.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public void close(View view) {
-
         if(!protocolSaved){
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                     EnterDataNewPaderewskiegoActivity.this);
@@ -1231,8 +1227,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     .setPositiveButton("zamknij mimo to", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Context context = getApplicationContext();
-                            Intent adressesIntent = new Intent(context, BrowseAddressesActivity.class);
-                            startActivity(adressesIntent);
+                            goBackToMainScreen(null);
                         }
                     });
 
@@ -1243,9 +1238,15 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
             alertDialog.show();
 
         } else {
-            Intent adressesIntent = new Intent(this, BrowseAddressesActivity.class);
-            startActivity(adressesIntent);
+            goBackToMainScreen(null);
         }
+    }
+
+    private void goBackToMainScreen(@Nullable String savedProtocolPdfPath) {
+        Intent intent = new Intent(this, BrowseAddressesActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(BrowseAddressesActivity.EXTRA_PROTOCOL_PDF_TO_SHARE, savedProtocolPdfPath);
+        startActivity(intent);
     }
 
     private void displayValidationError(){
@@ -1512,6 +1513,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         addressDataSource.open();
         protocolNewPaderewskiegoDataSource.open();
         awaitingProtocolDataSource.open();
+        streetAndIdentifierDataSource.open();
         super.onResume();
     }
 
@@ -1520,6 +1522,7 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
         addressDataSource.close();
         protocolNewPaderewskiegoDataSource.close();
         awaitingProtocolDataSource.close();
+        streetAndIdentifierDataSource.close();
         super.onPause();
 
     }

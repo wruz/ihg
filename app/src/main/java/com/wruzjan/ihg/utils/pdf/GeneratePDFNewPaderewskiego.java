@@ -12,9 +12,11 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.wruzjan.ihg.R;
 import com.wruzjan.ihg.utils.ArrayUtils;
+import com.wruzjan.ihg.utils.LocatorIdGenerator;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.ProtocolNewPaderewskiego;
+import com.wruzjan.ihg.utils.model.StreetAndIdentifier;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,22 +30,28 @@ public class GeneratePDFNewPaderewskiego {
     private final String[] workers;
     private final String[] templates;
 
-    public GeneratePDFNewPaderewskiego(Resources resources) {
+    private final LocatorIdGenerator locatorIdGenerator;
+
+    public GeneratePDFNewPaderewskiego(Resources resources, LocatorIdGenerator locatorIdGenerator) {
         workers = resources.getStringArray(R.array.workers);
         templates = resources.getStringArray(R.array.form_template_paths);
+        this.locatorIdGenerator = locatorIdGenerator;
     }
 
-    private static void fill(AcroFields form, Address address, ProtocolNewPaderewskiego protocol)
+    private void fill(AcroFields form, Address address, StreetAndIdentifier streetAndIdentifier, ProtocolNewPaderewskiego protocol)
             throws IOException, DocumentException {
+
+        String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
 
         //load unicode font for polish characters
         BaseFont bf = BaseFont.createFont(Environment.getExternalStorageDirectory().toString()+"/IHG/fonts/arial_unicode.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         form.addSubstitutionFont(bf);
 
+        form.setField("identifier", locatorIdGenerator.generate(address, streetAndIdentifier));
         form.setField("name", address.getName());
         form.setField("company_address", protocol.getCompanyAddress());
         form.setField("protocol_type", protocol.getProtocolType());
-        form.setField("address", address.getStreet()+" "+address.getBuilding()+"/"+address.getFlat());
+        form.setField("address", streetName +" "+address.getBuilding()+"/"+address.getFlat());
         form.setField("date", new SimpleDateFormat("yyyy MMM dd").format(Calendar.getInstance().getTime()));
         form.setField("temp_outside", Double.toString(round(protocol.get_temp_outside(), 2)));
         form.setField("temp_inside", Double.toString(round(protocol.get_temp_inside(), 2)));
@@ -305,7 +313,7 @@ public class GeneratePDFNewPaderewskiego {
         form.setField("vent_count", Integer.toString(protocol.getVentCount()));
     }
 
-    public String generatePdf(Address address, ProtocolNewPaderewskiego protocol) throws Exception {
+    public String generatePdf(Address address, StreetAndIdentifier streetAndIdentifier, ProtocolNewPaderewskiego protocol) throws Exception {
 
         String str_path = Environment.getExternalStorageDirectory().toString() + "/IHG/" + address.getCity() + "/";
         if (address.getDistrinct().isEmpty()) {
@@ -313,9 +321,10 @@ public class GeneratePDFNewPaderewskiego {
         } else {
             str_path = str_path + address.getDistrinct().trim();
         }
-        str_path = str_path + "/" + address.getStreet().trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+        String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
+        str_path = str_path + "/" + streetName.trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
         boolean success = (new File(str_path).mkdirs());
-        str_path = str_path + "/" + address.getStreet().trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+        str_path = str_path + "/" + streetName.trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
 
         String pdfExtension = ".pdf";
         String numberOfCopy = "";
@@ -339,7 +348,7 @@ public class GeneratePDFNewPaderewskiego {
 
         AcroFields form = stamper.getAcroFields();
         form.setGenerateAppearances(true);
-        fill(form, address, protocol);
+        fill(form, address, streetAndIdentifier, protocol);
         stamper.setFormFlattening(true);
 
         PdfContentByte content = stamper.getOverContent(reader.getNumberOfPages());

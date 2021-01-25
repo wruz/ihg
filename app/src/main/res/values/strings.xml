@@ -44,8 +44,8 @@
     <string name="no">nie</string>
 
     <!--nowy adres-->
-    <string name="address_validation_error_invalid_building_number">Nieprawidłowy numer domu</string>
-    <string name="address_validation_error_invalid_flat_number">Nieprawidłowy numer mieszkania</string>
+    <string name="address_validation_error_invalid_building_number">Niepoprawny numer budynku, poprawny numer to min 1 cyfra, maks 3 cyfry i opcjonalna litera</string>
+    <string name="address_validation_error_invalid_flat_number">Niepoprawny numer mieszkania, poprawny numer to min 1 cyfra, maks 3 cyfry i opcjonalna litera</string>
 
     <!--raport dzienny-->
     <string name="generate_daily_report_siemanowice">Wygeneruj raport dzienny (Siemianowice)</string>

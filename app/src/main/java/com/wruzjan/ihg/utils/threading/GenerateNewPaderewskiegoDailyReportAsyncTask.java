@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +48,6 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
     private final StreetAndIdentifierDataSource streetAndIdentifierDataSource;
     @NonNull
     private final ProtocolNewPaderewskiegoDataSource protocolDataSource;
-    @NonNull
-    private final StreetAndIdentifierDataSource streetAndIdentifierDataSource;
     @NonNull
     private final LocatorIdGenerator locatorIdGenerator = new LocatorIdGenerator();
 
@@ -83,13 +82,14 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
         }
 
         String reportDirectoryPath = getReportDirectoryPath(startDate);
-        String reportFilePath = reportDirectoryPath + "/" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(startDate) + ".csv";
+        String reportFilePath = reportDirectoryPath + "/" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(startDate);
+        String reportFilePathWithExtension = reportFilePath + ".csv";
 
         Writer writer = null;
 
         try {
             File folder = new File(reportDirectoryPath);
-            File file = new File(reportFilePath);
+            File file = new File(reportFilePathWithExtension);
 
             if (!folder.exists()) {
                 folder.mkdirs();
@@ -97,6 +97,13 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
 
             if (!file.exists()) {
                 folder.createNewFile();
+            } else {
+                String numberOfCopy = "";
+                int i = 1;
+                while(((file = new File(reportFilePathWithExtension + numberOfCopy + ".csv")).exists())) {
+                    i++;
+                    numberOfCopy = "(" + i + ")";
+                }
             }
 
             writer = new BufferedWriter(new FileWriter(file));
@@ -257,7 +264,8 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                 }
             }
         }
-        return TextUtils.join(",", protocolReportCodes);
+        // LinkedHashSet for removing duplicates
+        return TextUtils.join(",", new LinkedHashSet<>(protocolReportCodes));
     }
 
     private String getGasReportCode(ProtocolNewPaderewskiego protocol) {
