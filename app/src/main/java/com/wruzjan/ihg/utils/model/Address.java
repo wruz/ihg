@@ -18,10 +18,7 @@ public class Address {
         this._name = name;
         this._street = street;
         this._building = building;
-        if(flat.isEmpty())
-            this._flat = "1";
-        else
-            this._flat = flat;
+        this._flat = flat;
         this._district = district;
         this._city = city;
         this._streetAndIdentifierId = streetAndIdentifierId;

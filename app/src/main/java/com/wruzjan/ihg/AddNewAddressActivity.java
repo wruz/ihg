@@ -96,7 +96,7 @@ public class AddNewAddressActivity extends Activity {
 
         Address address = new Address(name, null, building, flat, district, city, streetIdentifier);
 //        validate address
-        if (address.getName().isEmpty() || address.getBuilding().isEmpty() || address.getCity().isEmpty()) {
+        if (address.getName().isEmpty() || address.getBuilding().isEmpty() || address.getFlat().isEmpty() || address.getCity().isEmpty()) {
             Context context = getApplicationContext();
             CharSequence text = AlertUtils.VALIDATION_FAILED_FIELDS;
             int duration = Toast.LENGTH_LONG;
@@ -105,7 +105,7 @@ public class AddNewAddressActivity extends Activity {
             toast.show();
         } else if (!isBuildingNumberValid(address.getBuilding())) {
             Toast.makeText(this, R.string.address_validation_error_invalid_building_number, Toast.LENGTH_LONG).show();
-        } else if (!address.getFlat().isEmpty() && !isBuildingNumberValid(address.getFlat())) {
+        } else if (!isBuildingNumberValid(address.getFlat())) {
             Toast.makeText(this, R.string.address_validation_error_invalid_flat_number, Toast.LENGTH_LONG).show();
         } else {
             addressDataSource.insertAddress(address);
@@ -153,7 +153,7 @@ public class AddNewAddressActivity extends Activity {
 
         Address address = new Address(name, null, building, flat, district, city, streetIdentifier);
 //        validate address
-        if (address.getName().isEmpty() || address.getBuilding().isEmpty() || address.getCity().isEmpty()) {
+        if (address.getName().isEmpty() || address.getBuilding().isEmpty() || address.getFlat().isEmpty() || address.getCity().isEmpty()) {
             Context context = getApplicationContext();
             CharSequence text = AlertUtils.VALIDATION_FAILED_FIELDS;
             int duration = Toast.LENGTH_LONG;
@@ -162,7 +162,7 @@ public class AddNewAddressActivity extends Activity {
             toast.show();
         } else if (!isBuildingNumberValid(address.getBuilding())) {
             Toast.makeText(this, R.string.address_validation_error_invalid_building_number, Toast.LENGTH_LONG).show();
-        } else if (!address.getFlat().isEmpty() && !isBuildingNumberValid(address.getFlat())) {
+        } else if (!isBuildingNumberValid(address.getFlat())) {
             Toast.makeText(this, R.string.address_validation_error_invalid_flat_number, Toast.LENGTH_LONG).show();
         } else {
             address = addressDataSource.insertAddress(address);

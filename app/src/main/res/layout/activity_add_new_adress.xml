@@ -84,6 +84,7 @@
                         android:text="@string/flat" />
                     <EditText
                         android:id="@+id/flat"
+                        android:hint="@string/required"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content" >
                     </EditText>
