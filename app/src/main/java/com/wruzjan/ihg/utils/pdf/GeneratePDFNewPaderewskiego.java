@@ -315,22 +315,22 @@ public class GeneratePDFNewPaderewskiego {
     }
 
     public String generatePdf(Address address, StreetAndIdentifier streetAndIdentifier, ProtocolNewPaderewskiego protocol) throws Exception {
-
         String str_path = Environment.getExternalStorageDirectory().toString() + "/IHG/" + address.getCity() + "/";
         if (address.getDistrinct().isEmpty()) {
             str_path = str_path + "inne";
         } else {
             str_path = str_path + address.getDistrinct().trim();
         }
-        String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
-        str_path = str_path + "/" + streetName.trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+        String streetNameFolder = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
+        String streetNameFile = streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1 ? streetAndIdentifier.getStreetName() : address.getStreet();
+        str_path = str_path + "/" + streetNameFolder.trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
         boolean success = (new File(str_path).mkdirs());
 
         String locatorId = locatorIdGenerator.generate(address, streetAndIdentifier);
         if (!TextUtils.isEmpty(locatorId)) {
             str_path = str_path + "/" + locatorId + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
         } else {
-            str_path = str_path + "/" + streetName.trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
+            str_path = str_path + "/" + streetNameFile.trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
         }
 
         String pdfExtension = ".pdf";
