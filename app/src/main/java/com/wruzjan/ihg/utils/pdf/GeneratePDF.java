@@ -2,6 +2,7 @@ package com.wruzjan.ihg.utils.pdf;
 
 import android.content.res.Resources;
 import android.os.Environment;
+import android.text.TextUtils;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
@@ -324,8 +325,9 @@ public class GeneratePDF {
         str_path = str_path + "/" + streetName.trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
         boolean success = (new File(str_path).mkdirs());
 
-        if (streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1) {
-            str_path = str_path + "/" + locatorIdGenerator.generate(address, streetAndIdentifier) + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
+        String locatorId = locatorIdGenerator.generate(address, streetAndIdentifier);
+        if (!TextUtils.isEmpty(locatorId)) {
+            str_path = str_path + "/" + locatorId + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
         } else {
             str_path = str_path + "/" + streetName.trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
         }

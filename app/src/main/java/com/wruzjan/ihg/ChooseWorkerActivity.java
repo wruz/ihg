@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -134,8 +135,9 @@ public class ChooseWorkerActivity extends Activity {
                 str_path = str_path + "/" + streetName.trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
                 boolean success = (new File(str_path).mkdirs());
 
-                if (streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1) {
-                    str_path = str_path + "/" + locatorIdGenerator.generate(address, streetAndIdentifier) + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
+                String locatorId = locatorIdGenerator.generate(address, streetAndIdentifier);
+                if (!TextUtils.isEmpty(locatorId)) {
+                    str_path = str_path + "/" + locatorId + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
                 } else {
                     str_path = str_path + "/" + streetName.trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
                 }
