@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
+import com.wruzjan.ihg.utils.LocatorIdGenerator;
 import com.wruzjan.ihg.utils.StringUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
@@ -57,6 +58,8 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
     private InstantAutoCompleteTextView protocolTypeTextView;
 
     private GetNewPaderewskiegoProtocolsByIdAsyncTask getNewPaderewskiegoProtocolsByIdAsyncTask;
+
+    private final LocatorIdGenerator locatorIdGenerator = new LocatorIdGenerator();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,7 +137,12 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
                 }
                 str_path = str_path + "/" + streetName.trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
                 boolean success = (new File(str_path).mkdirs());
-                str_path = str_path + "/" + streetName.trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()) + ".pdf";
+
+                if (streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1) {
+                    str_path = str_path + "/" + locatorIdGenerator.generate(address, streetAndIdentifier) + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
+                } else {
+                    str_path = str_path + "/" + streetName.trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
+                }
 
                 //display override info
                 if(new File(str_path).exists()){

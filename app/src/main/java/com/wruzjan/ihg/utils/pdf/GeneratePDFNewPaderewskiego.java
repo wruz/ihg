@@ -324,7 +324,12 @@ public class GeneratePDFNewPaderewskiego {
         String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
         str_path = str_path + "/" + streetName.trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
         boolean success = (new File(str_path).mkdirs());
-        str_path = str_path + "/" + streetName.trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+
+        if (streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1) {
+            str_path = str_path + "/" + locatorIdGenerator.generate(address, streetAndIdentifier) + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
+        } else {
+            str_path = str_path + "/" + streetName.trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()) + ".pdf";
+        }
 
         String pdfExtension = ".pdf";
         String numberOfCopy = "";
