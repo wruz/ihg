@@ -29,14 +29,17 @@ import android.widget.Toast;
 import com.wruzjan.ihg.utils.AdapterUtils;
 import com.wruzjan.ihg.utils.AlertUtils;
 import com.wruzjan.ihg.utils.FileUtils;
+import com.wruzjan.ihg.utils.LocatorIdGenerator;
 import com.wruzjan.ihg.utils.NetworkStateChecker;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.AwaitingProtocolDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
+import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.AwaitingProtocol;
 import com.wruzjan.ihg.utils.model.Protocol;
+import com.wruzjan.ihg.utils.model.StreetAndIdentifier;
 import com.wruzjan.ihg.utils.pdf.GeneratePDF;
 import com.wruzjan.ihg.utils.printer.BluetoothConnection;
 import com.wruzjan.ihg.utils.view.MultiSelectionViewHelper;
@@ -62,6 +65,7 @@ public class EnterDataActivity extends Activity {
     private static ArrayList<String> PRINTER_MACS = new ArrayList<String>();
 
     private AddressDataSource addressDataSource;
+    private StreetAndIdentifierDataSource streetAndIdentifierDataSource;
     private ProtocolDataSource protocolDataSource;
     private AwaitingProtocolDataSource awaitingProtocolDataSource;
     private NetworkStateChecker networkStateChecker;
@@ -125,6 +129,9 @@ public class EnterDataActivity extends Activity {
 
         addressDataSource = new AddressDataSource(this);
         addressDataSource.open();
+
+        streetAndIdentifierDataSource = new StreetAndIdentifierDataSource(this);
+        streetAndIdentifierDataSource.open();
 
         protocolDataSource = new ProtocolDataSource(this);
         protocolDataSource.open();
@@ -1097,10 +1104,10 @@ public class EnterDataActivity extends Activity {
             toast.show();
         }
 //      generate files
-        GeneratePDF pdfGenerator = new GeneratePDF(getResources());
+        GeneratePDF pdfGenerator = new GeneratePDF(getResources(), new LocatorIdGenerator());
         try {
             PROTOCOL = protocol;
-            pdfFilePath = pdfGenerator.generatePdf(address, protocol);
+            pdfFilePath = pdfGenerator.generatePdf(address,  streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId()), protocol);
 
             //      save in database
             protocolDataSource.insertProtocolSiemianowice(protocol);
@@ -1116,7 +1123,7 @@ public class EnterDataActivity extends Activity {
 
                 Button sendButton = findViewById(R.id.send_button);
                 sendButton.setEnabled(true);
-                openDrobpoxApp();
+                goBackToMainScreen(pdfFilePath);
             } else {
                 Toast.makeText(this, "Brak połączenia z internetem. Protokół został zapisany do późniejszej synchronizacji", Toast.LENGTH_SHORT).show();
                 awaitingProtocolDataSource.addAwaitingProtocol(new AwaitingProtocol(pdfFilePath));
@@ -1136,10 +1143,13 @@ public class EnterDataActivity extends Activity {
     public void sendMail(View view) {
         Uri uri = FileUtils.getUriFromFile(this, pdfFilePath);
 
+        StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId());
+        String streetName = streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1 ? streetAndIdentifier.getStreetName() : address.getStreet();
+
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_EMAIL, "");
-        i.putExtra(Intent.EXTRA_SUBJECT, "Pomiar: " + address.getDistrinct() + ", " + address.getStreet() + " " + address.getBuilding() + "/" + address.getFlat());
+        i.putExtra(Intent.EXTRA_SUBJECT, "Pomiar: " + address.getDistrinct() + ", " + streetName + " " + address.getBuilding() + "/" + address.getFlat());
         i.putExtra(Intent.EXTRA_TEXT, "Protokół PDF w załączniku");
 
         File file = new File(pdfFilePath);
@@ -1191,9 +1201,7 @@ public class EnterDataActivity extends Activity {
                     })
                     .setPositiveButton("zamknij mimo to", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Context context = getApplicationContext();
-                            Intent adressesIntent = new Intent(context, BrowseAddressesActivity.class);
-                            startActivity(adressesIntent);
+                            goBackToMainScreen(null);
                         }
                     });
 
@@ -1207,6 +1215,13 @@ public class EnterDataActivity extends Activity {
             Intent adressesIntent = new Intent(this, BrowseAddressesActivity.class);
             startActivity(adressesIntent);
         }
+    }
+
+    private void goBackToMainScreen(@Nullable String savedProtocolPdfPath) {
+        Intent intent = new Intent(this, BrowseAddressesActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(BrowseAddressesActivity.EXTRA_PROTOCOL_PDF_TO_SHARE, savedProtocolPdfPath);
+        startActivity(intent);
     }
 
     private void displayValidationError() {
@@ -1470,6 +1485,7 @@ public class EnterDataActivity extends Activity {
     @Override
     protected void onResume() {
         addressDataSource.open();
+        streetAndIdentifierDataSource.open();
         protocolDataSource.open();
         awaitingProtocolDataSource.open();
         super.onResume();
@@ -1478,6 +1494,7 @@ public class EnterDataActivity extends Activity {
     @Override
     protected void onPause() {
         addressDataSource.close();
+        streetAndIdentifierDataSource.close();
         protocolDataSource.close();
         awaitingProtocolDataSource.close();
         super.onPause();

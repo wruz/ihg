@@ -1,43 +1,65 @@
 package com.wruzjan.ihg.utils.threading;
 
+import android.app.Application;
 import android.os.Environment;
+import android.text.TextUtils;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.opencsv.CSVWriter;
+import com.wruzjan.ihg.R;
 import com.wruzjan.ihg.utils.DateUtils;
+import com.wruzjan.ihg.utils.LocatorIdGenerator;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
+import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
 import com.wruzjan.ihg.utils.model.Address;
-import com.wruzjan.ihg.utils.model.Protocol;
 import com.wruzjan.ihg.utils.model.DailyReport;
+import com.wruzjan.ihg.utils.model.Protocol;
+import com.wruzjan.ihg.utils.model.StreetAndIdentifier;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import static com.wruzjan.ihg.utils.DateUtils.DATABASE_DATE_FORMAT;
-import static com.wruzjan.ihg.utils.ProtocolUtils.*;
 
 public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date, String> {
 
+    private static final String TAG = "SiemanowiceReport";
+
+    @NonNull
+    private final Application application;
     @NonNull
     private final AddressDataSource addressDataSource;
     @NonNull
+    private final StreetAndIdentifierDataSource streetAndIdentifierDataSource;
+    @NonNull
     private final ProtocolDataSource protocolDataSource;
+    @NonNull
+    private final LocatorIdGenerator locatorIdGenerator = new LocatorIdGenerator();
 
     public GenerateSiemanowiceDailyReportAsyncTask(
+            @NonNull Application application,
             @NonNull AddressDataSource addressDataSource,
-            @NonNull ProtocolDataSource protocolDataSource) {
+            @NonNull StreetAndIdentifierDataSource streetAndIdentifierDataSource,
+            @NonNull ProtocolDataSource protocolDataSource
+    ) {
+        this.application = application;
         this.addressDataSource = addressDataSource;
+        this.streetAndIdentifierDataSource = streetAndIdentifierDataSource;
         this.protocolDataSource = protocolDataSource;
     }
 
@@ -60,13 +82,14 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
         }
 
         String reportDirectoryPath = getReportDirectoryPath(startDate);
-        String reportFilePath = reportDirectoryPath + "/" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(startDate) + ".csv";
+        String reportFilePath = reportDirectoryPath + "/" + DateUtils.CSV_FILE_NAME_DATE_FORMAT.format(startDate);
+        String reportFilePathWithExtension = reportFilePath + ".csv";
 
         Writer writer = null;
 
         try {
             File folder = new File(reportDirectoryPath);
-            File file = new File(reportFilePath);
+            File file = new File(reportFilePathWithExtension);
 
             if (!folder.exists()) {
                 folder.mkdirs();
@@ -74,6 +97,13 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
 
             if (!file.exists()) {
                 folder.createNewFile();
+            } else {
+                String numberOfCopy = "";
+                int i = 0;
+                while(((file = new File(reportFilePath + numberOfCopy + ".csv")).exists())) {
+                    i++;
+                    numberOfCopy = "(" + i + ")";
+                }
             }
 
             writer = new BufferedWriter(new FileWriter(file));
@@ -87,25 +117,18 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
                     "miasto",
                     "data przeglądu",
                     "data poprzedniego przeglądu",
-                    "kuchnia zamknięte",
-                    "kuchnia mikrouchył",
                     "kuchnia uwagi",
-                    "łazienka zamknięte",
-                    "łazienka mikrouchył",
                     "łazienka uwagi",
-                    "WC zamknięte",
-                    "WC mikrouchył",
                     "WC uwagi",
-                    "spalinowy zamknięte",
-                    "spalinowy mikrouchył",
                     "spalinowy uwagi",
                     "instalacja gazowa",
-                    "instalacja gazowa uwagi",
+                    "kuchenka gazowa",
+                    "piec łazienkowy",
+                    "uwagi gaz",
                     "tlenek węgla",
-                    "zalecenia dla lokatora",
-                    "zalecenia dla zarządcy",
-                    "uwagi SM",
-                    "nawiewniki"
+                    "il. nawiewników",
+                    "uwagi lokator",
+                    "uwagi spółdzielnia"
             });
 
             Protocol previousProtocol = protocolDataSource.getProtocolBefore(protocols.get(0).get_id());
@@ -124,36 +147,29 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
                             bean.getCity(),
                             bean.getInspectionDate(),
                             bean.getPreviousInspectionDate(),
-                            bean.getKitchenWindowsClosed(),
-                            bean.getKitchenMicrovent(),
                             bean.getKitchenComments(),
-                            bean.getBathroomWindowsClosed(),
-                            bean.getBathroomMicrovent(),
                             bean.getBathroomComments(),
-                            bean.getToiletWindowsClosed(),
-                            bean.getToiletMicrovent(),
                             bean.getToiletComments(),
-                            bean.getFlueWindowsClosed(),
-                            bean.getFlueMicrovent(),
                             bean.getFlueComments(),
                             bean.getGas(),
+                            bean.getGasCooker(),
+                            bean.getBathroomBake(),
                             bean.getGasComments(),
                             bean.getCo2(),
+                            bean.getVentCount(),
                             bean.getCommentsForUser(),
-                            bean.getCommentsForManager(),
-                            bean.getSmComments(),
-                            bean.getVentCount()
+                            bean.getCommentsForManager()
                     });
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e(TAG, "Error during processing: ", e);
         } finally {
             if (writer != null) {
                 try {
                     writer.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Error during processing - close: ", e);
                 }
             }
         }
@@ -161,37 +177,119 @@ public class GenerateSiemanowiceDailyReportAsyncTask extends BaseAsyncTask<Date,
         return reportFilePath;
     }
 
-    private DailyReport mapToDailyReport(@NonNull Protocol protocol, @Nullable Protocol previousProtocol, @NonNull Address address) {
+    private DailyReport mapToDailyReport(@NonNull Protocol protocol, @Nullable Protocol previousProtocol, @NonNull Address address) throws ParseException {
+        StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId());
+        String streetName = streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1 ? streetAndIdentifier.getStreetName() : address.getStreet();
+
         return DailyReport.newBuilder()
-                .withStreet(address.getStreet())
+                .withLocatorId(locatorIdGenerator.generate(address, streetAndIdentifier))
+                .withStreet(streetName)
                 .withHouseNumber(address.getBuilding())
                 .withFlatNumber(address.getFlat())
                 .withCity(address.getCity())
-                .withInspectionDate(protocol.get_created())
-                .withPreviousInspectionDate(previousProtocol != null ? previousProtocol.get_created() : null)
-                .withKitchenWindowsClosed(determineOverflowOrUnderflowState(calculateSiemanowiceKitchenAirflowWindowsClosed(protocol), KITCHEN_ACCEPTANCE_THRESHOLD))
-                .withKitchenMicrovent(determineOverflowOrUnderflowState(calculateSiemanowiceKitchenAirflowMicrovent(protocol), KITCHEN_ACCEPTANCE_THRESHOLD))
-                .withKitchenComments(protocol.get_kitchen_comments())
-                .withBathroomWindowsClosed(determineOverflowOrUnderflowState(calculateSiemanowiceBathroomAirflowWindowsClosed(protocol), BATHROOM_ACCEPTANCE_THRESHOLD))
-                .withBathroomMicrovent(determineOverflowOrUnderflowState(calculateSiemanowiceBathroomAirflowMicrovent(protocol), BATHROOM_ACCEPTANCE_THRESHOLD))
-                .withBathroomComments(protocol.get_bathroom_comments())
-                .withToiletWindowsClosed(determineOverflowOrUnderflowState(calculateSiemanowiceToiletAirflowWindowsClosed(protocol), TOILET_ACCEPTANCE_THRESHOLD))
-                .withToiletMicrovent(determineOverflowOrUnderflowState(calculateSiemanowiceToiletAirflowMicrovent(protocol), TOILET_ACCEPTANCE_THRESHOLD))
-                .withToiletComments(protocol.get_toilet_comments())
-                .withFlueWindowsClosed(determineOverflowOrUnderflowState(calculateSiemanowiceFlueAirflowWindowsClosed(protocol), FLUE_ACCEPTANCE_THRESHOLD))
-                .withFlueMicrovent(determineOverflowOrUnderflowState(calculateSiemanowiceFlueAirflowMicrovent(protocol), FLUE_ACCEPTANCE_THRESHOLD))
-                .withFlueComments(protocol.get_flue_comments())
-                .withGas(protocol.is_gas_cooker_working() ? "szczelna" : "nieszczelna")
-                .withGasComments(protocol.get_gas_fittings_comments())
+                .withInspectionDate(DateUtils.fromDatabaseToCsvDate(protocol.get_created()))
+                .withPreviousInspectionDate(previousProtocol != null ? DateUtils.fromDatabaseToCsvDate(previousProtocol.get_created()) : null)
+                .withKitchenComments(getKitchenCommentIdsString(protocol))
+                .withBathroomComments(getBathroomCommentIdsString(protocol))
+                .withToiletComments(getToiletCommentIdsString(protocol))
+                .withFlueComments(getFlueCommentIdsString(protocol))
+                .withGas(getGasReportCode(protocol))
+                .withGasCooker(getGasCookerReportCode(protocol))
+                .withBathroomBake(getBathroomBakeReportCode(protocol))
+                .withGasComments(protocol.get_gas_fittings_comments() != null ? protocol.get_gas_fittings_comments() : "")
                 .withCo2(Float.toString(protocol.get_co2()))
+                .withVentCount(Integer.toString(protocol.getVentCount()))
                 .withCommentsForUser(protocol.get_comments_for_user())
                 .withCommentsForManager(protocol.get_comments_for_manager())
-                .withVentCount(Integer.toString(protocol.getVentCount()))
+                .withSmComments("")
                 .build();
     }
 
-    private String determineOverflowOrUnderflowState(float airflow, int kitchenAcceptanceThreshold) {
-        return airflow > kitchenAcceptanceThreshold ? "nadmiar" : "niedobór";
+    private String getKitchenCommentIdsString(Protocol protocol) {
+        String[] entries = application.getResources().getStringArray(R.array.kitchen_comments);
+        String[] reportCodes = application.getResources().getStringArray(R.array.kitchen_comment_report_codes);
+
+        return getProtocolReportCodes(
+                entries,
+                reportCodes,
+                protocol.get_kitchen_comments()
+        );
+    }
+
+    private String getBathroomCommentIdsString(Protocol protocol) {
+        String[] entries = application.getResources().getStringArray(R.array.bathroom_comments);
+        String[] reportCodes = application.getResources().getStringArray(R.array.bathroom_comment_report_codes);
+
+        return getProtocolReportCodes(
+                entries,
+                reportCodes,
+                protocol.get_bathroom_comments()
+        );
+    }
+
+    private String getToiletCommentIdsString(Protocol protocol) {
+        String[] entries = application.getResources().getStringArray(R.array.toilet_comments);
+        String[] reportCodes = application.getResources().getStringArray(R.array.toilet_comment_report_codes);
+
+        return getProtocolReportCodes(
+                entries,
+                reportCodes,
+                protocol.get_toilet_comments()
+        );
+    }
+
+    private String getFlueCommentIdsString(Protocol protocol) {
+        String[] entries = application.getResources().getStringArray(R.array.flue_comments);
+        String[] reportCodes = application.getResources().getStringArray(R.array.flue_comment_report_codes);
+
+        return getProtocolReportCodes(
+                entries,
+                reportCodes,
+                protocol.get_flue_comments()
+        );
+    }
+
+
+    private String getProtocolReportCodes(
+            String[] entries,
+            String[] reportCodes,
+            String comments
+    ) {
+        String[] splitComments = comments.split(", ");
+        ArrayList<String> protocolReportCodes = new ArrayList<>();
+        for (String comment : splitComments) {
+            for (int i = 0; i < entries.length; ++i) {
+                if (entries[i].equalsIgnoreCase(comment)) {
+                    protocolReportCodes.add(reportCodes[i]);
+                }
+            }
+        }
+        // LinkedHashSet for removing duplicates
+        return TextUtils.join(",", new LinkedHashSet<>(protocolReportCodes));
+    }
+
+    private String getGasReportCode(Protocol protocol) {
+        if (protocol.is_gas_fittings_present()) {
+            return protocol.is_gas_fittings_working() ? "1" : "2";
+        } else {
+            return "3";
+        }
+    }
+
+    private String getGasCookerReportCode(Protocol protocol) {
+        if (protocol.is_gas_cooker_present()) {
+            return protocol.is_gas_cooker_working() ? "1" : "2";
+        } else {
+            return "3";
+        }
+    }
+
+    private String getBathroomBakeReportCode(Protocol protocol) {
+        if (protocol.is_bathroom_bake_present()) {
+            return protocol.is_bathroom_bake_working() ? "1" : "2";
+        } else {
+            return "3";
+        }
     }
 
     private String getReportDirectoryPath(Date creationDate) {

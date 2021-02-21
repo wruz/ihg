@@ -99,8 +99,8 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
                 folder.createNewFile();
             } else {
                 String numberOfCopy = "";
-                int i = 1;
-                while(((file = new File(reportFilePathWithExtension + numberOfCopy + ".csv")).exists())) {
+                int i = 0;
+                while(((file = new File(reportFilePath + numberOfCopy + ".csv")).exists())) {
                     i++;
                     numberOfCopy = "(" + i + ")";
                 }

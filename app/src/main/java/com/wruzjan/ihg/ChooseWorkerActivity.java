@@ -20,8 +20,10 @@ import com.wruzjan.ihg.utils.StringUtils;
 import com.wruzjan.ihg.utils.Utils;
 import com.wruzjan.ihg.utils.dao.AddressDataSource;
 import com.wruzjan.ihg.utils.dao.ProtocolDataSource;
+import com.wruzjan.ihg.utils.dao.StreetAndIdentifierDataSource;
 import com.wruzjan.ihg.utils.model.Address;
 import com.wruzjan.ihg.utils.model.Protocol;
+import com.wruzjan.ihg.utils.model.StreetAndIdentifier;
 import com.wruzjan.ihg.utils.threading.BaseAsyncTask;
 import com.wruzjan.ihg.utils.threading.GetSiemanowiceByProtocolIdAsyncTask;
 import com.wruzjan.ihg.utils.view.InstantAutoCompleteTextView;
@@ -36,6 +38,7 @@ import androidx.annotation.NonNull;
 public class ChooseWorkerActivity extends Activity {
 
     private AddressDataSource datasource;
+    private StreetAndIdentifierDataSource streetAndIdentifierDataSource;
     private Address address;
     //edit info
     private int addressId;
@@ -60,6 +63,9 @@ public class ChooseWorkerActivity extends Activity {
 
         datasource = new AddressDataSource(this);
         datasource.open();
+
+        streetAndIdentifierDataSource = new StreetAndIdentifierDataSource(this);
+        streetAndIdentifierDataSource.open();
 
         protocolDataSource = new ProtocolDataSource(this);
         protocolDataSource.open();
@@ -112,6 +118,8 @@ public class ChooseWorkerActivity extends Activity {
             if(intent.hasExtra(Utils.ADDRESS_ID)){
                 int addressId = intent.getIntExtra(Utils.ADDRESS_ID, -1);
                 address = datasource.getAddressById(addressId);
+                StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId());
+                String streetName = streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1 ? streetAndIdentifier.getStreetName() : address.getStreet();
 
                 //override check
                 String str_path = Environment.getExternalStorageDirectory().toString() + "/IHG/" + address.getCity() + "/";
@@ -120,16 +128,16 @@ public class ChooseWorkerActivity extends Activity {
                 } else {
                     str_path = str_path + address.getDistrinct().trim();
                 }
-                str_path = str_path + "/" + address.getStreet().trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+                str_path = str_path + "/" + streetName.trim() + "/" + new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
                 boolean success = (new File(str_path).mkdirs());
-                str_path = str_path + "/" + address.getStreet().trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()) + ".pdf";
+                str_path = str_path + "/" + streetName.trim() + "_" + address.getBuilding().trim() + "_" + address.getFlat().trim() + "_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()) + ".pdf";
 
                 //display override info
                 if(new File(str_path).exists()){
                     Context context = getApplicationContext();
                     CharSequence text = AlertUtils.PROTOCOL_ALREADY_ENTERED_PREFIX
                             +address.getCity()+", "
-                            +address.getStreet()+" "
+                            +streetName+" "
                             +address.getBuilding()+"/"
                             +address.getFlat()
                             +AlertUtils.PROTOCOL_ALREADY_ENTERED_POSTFIX;
@@ -204,6 +212,7 @@ public class ChooseWorkerActivity extends Activity {
     @Override
     protected void onPause() {
         datasource.close();
+        streetAndIdentifierDataSource.close();
         protocolDataSource.close();
         getSiemanowiceByProtocolIdAsyncTask.setPostExecuteUiListener(null);
         getSiemanowiceByProtocolIdAsyncTask.cancel(true);
@@ -213,6 +222,7 @@ public class ChooseWorkerActivity extends Activity {
     @Override
     protected void onResume() {
         datasource.open();
+        streetAndIdentifierDataSource.open();
         protocolDataSource.open();
         super.onResume();
     }

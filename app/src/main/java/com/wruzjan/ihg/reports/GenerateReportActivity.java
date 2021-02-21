@@ -195,7 +195,7 @@ public class GenerateReportActivity extends AppCompatActivity implements BaseAsy
                     if (generateSiemanowiceDailyReportAsyncTask != null) {
                         generateSiemanowiceDailyReportAsyncTask.cancel(true);
                     }
-                    generateSiemanowiceDailyReportAsyncTask = new GenerateSiemanowiceDailyReportAsyncTask(addressDataSource, protocolDataSource);
+                    generateSiemanowiceDailyReportAsyncTask = new GenerateSiemanowiceDailyReportAsyncTask(getApplication(), addressDataSource, streetAndIdentifierDataSource, protocolDataSource);
                     generateSiemanowiceDailyReportAsyncTask.setPreExecuteUiListener(this);
                     generateSiemanowiceDailyReportAsyncTask.setPostExecuteUiListener(this);
                     generateSiemanowiceDailyReportAsyncTask.execute(startDate, endDate);

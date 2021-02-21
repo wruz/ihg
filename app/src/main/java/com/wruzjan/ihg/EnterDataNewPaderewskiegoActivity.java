@@ -1226,7 +1226,6 @@ public class EnterDataNewPaderewskiegoActivity extends Activity {
                     })
                     .setPositiveButton("zamknij mimo to", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Context context = getApplicationContext();
                             goBackToMainScreen(null);
                         }
                     });
