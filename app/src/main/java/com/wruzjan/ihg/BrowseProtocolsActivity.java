@@ -162,10 +162,9 @@ public class BrowseProtocolsActivity extends Activity {
         } else {
             TextView protocolsNewPaderewskiegoTitle = findViewById(R.id.protocols_new_paderewskiego_title);
             StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId());
+            String streetName = streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1 ? streetAndIdentifier.getStreetName() : address.getStreet();
 
-            if (streetAndIdentifier != null) {
-                protocolsNewPaderewskiegoTitle.setText(getString(R.string.protocols_header, streetAndIdentifier.getStreetName()));
-            }
+            protocolsNewPaderewskiegoTitle.setText(getString(R.string.protocols_header, streetName));
 
             protocolsNewPaderewskiegoList.setAdapter(adapterNewPaderewskiego);
             protocolsNewPaderewskiegoList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);

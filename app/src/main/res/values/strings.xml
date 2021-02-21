@@ -87,7 +87,8 @@
     <string name="city">miasto</string>
     <string name="district">dzielnica</string>
     <string name="add_address">zapisz adres</string>
-    <string name="add_address_protocol_new_pad">zapisz adres i dodaj protokół</string>
+    <string name="add_address_protocol_sie">zapisz adres i dodaj protokół (Siemianowice)</string>
+    <string name="add_address_protocol_new_pad">zapisz adres i dodaj protokół (Nowy Paderewskiego)</string>
 
     <!--podpis-->
     <string name="title_activity_capture_signature">Podpis mieszkańca</string>

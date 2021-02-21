@@ -41,7 +41,7 @@ public class GeneratePDFNewPaderewskiego {
     private void fill(AcroFields form, Address address, StreetAndIdentifier streetAndIdentifier, ProtocolNewPaderewskiego protocol)
             throws IOException, DocumentException {
 
-        String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
+        String streetName = streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1 ? streetAndIdentifier.getStreetName() : address.getStreet();
 
         //load unicode font for polish characters
         BaseFont bf = BaseFont.createFont(Environment.getExternalStorageDirectory().toString()+"/IHG/fonts/arial_unicode.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);

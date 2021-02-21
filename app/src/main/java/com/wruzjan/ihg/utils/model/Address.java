@@ -45,7 +45,7 @@ public class Address {
     }
 
     public String getStreet() {
-        return this._street != null ? this._street : String.valueOf(_streetAndIdentifierId);
+        return this._street;
     }
 
     public void setBuilding(String building) {

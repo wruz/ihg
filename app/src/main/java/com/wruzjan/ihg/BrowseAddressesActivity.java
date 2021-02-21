@@ -139,7 +139,7 @@ public class BrowseAddressesActivity extends AppCompatActivity {
 
         for (Address value : values) {
             StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(value.getStreetAndIdentifierId());
-            String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : value.getStreet();
+            String streetName = streetAndIdentifier != null && value.getStreetAndIdentifierId() != -1 ? streetAndIdentifier.getStreetName() : value.getStreet();
             value.setStreet(streetName);
         }
 

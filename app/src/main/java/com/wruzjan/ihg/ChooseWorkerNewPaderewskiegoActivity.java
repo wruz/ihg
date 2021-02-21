@@ -123,7 +123,7 @@ public class ChooseWorkerNewPaderewskiegoActivity extends Activity {
                 int addressId = intent.getIntExtra(Utils.ADDRESS_ID, -1);
                 address = datasource.getAddressById(addressId);
                 StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId());
-                String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
+                String streetName = streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1 ? streetAndIdentifier.getStreetName() : address.getStreet();
 
                 //override check
                 String str_path = Environment.getExternalStorageDirectory().toString() + "/IHG/" + address.getCity() + "/";

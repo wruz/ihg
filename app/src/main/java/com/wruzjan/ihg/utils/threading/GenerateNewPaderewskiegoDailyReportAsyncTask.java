@@ -179,7 +179,7 @@ public class GenerateNewPaderewskiegoDailyReportAsyncTask extends BaseAsyncTask<
 
     private DailyReport mapToDailyReport(@NonNull ProtocolNewPaderewskiego protocol, @Nullable ProtocolNewPaderewskiego previousProtocol, @NonNull Address address) throws ParseException {
         StreetAndIdentifier streetAndIdentifier = streetAndIdentifierDataSource.getByStreetIdentifier(address.getStreetAndIdentifierId());
-        String streetName = streetAndIdentifier != null ? streetAndIdentifier.getStreetName() : address.getStreet();
+        String streetName = streetAndIdentifier != null && address.getStreetAndIdentifierId() != -1 ? streetAndIdentifier.getStreetName() : address.getStreet();
 
         return DailyReport.newBuilder()
                 .withLocatorId(locatorIdGenerator.generate(address, streetAndIdentifier))
