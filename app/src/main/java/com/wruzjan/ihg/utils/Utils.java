@@ -58,7 +58,9 @@ public class Utils {
 
     public static final String WORKER_POSITION = "workerPosition";
 
-    public static final String STREET = "street";
+    public static final String STREET_MANUAL = "street_manual";
+
+    public static final String STREET_ID = "street_id";
 
     public static final String CITY = "city";
 
@@ -75,9 +77,4 @@ public class Utils {
     public static final String PREF_NEW_PADEREWSKIEGO_COMPANY_ADDRESS = "PREF_NEW_PADEREWSKIEGO_COMPANY_ADDRESS";
 
     public static final String PREF_NEW_PADEREWSKIEGO_PROTOCOL_TYPE = "PREF_NEW_PADEREWSKIEGO_PROTOCOL_TYPE";
-
-//    moja "00:22:58:02:29:0C"
-//    szymon "00:22:58:02:2C:D9"
-//    public static final String PRINTER_MAC_ADDRESS = "00:22:58:02:2C:D9";
-
 }

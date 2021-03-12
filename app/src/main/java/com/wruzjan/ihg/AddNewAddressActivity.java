@@ -38,7 +38,7 @@ public class AddNewAddressActivity extends Activity {
         setContentView(R.layout.activity_add_new_adress);
 
         //get data from last entry and fill form
-        SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
+        final SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
         String[] availableStreets = getResources().getStringArray(R.array.available_street_names);
         List<String> availableStreetIds = Arrays.asList(getResources().getStringArray(R.array.available_street_identifiers));
 
@@ -47,14 +47,17 @@ public class AddNewAddressActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         streetField.setAdapter(adapter);
 
-        String lastStreet = settings.getString(Utils.STREET, null);
-        int streetIdIndex = availableStreetIds.indexOf(lastStreet);
+        int lastStreetIndex = settings.getInt(Utils.STREET_ID, -1);
+        int streetIdIndex = availableStreetIds.indexOf(String.valueOf(lastStreetIndex));
         if (streetIdIndex != -1) {
             streetField.setSelection(streetIdIndex);
         } else {
-            settings.edit().remove(Utils.STREET).commit();
+            settings.edit().remove(Utils.STREET_ID).commit();
             streetField.setSelection(0);
         }
+
+        EditText streetManualInputField = findViewById(R.id.street_manual_type_input);
+        streetManualInputField.setText(settings.getString(Utils.STREET_MANUAL, ""));
 
         final View streetManualInputContainer = findViewById(R.id.street_manual_type_input_container);
 
@@ -154,7 +157,13 @@ public class AddNewAddressActivity extends Activity {
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putString(Utils.STREET, address.getStreet());
+
+            editor.putInt(Utils.STREET_ID, address.getStreetAndIdentifierId());
+            if (address.getStreetAndIdentifierId() == -1) {
+                editor.putString(Utils.STREET_MANUAL, address.getStreet());
+            } else {
+                editor.putString(Utils.STREET_MANUAL, null);
+            }
             editor.putString(Utils.CITY, address.getCity());
             editor.putString(Utils.DISTRICT, address.getDistrinct());
             editor.commit();
@@ -226,7 +235,13 @@ public class AddNewAddressActivity extends Activity {
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putString(Utils.STREET, address.getStreet());
+
+            editor.putInt(Utils.STREET_ID, address.getStreetAndIdentifierId());
+            if (address.getStreetAndIdentifierId() == -1) {
+                editor.putString(Utils.STREET_MANUAL, address.getStreet());
+            } else {
+                editor.putString(Utils.STREET_MANUAL, null);
+            }
             editor.putString(Utils.CITY, address.getCity());
             editor.putString(Utils.DISTRICT, address.getDistrinct());
             editor.commit();
@@ -298,7 +313,13 @@ public class AddNewAddressActivity extends Activity {
             //save data for further entries
             SharedPreferences settings = getSharedPreferences(Utils.PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putString(Utils.STREET, address.getStreet());
+
+            editor.putInt(Utils.STREET_ID, address.getStreetAndIdentifierId());
+            if (address.getStreetAndIdentifierId() == -1) {
+                editor.putString(Utils.STREET_MANUAL, address.getStreet());
+            } else {
+                editor.putString(Utils.STREET_MANUAL, null);
+            }
             editor.putString(Utils.CITY, address.getCity());
             editor.putString(Utils.DISTRICT, address.getDistrinct());
             editor.commit();
